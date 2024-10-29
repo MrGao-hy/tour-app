@@ -1,0 +1,77 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/Index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mine/Index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages/pages-mount",
+      "pages": [
+        {
+          "path": "mountDetail/Index"
+        },
+        {
+          "path": "favoriteList/Index"
+        }
+      ]
+    },
+    {
+      "root": "pages/pages-user",
+      "pages": [
+        {
+          "path": "login/Index",
+          "navigationStyle": "custom"
+        },
+        {
+          "path": "register/Index"
+        }
+      ]
+    }
+  ],
+  "permission": {
+    "scope.writePhotosAlbum": true,
+    "scope.clipboard": true
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#B7B7B7",
+    "selectedColor": "#15A6FF",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "text": "首页",
+        "pagePath": "pages/index/Index",
+//        "iconPath": "./static/image/icon/home_default.png",
+//        "selectedIconPath": "./static/image/icon/home.png"
+      },
+      {
+        "text": "我的",
+        "pagePath": "pages/mine/Index",
+//        "iconPath": "./static/image/icon/mine_default.png",
+//        "selectedIconPath": "./static/image/icon/mine.png"
+      }
+    ]
+  },
+  "easycom": {
+    "custom": {
+      "^u-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
+      "^yk-(.*)": "hfyk-app/components/yk-$1/yk-$1.vue"
+    }
+  }
+}

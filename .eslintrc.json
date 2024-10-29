@@ -1,0 +1,50 @@
+{
+  "parser": "eslint-plugin-prettier",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "parser": "@typescript-eslint/eslint-plugin",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "prettier",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:vue/vue3-essential",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["vue", "@typescript-eslint", "prettier"],
+  "rules": {
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "import/extensions": "off",
+    "quotes": ["warn", "double"],
+    "semi": ["warn", "always"],
+    "import/no-unresolved": "off",
+    "todo-ddl/diy": "warn",
+    "import/prefer-default-export": "off",
+    "no-param-reassign": "warn",
+    "import/no-extraneous-dependencies": "off",
+    "max-len": "warn",
+    "no-restricted-syntax": "off",
+    "no-bitwise": "off",
+    "camelcase": "off",
+    "no-case-declarations": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "no-undef": "off",
+    "no-promise-executor-return": "off",
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "linebreak-style": "off",
+    "vue/attribute-hyphenation": "off"
+  }
+}
