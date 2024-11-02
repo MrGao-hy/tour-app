@@ -34,7 +34,7 @@
 						</view>
 						<view class="task__info">
 							<the-footer-actions
-								:data="item"
+								:MountData="item"
 								@handleCollect="collectMountFn"
 								@handleOpenMark="onOpenMark"
 							></the-footer-actions>

@@ -48,8 +48,7 @@ instance.interceptors.request.use((config) => {
 	const { method, params } = config;
 	// 附带鉴权的token
 	const headers: any = {
-		Authorization:
-			"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRlIjoiRnJpIE9jdCAyNSAxMDozNjoxOCBDU1QgMjAyNCIsImlkIjoiMTgyMzc0MjU5NzU5NTk3MTU4NSIsImV4cCI6MTczMDQyODU3OCwidXNlcm5hbWUiOiLnm5vpnZLnkLMifQ.x5mbe5TbisSDNvMCWvqIKWFd3ujG2sWFqeIe9eyaNqU",
+		Authorization: uni.getStorageSync("diary_token"),
 	};
 	// 不缓存get请求
 	if (method === "get") {

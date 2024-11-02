@@ -32,3 +32,10 @@ export interface UserType extends UserInfoType {
 	 * */
 	signature: string;
 }
+
+export interface LoginType {
+	/**
+	 * 登录密钥
+	 * */
+	token: string;
+}

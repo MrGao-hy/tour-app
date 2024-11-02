@@ -18,3 +18,18 @@ export const queryMountDetailApi = (id: string): Promise<MountType> => {
 		id,
 	});
 };
+
+/**
+ * 生成分享二维码
+ * */
+export const createShareQrCodeApi = async (
+	id: string,
+	path: string
+): Promise<{ base64: string }> => {
+	return http.get("/wechat/qrcode", {
+		params: {
+			id,
+			path,
+		},
+	});
+};

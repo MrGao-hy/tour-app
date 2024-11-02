@@ -29,12 +29,15 @@
 		</view>
 	</view>
 
+	<!-- 操作弹窗层 -->
 	<the-action
 		ref="actionRef"
 		:show="showPopup"
-		:id="selectMountId"
+		:selectMount="selectMount"
 		@handleClose="showPopup = false"
 	></the-action>
+	<!-- 分享海报 -->
+	<the-share-poster></the-share-poster>
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, reactive } from "vue";
@@ -48,6 +51,8 @@ import { config } from "@/config/config";
 import { MountType, PageConfigVo } from "@/typing";
 import TheAction from "@/pages/index/components/TheAction.vue";
 import TheHeader from "@/pages/index/components/TheHeader.vue";
+import { onLoad } from "@dcloudio/uni-app";
+import TheSharePoster from "@components/TheSharePoster.vue";
 
 const showAll = ref<boolean>(false);
 const mountList = ref<MountType[]>([]);
@@ -55,8 +60,9 @@ const page: PageConfigVo = reactive({
 	current: 1,
 	size: config.pageSize,
 });
-const showPopup = ref(false);
-const selectMountId = ref();
+const showPopup = ref<boolean>(false);
+const showPoster = ref<boolean>(false);
+const selectMount = ref<MountType>();
 const actionRef = ref();
 const count = computed(() => {
 	const map = mountList.value.filter((item) => {
@@ -95,11 +101,14 @@ const change = (e: boolean) => {
  * */
 const openBottomPopupFn = async (temp: MountType) => {
 	const { id } = temp;
-	selectMountId.value = id;
+	selectMount.value = temp;
 	await actionRef.value.queryCollectState(id);
 	showPopup.value = true;
 };
 
+/**
+ * 滚动加载
+ * */
 const scrollBottomFn = () => {
 	page.current++;
 	getMountList();

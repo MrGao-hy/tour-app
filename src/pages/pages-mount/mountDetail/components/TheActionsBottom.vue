@@ -28,7 +28,7 @@
 				</view>
 			</view>
 			<view class="right">
-				<view class="buy btn u-line-1">立即打开</view>
+				<view class="buy btn u-line-1">立即打卡</view>
 			</view>
 		</view>
 	</view>

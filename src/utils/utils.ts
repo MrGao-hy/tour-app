@@ -40,3 +40,24 @@ export const formatTime = (inputTime: any) => {
 		return `${month}-${day}`;
 	}
 };
+
+import Base64 from "./base64";
+let base64 = new Base64();
+
+/**
+ * 加密函数
+ * @param {any} data 对象
+ * @return { string } 加密字符串
+ * */
+export function encryptData(data) {
+	return base64.encode(JSON.stringify(data));
+}
+
+/**
+ * 解密函数
+ * @param {string} encryptedData 加密字符串
+ * @returns { any | any[] } 解码的数据
+ * */
+export function decryptData(encryptedData) {
+	return JSON.parse(base64.decode(encryptedData.toString()));
+}

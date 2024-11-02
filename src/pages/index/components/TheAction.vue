@@ -21,29 +21,31 @@
 	</up-popup>
 
 	<the-mark-dom
-		:id="id"
+		:id="selectMount.id"
 		:show="showModal"
 		@handleClose="showModal = false"
 	></the-mark-dom>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, toRefs } from "vue";
-import { collectMountApi, markMountApi, queryMountIsCollectApi } from "@/api";
-import { MarkMountType } from "@/typing";
+import { ref, toRefs } from "vue";
+import { collectMountApi, queryMountIsCollectApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
+import { useSharePosterStore } from "@/store";
+import { MountType } from "@/typing";
 
 interface IProps {
 	show: boolean;
-	id: string;
+	selectMount: MountType;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	show: false,
-	id: "",
+	selectMount: () => ({ id: "" }),
 });
 const emit = defineEmits(["handleClose", "handleScrollBottom"]);
 
-const { id } = toRefs(props);
+const { selectMount } = toRefs(props);
+const sharePosterStore = useSharePosterStore();
 const isCollect = ref(false);
 const showModal = ref(false);
 
@@ -68,10 +70,9 @@ const queryCollectState = (id: string) => {
  * 操作栏操作
  * */
 const clickActiveFn = async (type: string) => {
-	// emit("")
 	switch (type) {
 		case "star":
-			isCollect.value = await collectMountApi(id.value);
+			isCollect.value = await collectMountApi(selectMount.value.id);
 			break;
 		case "chat":
 			showModal.value = true;
@@ -79,6 +80,7 @@ const clickActiveFn = async (type: string) => {
 		case "share":
 			break;
 		default:
+			await sharePosterStore.openSharePosterFn(selectMount.value);
 			break;
 	}
 };

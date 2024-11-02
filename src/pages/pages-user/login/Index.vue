@@ -16,7 +16,6 @@
 		@login="loginMsgFn"
 		@handleClickMenu="selectActionFn"
 	></yk-login>
-	<!--     @handleClickMenu="a" -->
 
 	<!--没有网络的状态-->
 	<u-no-network></u-no-network>

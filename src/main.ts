@@ -1,11 +1,13 @@
 import { createSSRApp } from "vue";
 import * as Pinia from "pinia";
+// @ts-ignore
+import { createUnistorage } from "pinia-plugin-unistorage";
 
+// @ts-ignore
+import mpShare from "uview-plus/libs/mixin/mpShare";
 // @ts-ignore
 import uView from "uview-plus";
 import App from "./App.vue";
-
-// import { createUnistorage } from "pinia-plugin-unistorage";
 import { globalRegister } from "hfyk-app";
 
 // unocss
@@ -15,6 +17,8 @@ export function createApp() {
 	const app = createSSRApp(App);
 	const store = Pinia.createPinia();
 
+	store.use(createUnistorage());
+	app.mixin(mpShare);
 	app.use(Pinia.createPinia());
 	app.use(uView);
 	app.use(globalRegister);

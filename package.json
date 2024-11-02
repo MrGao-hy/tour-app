@@ -58,7 +58,7 @@
     "axios": "^0.27.2",
     "cz-git": "^1.4.1",
     "dayjs": "^1.11.13",
-    "hfyk-app": "^0.9.38",
+    "hfyk-app": "^0.9.41",
     "html2canvas": "^1.4.1",
     "pinia": "~2.0.32",
     "pinia-plugin-unistorage": "^0.0.8",

@@ -1,22 +1,22 @@
 <template>
 	<view class="footer-actions">
-		<view @tap.stop="collectMountFn(data.id)">
+		<view @tap.stop="collectMountFn">
 			<up-icon
-				:name="data.collect ? 'star-fill' : 'star'"
+				:name="MountData.collect ? 'star-fill' : 'star'"
 				size="22"
 				color="#f6b204"
-				:label="data.collectCount"
+				:label="MountData.collectCount"
 			></up-icon>
 		</view>
-		<view @tap.stop="openMarkFn(data.id)">
+		<view @tap.stop="openMarkFn">
 			<up-icon
 				name="chat"
 				size="22"
 				color="#19be6b"
-				:label="data.markCount"
+				:label="MountData.markCount"
 			></up-icon>
 		</view>
-		<view @tap.stop="shareFn(data.id)">
+		<view @tap.stop="sharePosterFn">
 			<up-icon name="share" size="22" color="#2979ff"></up-icon>
 		</view>
 	</view>
@@ -24,29 +24,38 @@
 
 <script setup lang="ts">
 import { MountType } from "@/typing";
+import { useSharePosterStore } from "@/store";
+import { toRefs } from "vue";
 
 interface IProps {
-	data: MountType;
+	MountData: MountType;
 }
 const props = withDefaults(defineProps<IProps>(), {
-	data: () => ({
+	MountData: () => ({
 		id: "",
 	}),
 });
+const { MountData } = toRefs(props);
 const emit = defineEmits(["handleCollect", "handleOpenMark"]);
+
+const sharePosterStore = useSharePosterStore();
 
 /**
  * 收藏景区
  * */
-const collectMountFn = async (id: string) => {
-	emit("handleCollect", id);
+const collectMountFn = async () => {
+	emit("handleCollect", MountData.value.id);
 };
 
 /**
  * 打开评论区
  * */
-const openMarkFn = (id: string) => {
-	emit("handleOpenMark", id);
+const openMarkFn = () => {
+	emit("handleOpenMark", MountData.value.id);
+};
+
+const sharePosterFn = () => {
+	sharePosterStore.openSharePosterFn(MountData.value);
 };
 </script>
 

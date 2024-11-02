@@ -1,5 +1,5 @@
 import http from "../http";
-import { UserType } from "@/typing";
+import { LoginType, UserType } from "@/typing";
 
 /**
  * 用户注册
@@ -19,7 +19,7 @@ export const registerUserApi = (data: UserType): Promise<null> => {
 export const userLoginApi = (
 	userName: string,
 	password: string
-): Promise<UserType> => {
+): Promise<LoginType> => {
 	return http.post("user/login", {
 		userName,
 		password,

@@ -18,6 +18,10 @@ export interface MountType {
 	 * */
 	url?: string;
 	/**
+	 * 分享二维码
+	 * */
+	qrCode?: string;
+	/**
 	 * 简介
 	 * */
 	introduction?: string;
