@@ -1,11 +1,8 @@
 import { createSSRApp } from "vue";
 import * as Pinia from "pinia";
-// @ts-ignore
 import { createUnistorage } from "pinia-plugin-unistorage";
 
-// @ts-ignore
 import mpShare from "uview-plus/libs/mixin/mpShare";
-// @ts-ignore
 import uView from "uview-plus";
 import App from "./App.vue";
 import { globalRegister } from "hfyk-app";
@@ -19,7 +16,7 @@ export function createApp() {
 
 	store.use(createUnistorage());
 	app.mixin(mpShare);
-	app.use(Pinia.createPinia());
+	app.use(store);
 	app.use(uView);
 	app.use(globalRegister);
 	return {

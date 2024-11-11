@@ -12,20 +12,21 @@
 			ref="ykFormRef"
 			:columns="columns"
 			:formData="userFormData"
-			labelWidth="80"
-			labelAlign="right"
+			:labelWidth="70"
 			:formRules="rules"
 		></yk-form>
+
 		<up-button type="success" text="注册" @click="registerUserFn"></up-button>
 	</view>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs } from "vue";
+import { ref, reactive } from "vue";
 import { registerUserApi } from "@/api";
 import { TypeEnum } from "hfyk-app";
+import { UserType } from "@/typing";
 
-const userFormData = reactive({
+const userFormData: UserType = reactive({
 	userName: "",
 	password: "",
 	phone: "",
@@ -67,7 +68,7 @@ const rules = reactive({
 			trigger: ["blur", "change"],
 		},
 		{
-			validator: (rule, value, callback) => {
+			validator: (rule: any, value: string) => {
 				return /^[A-Za-z0-9@!#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/i.test(value);
 			},
 			message: "密码应该为大小写字母或数字或特殊符号",
@@ -81,7 +82,7 @@ const rules = reactive({
 			trigger: ["blur", "change"],
 		},
 		{
-			validator: (rule, value, callback) => {
+			validator: (rule: any, value: string) => {
 				return uni.$u.test.mobile(value);
 			},
 			message: "手机号码不正确",
@@ -91,10 +92,10 @@ const rules = reactive({
 });
 
 const registerUserFn = () => {
-	ykFormRef.value.formRef.validate().then(async (res: any) => {
-		const register = await registerUserApi(userFormData);
+	ykFormRef.value.formRef.validate().then(async () => {
+		await registerUserApi(userFormData);
 		await uni.redirectTo({
-			url: "/pages/pages-user/login/Login",
+			url: "/pages/pages-user/login/Index",
 		});
 	});
 };
@@ -102,11 +103,13 @@ const registerUserFn = () => {
 
 <style lang="scss" scoped>
 .register {
-	padding: 10rpx 20rpx;
-	height: 100vh;
+	padding: 40rpx;
 	.u-button {
-		box-sizing: border-box;
-		margin-top: 700rpx;
+		width: 80%;
+		position: absolute;
+		bottom: 120rpx;
+		left: 0;
+		right: 0;
 	}
 }
 </style>

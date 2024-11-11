@@ -45,8 +45,6 @@ export const useCommentStore = defineStore("comment", {
 						},
 						fail(error) {
 							uni.$u.toast(error.errMsg);
-
-							console.log(error);
 						},
 					});
 					break;

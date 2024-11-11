@@ -20,6 +20,8 @@
 		</view>
 	</up-popup>
 
+	<!-- 分享海报 -->
+	<the-share-poster></the-share-poster>
 	<the-mark-dom
 		:id="selectMount.id"
 		:show="showModal"
@@ -33,6 +35,7 @@ import { collectMountApi, queryMountIsCollectApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
 import { useSharePosterStore } from "@/store";
 import { MountType } from "@/typing";
+import TheSharePoster from "@components/TheSharePoster.vue";
 
 interface IProps {
 	show: boolean;
@@ -78,9 +81,9 @@ const clickActiveFn = async (type: string) => {
 			showModal.value = true;
 			break;
 		case "share":
+			await sharePosterStore.openSharePosterFn(selectMount.value);
 			break;
 		default:
-			await sharePosterStore.openSharePosterFn(selectMount.value);
 			break;
 	}
 };

@@ -35,3 +35,22 @@ export const userInfoApi = (id = ""): Promise<UserType> => {
 		id,
 	});
 };
+
+/**
+ * 注销账号
+ * @return
+ */
+export const unsubscribeApi = (password: string): Promise<null> => {
+	return http.post("user/unsubscribe", {
+		password,
+	});
+};
+
+/**
+ * 更新用户信息
+ * @param params 信息集合
+ * @return
+ */
+export const updateUserInfoApi = (params: UserType): Promise<null> => {
+	return http.post("user/editInfo", params);
+};

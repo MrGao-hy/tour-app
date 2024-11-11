@@ -1,5 +1,3 @@
-import { n } from "vitest/dist/reporters-cb94c88b";
-
 export interface MountType {
 	/**
 	 * id
@@ -17,6 +15,10 @@ export interface MountType {
 	 * 图片地址
 	 * */
 	url?: string;
+	/**
+	 * 海报背景图片地址
+	 * */
+	posterBgImageUrl?: string;
 	/**
 	 * 分享二维码
 	 * */

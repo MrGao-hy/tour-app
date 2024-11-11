@@ -45,6 +45,7 @@
 import { reactive, ref, toRefs } from "vue";
 import { markMountApi } from "@/api";
 import { MarkMountType } from "@/typing";
+import { useSharePosterStore } from "@/store";
 
 interface IProps {
 	show: boolean;
@@ -56,6 +57,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 const emit = defineEmits(["handleClose"]);
 
+const sharePosterStore = useSharePosterStore();
 const { id } = toRefs(props);
 const uFormRef = ref();
 const model: MarkMountType = reactive({

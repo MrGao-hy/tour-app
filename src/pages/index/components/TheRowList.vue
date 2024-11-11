@@ -209,7 +209,6 @@ const onOpenMark = async (id: string) => {
 								$gxh-border-margin-padding-sm;
 							font-size: $gxh-font-size-title;
 							position: relative;
-							font-family: Inter, sans-serif;
 						}
 					}
 				}

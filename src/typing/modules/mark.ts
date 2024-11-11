@@ -18,5 +18,5 @@ export interface MarkMountType {
 	/**
 	 * 创建时间
 	 * */
-	createTime: string;
+	createTime?: string;
 }

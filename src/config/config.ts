@@ -1,5 +1,5 @@
 export const config = {
-	themeColor: "#1485F6",
+	themeColor: "#E78AF2",
 	pageSize: 15,
 };
 

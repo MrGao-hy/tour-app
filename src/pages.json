@@ -7,9 +7,15 @@
       }
     },
     {
-      "path": "pages/mine/Index",
+      "path": "pages/test/Index",
       "style": {
         "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/mine/Index",
+      "style": {
+        "navigationStyle": "custom"
       }
     }
   ],
@@ -30,10 +36,21 @@
       "pages": [
         {
           "path": "login/Index",
-          "navigationStyle": "custom"
+          "style": {
+            "navigationStyle": "custom"
+          }
         },
         {
-          "path": "register/Index"
+          "path": "register/Index",
+          "style": {
+            "navigationBarTitleText": "注册"
+          }
+        },
+        {
+          "path": "userInfo/Index",
+          "style": {
+            "navigationBarTitleText": "我的信息"
+          }
         }
       ]
     }
@@ -50,20 +67,24 @@
   },
   "tabBar": {
     "color": "#B7B7B7",
-    "selectedColor": "#15A6FF",
+    "selectedColor": "#E78AF2",
     "backgroundColor": "#FFFFFF",
     "list": [
       {
         "text": "首页",
         "pagePath": "pages/index/Index",
-//        "iconPath": "./static/image/icon/home_default.png",
-//        "selectedIconPath": "./static/image/icon/home.png"
+        "iconPath": "./static/icon/home_1.png",
+        "selectedIconPath": "./static/icon/home.png"
+      },
+      {
+        "text": "测试",
+        "pagePath": "pages/test/Index"
       },
       {
         "text": "我的",
         "pagePath": "pages/mine/Index",
-//        "iconPath": "./static/image/icon/mine_default.png",
-//        "selectedIconPath": "./static/image/icon/mine.png"
+        "iconPath": "./static/icon/mine_1.png",
+        "selectedIconPath": "./static/icon/mine.png"
       }
     ]
   },

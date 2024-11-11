@@ -94,32 +94,12 @@
 
 	<up-gap height="40" bgColor="#FFFFFF"></up-gap>
 
-	<up-popup
+	<the-function-col
 		:show="showMenu"
-		closeable
-		round="20"
-		bgColor="#f3f3f3"
-		:safeAreaInsetBottom="false"
-		:customStyle="{
-			width: '60vw',
-			padding: '80rpx 40rpx 40rpx',
-		}"
-		@close="showMenu = false"
-	>
-		<view class="menu">
-			<view
-				class="menu-row"
-				v-for="item in actionMenu"
-				@tap="onClickMenuFn(item.key)"
-				:key="item.key"
-			>
-				<view class="menu-row__left" :style="{ background: item.color }">
-					<up-icon :name="item.icon" color="#FFF"></up-icon>
-				</view>
-				<view class="menu-row__right">{{ item.label }}</view>
-			</view>
-		</view>
-	</up-popup>
+		:actionMenu="actionMenu"
+		@handle-close="showMenu = false"
+		@handle-click="onClickMenuFn"
+	></the-function-col>
 </template>
 
 <script setup lang="ts">
@@ -129,21 +109,24 @@ import { formatTime } from "@/utils/utils";
 import env from "@/config/env";
 import { useCommentStore } from "@/store";
 import { storeToRefs } from "pinia";
+import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
 
 const commentStore = useCommentStore();
-const { commentList, selectComment } = storeToRefs(commentStore);
+const { commentList } = storeToRefs(commentStore);
 const showMenu = ref(false);
-const actionMenu = reactive([
+const actionMenu: ActionMenu[] = reactive([
 	{
 		key: 1,
 		icon: "trash-fill",
-		color: "#fa3534",
+		iconColor: "#FFF",
+		iconBgColor: "#fa3534",
 		label: "删除该评论",
 	},
 	{
 		key: 2,
 		icon: "cut",
-		color: "#19be6b",
+		iconColor: "#FFF",
+		iconBgColor: "#19be6b",
 		label: "复制该评论",
 	},
 ]);
@@ -167,8 +150,8 @@ const openActionMenuFn = (temp: CommentType) => {
 /**
  * 点击调整详情
  * */
-const onClickMenuFn = (type: number) => {
-	commentStore.onClickMenu(type);
+const onClickMenuFn = (temp: ActionMenu) => {
+	commentStore.onClickMenu(temp.key);
 	showMenu.value = false;
 };
 </script>
@@ -262,31 +245,6 @@ const onClickMenuFn = (type: number) => {
 			}
 			&__right {
 			}
-		}
-	}
-}
-
-/*操作菜单栏*/
-.menu {
-	background: white;
-	padding: 20rpx;
-	border-radius: 20rpx;
-	&-row {
-		display: flex;
-		align-items: center;
-		&__left {
-			width: 50rpx;
-			height: 50rpx;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 50%;
-			margin-right: 20rpx;
-		}
-		&__right {
-			padding: 20rpx 0;
-			flex: 1;
-			border-bottom: 1rpx solid rgba(0, 26, 188, 0.15);
 		}
 	}
 }

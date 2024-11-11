@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { clearVal } from "hfyk-app";
-import { userLoginApi } from "@/api";
-import { CommentType } from "@/typing";
+import { userInfoApi, userLoginApi } from "@/api";
+import { UserType } from "@/typing";
+import conf from "@/config/env";
 
 export interface UserLoginType {
 	/**
@@ -17,22 +18,9 @@ export interface UserLoginType {
 export const useUserStore = defineStore("user", {
 	unistorage: true,
 	state: () => ({
-		userInfo: {},
-		userForm: {
-			name: "11",
-			pwd: "1111111",
-		} as UserLoginType,
-		phoneForm: {
-			phone: "",
-			code: "",
-		},
-		rememberPsw: 0,
-		// 历史账户列表
-		choiceList: [] as Array<UserLoginType>,
-		// 选中账户信息
-		choiceIndex: 0,
-		secretKey: "hfyk",
+		userInfo: {} as UserType,
 	}),
+	getters: {},
 	actions: {
 		/**
 		 * 登录
@@ -44,6 +32,16 @@ export const useUserStore = defineStore("user", {
 
 			await uni.switchTab({
 				url: "/pages/index/Index",
+			});
+			await this.getUserInfo();
+		},
+		/**
+		 * 查询用户信息
+		 * */
+		async getUserInfo() {
+			const info = await userInfoApi();
+			this.userInfo = Object.assign(info, {
+				avatar: conf.baseUrl + info.avatar,
 			});
 		},
 		/**

@@ -31,19 +31,19 @@ interface IConfig {
 const config: IConfig = {
 	// 开发环境配置
 	development: {
-		baseUrl: " http://127.0.0.1:8080",
-		// baseUrl: "http://10.0.0.104:8080",
+		// baseUrl: "https://gxh151.top/ms",
+		baseUrl: "http://127.0.0.1:8080/ms",
 		// baseUrl: "http://gxh.free.idcfengye.com",
 		assetsPath: "/static",
 	},
 	// 测试环境配置
 	test: {
-		baseUrl: "http://gxh.free.idcfengye.com",
+		baseUrl: "https://gxh151.top/ms",
 		assetsPath: "/static",
 	},
 	// 生产环境配置
 	production: {
-		baseUrl: "http://gxh.free.idcfengye.com",
+		baseUrl: "https://gxh151.top/ms",
 		assetsPath: "/static",
 	},
 };
