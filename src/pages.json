@@ -24,10 +24,28 @@
       "root": "pages/pages-mount",
       "pages": [
         {
-          "path": "mountDetail/Index"
+          "path": "mountDetail/Index",
+          "style": {
+            "navigationBarTitleText": "详情"
+          }
         },
         {
-          "path": "favoriteList/Index"
+          "path": "favoriteList/Index",
+          "style": {
+            "navigationBarTitleText": "我的收藏"
+          }
+        },
+        {
+          "path": "punchList/Index",
+          "style": {
+            "navigationBarTitleText": "我的足迹"
+          }
+        },
+        {
+          "path": "reply/Index",
+          "style": {
+            "navigationBarTitleText": "评论详情"
+          }
         }
       ]
     },
@@ -51,6 +69,12 @@
           "style": {
             "navigationBarTitleText": "我的信息"
           }
+        },
+        {
+          "path": "editPassword/Index",
+          "style": {
+            "navigationBarTitleText": "修改密码"
+          }
         }
       ]
     }
@@ -61,7 +85,7 @@
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "高鲜花",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },

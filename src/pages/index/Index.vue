@@ -18,7 +18,7 @@
 						></up-switch>
 					</view>
 				</view>
-				<!-- 底部界面 -->
+				<!-- 旅游内容界面 -->
 				<the-row-list
 					:list="mountList"
 					:showAll="showAll"
@@ -29,6 +29,8 @@
 		</view>
 	</view>
 
+	<!-- 分享海报 -->
+	<the-share-poster></the-share-poster>
 	<!-- 操作弹窗层 -->
 	<the-action
 		ref="actionRef"
@@ -36,8 +38,6 @@
 		:selectMount="selectMount"
 		@handleClose="showPopup = false"
 	></the-action>
-	<!-- 分享海报 -->
-	<the-share-poster></the-share-poster>
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, reactive } from "vue";
@@ -61,7 +61,6 @@ const page: PageConfigVo = reactive({
 	size: config.pageSize,
 });
 const showPopup = ref<boolean>(false);
-const showPoster = ref<boolean>(false);
 const selectMount = ref<MountType>();
 const actionRef = ref();
 const count = computed(() => {
@@ -99,10 +98,9 @@ const change = (e: boolean) => {
 /**
  * 打开选择操作栏
  * */
-const openBottomPopupFn = async (temp: MountType) => {
-	const { id } = temp;
+const openBottomPopupFn = (temp: MountType) => {
 	selectMount.value = temp;
-	await actionRef.value.queryCollectState(id);
+	// await actionRef.value.queryCollectState(id);
 	showPopup.value = true;
 };
 

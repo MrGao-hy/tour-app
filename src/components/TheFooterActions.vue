@@ -17,7 +17,7 @@
 			></up-icon>
 		</view>
 		<view @tap.stop="sharePosterFn">
-			<up-icon name="share" size="22" color="#2979ff"></up-icon>
+			<up-icon name="photo" size="22" color="#2979ff"></up-icon>
 		</view>
 	</view>
 </template>
@@ -54,6 +54,9 @@ const openMarkFn = () => {
 	emit("handleOpenMark", MountData.value.id);
 };
 
+/**
+ * 分享海报
+ * */
 const sharePosterFn = () => {
 	sharePosterStore.openSharePosterFn(MountData.value);
 };

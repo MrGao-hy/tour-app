@@ -20,7 +20,12 @@
 			labelWidth="60"
 		>
 			<up-form-item label="满意度" prop="mark" borderBottom ref="item1">
-				<up-rate :count="5" size="24" v-model="model.mark"></up-rate>
+				<up-rate
+					:count="5"
+					size="24"
+					:activeColor="Number(model.mark) >= 3 ? '#F6B204' : 'red'"
+					v-model="model.mark"
+				></up-rate>
 			</up-form-item>
 			<up-form-item prop="comment" borderBottom>
 				<up-textarea
@@ -46,6 +51,7 @@ import { reactive, ref, toRefs } from "vue";
 import { markMountApi } from "@/api";
 import { MarkMountType } from "@/typing";
 import { useSharePosterStore } from "@/store";
+import { clearVal } from "hfyk-app";
 
 interface IProps {
 	show: boolean;
@@ -55,7 +61,7 @@ const props = withDefaults(defineProps<IProps>(), {
 	show: false,
 	id: "",
 });
-const emit = defineEmits(["handleClose"]);
+const emit = defineEmits(["handleClose", "handleOk"]);
 
 const sharePosterStore = useSharePosterStore();
 const { id } = toRefs(props);
@@ -93,7 +99,8 @@ const submitMarkFn = async () => {
 		.then(async (valid: boolean) => {
 			if (valid) {
 				await markMountApi(Object.assign(model, { mountId: id.value }));
-				emit("handleClose");
+				clearVal(model);
+				emit("handleOk");
 			}
 		})
 		.catch(() => {

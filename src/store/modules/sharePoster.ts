@@ -19,7 +19,7 @@ export const useSharePosterStore = defineStore("sharePoster", {
 			const timer = setInterval(() => {
 				this.showPoster = true;
 				this.status.showLoading = true;
-				if (this.status.progress >= 100) {
+				if (this.status.progress > 100) {
 					clearInterval(timer);
 					return (this.status.progress = 99);
 				}
@@ -30,7 +30,6 @@ export const useSharePosterStore = defineStore("sharePoster", {
 				"pages/pages-mount/mountDetail/Index"
 			);
 			this.posterContent = Object.assign(temp, { qrCode: res.base64 });
-			console.log(this.posterContent);
 			uni.$emit("init-canvas", temp);
 		},
 		/**
@@ -38,6 +37,8 @@ export const useSharePosterStore = defineStore("sharePoster", {
 		 * */
 		closeSharePosterFn() {
 			this.showPoster = false;
+			this.status.showLoading = false;
+			this.status.progress = 0;
 		},
 	},
 });

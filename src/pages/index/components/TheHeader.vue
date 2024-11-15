@@ -1,11 +1,14 @@
 <template>
 	<view class="wrapper__header">
 		<view class="wrapper__header-title t3d">
-			<view class="t3d-h2">我的挑战</view>
+			<view class="t3d-h2">登山挑战</view>
 			<view class="t3d-h1">{{ count }}</view>
 			<view class="btn">
-				<view class="btn-detail">打卡项目</view>
-				<view class="btn-record" @tap="toFavoriteListFn">我的收藏</view>
+				<template v-for="item in headMenu">
+					<view class="btn-record" @tap="toFavoriteListFn(item)">{{
+						item.name
+					}}</view>
+				</template>
 			</view>
 			<view class="h6">{{ $gxh.formatTime(new Date(), "dd.MM.yyyy") }}</view>
 		</view>
@@ -13,6 +16,13 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from "vue";
+
+interface HeadMenuType {
+	key: number;
+	name: string;
+	url: string;
+}
 interface IProps {
 	count: number;
 }
@@ -20,9 +30,22 @@ const props = withDefaults(defineProps<IProps>(), {
 	count: 0,
 });
 
-const toFavoriteListFn = () => {
-	uni.navigateTo({
+const headMenu: HeadMenuType[] = reactive([
+	{
+		key: 1,
+		name: "我的足迹",
+		url: "/pages/pages-mount/punchList/Index",
+	},
+	{
+		key: 2,
+		name: "我的收藏",
 		url: "/pages/pages-mount/favoriteList/Index",
+	},
+]);
+
+const toFavoriteListFn = (temp: HeadMenuType) => {
+	uni.navigateTo({
+		url: temp.url,
 	});
 };
 </script>

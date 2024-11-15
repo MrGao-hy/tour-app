@@ -39,7 +39,7 @@ specifiers:
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-todo-ddl: ^1.1.1
   eslint-plugin-vue: ^9.1.1
-  hfyk-app: ^0.9.43
+  hfyk-app: ^0.9.44
   html2canvas: ^1.4.1
   less: ^4.1.3
   pinia: ~2.0.32
@@ -75,7 +75,7 @@ dependencies:
   axios: 0.27.2
   cz-git: 1.10.1
   dayjs: 1.11.13
-  hfyk-app: 0.9.43_f54mbmejj4xc74szecxcrnssye
+  hfyk-app: 0.9.44_f54mbmejj4xc74szecxcrnssye
   html2canvas: 1.4.1
   pinia: 2.0.36_yeyu5qkeqf4nsspkw5xf25bg7u
   pinia-plugin-unistorage: 0.0.8
@@ -5607,8 +5607,8 @@ packages:
     dependencies:
       function-bind: 1.1.2
 
-  /hfyk-app/0.9.43_f54mbmejj4xc74szecxcrnssye:
-    resolution: {integrity: sha512-+f6fytk16DwsrwFTapEoknq0MNaEUvjGOAEWpfkJBnMAclddrVrD53axOsuVSUe4LGF9ziVQkQDuA0MOZFKyMA==}
+  /hfyk-app/0.9.44_f54mbmejj4xc74szecxcrnssye:
+    resolution: {integrity: sha512-2kjl52ClhyRTClxmRre11GN+JqM8UId4cI0SQLYuHCLIlss+6FmYscceRKvvQO/twocbN8i4x1G3VlUG7zDwmQ==}
     dependencies:
       '@dcloudio/uni-app': 3.0.0-alpha-3081220230802001_lymvximvns7brzsyokjwmwh2qu
       pinia: 2.2.5_yeyu5qkeqf4nsspkw5xf25bg7u

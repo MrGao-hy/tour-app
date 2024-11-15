@@ -92,7 +92,16 @@ const backgroundStyle = computed(() => {
  * */
 const onClickMenuFn = (temp: ActionMenu) => {
 	switch (temp.key) {
-		case 3:
+		case 4:
+			uni.showModal({
+				title: "是否注销用户？",
+				content: "注销用户后您账号下的所以数据无法恢复",
+				success: (e) => {
+					if (e.confirm) {
+						uni.$u.toast("注销成功");
+					}
+				},
+			});
 			break;
 		default:
 			uni.navigateTo(<UniNamespace.NavigateToOptions>{

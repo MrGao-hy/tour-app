@@ -17,32 +17,14 @@
 			<view class="top">
 				<view class="name">
 					{{ item.userInfo.userName }}
-					<view
-						class="sex"
-						:style="{
-							background: item.userInfo.sex === '0' ? '#F07471' : '#5FADD5',
-						}"
-					>
-						<up-icon
-							:name="
-								item.userInfo.sex === '0'
-									? 'woman'
-									: item.userInfo.sex === '1'
-									? 'man'
-									: ''
-							"
-							size="10"
-							color="#fff"
-							@click="getLike(index)"
-						></up-icon>
-					</view>
+					<the-sex-dom :sex="item.userInfo.sex"></the-sex-dom>
 				</view>
 				<view class="like" :class="{ highlight: item.isLike }">
 					<view class="num">{{ item.likeNum }}</view>
 					<up-icon
 						:name="!item?.isLike ? 'thumb-up' : 'thumb-up-fill'"
 						:size="30"
-						color="#9a9a9a"
+						:color="!item?.isLike ? '#9a9a9a' : config.themeColor"
 						@click="getLike(index)"
 					></up-icon>
 				</view>
@@ -54,33 +36,29 @@
 				v-model="item.mark"
 				size="16"
 				readonly
-				activeColor="#F6B204"
+				:activeColor="Number(item.mark) >= 3 ? '#F6B204' : 'red'"
 			></up-rate>
-			<!--			<view class="reply-box">-->
-			<!--				<view-->
-			<!--					class="item"-->
-			<!--					v-for="(item, index) in item.replyList"-->
-			<!--					:key="item.index"-->
-			<!--				>-->
-			<!--					<view class="username">{{ item.userInfo.userName }}111</view>-->
-			<!--					<view class="text">-->
-			<!--						&lt;!&ndash;							<rich-text :nodes="item.contentStr"></rich-text>&ndash;&gt;-->
-			<!--						<rich-text :nodes="nodes"></rich-text>-->
-			<!--					</view>-->
-			<!--				</view>-->
-			<!--				<view-->
-			<!--					class="all-reply"-->
-			<!--					@tap="toAllReply"-->
-			<!--					v-if="item.replyList != undefined"-->
-			<!--				>-->
-			<!--					共{{ 0 }}条回复-->
-			<!--					<up-icon class="more" name="arrow-right" :size="26"></up-icon>-->
-			<!--				</view>-->
-			<!--			</view>-->
+			<view class="reply-box">
+				<!--							<view-->
+				<!--								class="item"-->
+				<!--								v-for="(item, index) in item.replyList"-->
+				<!--								:key="item.index"-->
+				<!--							>-->
+				<!--								<view class="username">{{ item.userInfo.userName }}111</view>-->
+				<!--								<view class="text">-->
+				<!--									&lt;!&ndash;							<rich-text :nodes="item.contentStr"></rich-text>&ndash;&gt;-->
+				<!--									<rich-text :nodes="nodes"></rich-text>-->
+				<!--								</view>-->
+				<!--							</view>-->
+				<view v-if="item.allReply" class="all-reply" @tap="toAllReply(item)">
+					共{{ item.allReply }}条回复
+					<up-icon class="more" name="arrow-right" :size="15"></up-icon>
+				</view>
+			</view>
 			<view class="bottom">
 				<view class="bottom__left">
-					{{ formatTime(item.createTime) }}
-					<view class="reply">回复</view>
+					{{ formatTimeToString(item.createTime) }}
+					<view class="reply" @tap.stop="replyFn(item)">回复</view>
 				</view>
 				<view class="bottom__right">
 					<up-icon
@@ -90,6 +68,20 @@
 				</view>
 			</view>
 		</view>
+	</view>
+
+	<view v-if="focus" class="reply-ipt">
+		<up-input
+			v-model="replyVal"
+			:focus="focus"
+			:adjustPosition="false"
+			@blur="onBlur"
+		></up-input>
+		<up-button
+			text="回复"
+			:color="config.themeColor"
+			@mousedown.prevent="replyMarkFn"
+		></up-button>
 	</view>
 
 	<up-gap height="40" bgColor="#FFFFFF"></up-gap>
@@ -104,16 +96,22 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { CommentType } from "@/typing";
-import { formatTime } from "@/utils/utils";
+import { CommentType, MarkMountType } from "@/typing";
+import { formatTimeToString } from "@/utils/utils";
 import env from "@/config/env";
 import { useCommentStore } from "@/store";
 import { storeToRefs } from "pinia";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
+import TheSexDom from "@components/TheSexDom.vue";
+import { config } from "@/config";
+import { replyMarkApi } from "@/api";
 
 const commentStore = useCommentStore();
-const { commentList } = storeToRefs(commentStore);
+const { commentList, selectComment } = storeToRefs(commentStore);
 const showMenu = ref(false);
+const replyVal = ref("");
+const focus = ref(false);
+const replyMark = ref();
 const actionMenu: ActionMenu[] = reactive([
 	{
 		key: 1,
@@ -132,10 +130,8 @@ const actionMenu: ActionMenu[] = reactive([
 ]);
 
 // 跳转到全部回复
-const toAllReply = () => {
-	uni.navigateTo({
-		url: "/pages/template/comment/reply",
-	});
+const toAllReply = (temp: CommentType) => {
+	commentStore.toReplyPage(temp);
 };
 // 点赞
 const getLike = (index: number) => {
@@ -153,6 +149,36 @@ const openActionMenuFn = (temp: CommentType) => {
 const onClickMenuFn = (temp: ActionMenu) => {
 	commentStore.onClickMenu(temp.key);
 	showMenu.value = false;
+};
+
+/**
+ * 打开回复评论
+ * */
+const replyFn = (temp: CommentType) => {
+	focus.value = true;
+	commentStore.selectCommentFn(temp);
+};
+
+/**
+ * 回复消息
+ * */
+const replyMarkFn = async () => {
+	console.log(111);
+	await replyMarkApi(selectComment.value.id, replyVal.value);
+	commentList.value.find((item) => {
+		if (selectComment.value.id === item.id) {
+			selectComment.value.allReply++;
+		}
+	});
+	replyVal.value = "";
+	focus.value = false;
+};
+
+/**
+ * 失去焦点
+ * */
+const onBlur = () => {
+	focus.value = false;
 };
 </script>
 
@@ -176,18 +202,6 @@ const onClickMenuFn = (temp: ActionMenu) => {
 				display: flex;
 				align-items: center;
 				line-height: 30rpx;
-				.sex {
-					transform: rotate(45deg);
-					width: 20rpx;
-					height: 20rpx;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					margin-left: 10rpx;
-					.u-icon {
-						transform: rotate(-45deg);
-					}
-				}
 			}
 			.like {
 				display: flex;
@@ -200,9 +214,8 @@ const onClickMenuFn = (temp: ActionMenu) => {
 				}
 			}
 			.highlight {
-				color: #5677fc;
 				.num {
-					color: #5677fc;
+					color: $gxh-theme-color;
 				}
 			}
 		}
@@ -221,9 +234,10 @@ const onClickMenuFn = (temp: ActionMenu) => {
 				}
 			}
 			.all-reply {
-				padding: 20rpx;
+				margin-top: $gxh-border-margin-padding-lg;
+				padding: $gxh-border-margin-padding-base;
 				display: flex;
-				color: #5677fc;
+				color: $gxh-text-color-grey;
 				align-items: center;
 				.more {
 					margin-left: 6rpx;
@@ -235,17 +249,32 @@ const onClickMenuFn = (temp: ActionMenu) => {
 			display: flex;
 			justify-content: space-between;
 			font-size: 24rpx;
-			color: #9a9a9a;
+			color: $gxh-text-color-grey;
 			&__left {
 				display: flex;
 				.reply {
-					color: #5677fc;
 					margin-left: 10rpx;
 				}
 			}
 			&__right {
 			}
 		}
+	}
+}
+
+/*回复输入框*/
+.reply-ipt {
+	display: flex;
+	z-index: 999999;
+	width: 100%;
+	padding: 20rpx;
+	left: 0;
+	position: fixed;
+	bottom: 0;
+	background: white;
+	:deep(.u-button) {
+		width: 140rpx;
+		margin-left: 40rpx;
 	}
 }
 </style>

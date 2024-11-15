@@ -5,7 +5,7 @@
 			<view class="operate">
 				<view class="operate__btn" @click="clickActiveFn('star')">
 					<up-icon
-						:name="isCollect ? 'star-fill' : 'star'"
+						:name="selectMount.collect ? 'star-fill' : 'star'"
 						size="40"
 						color="#F6B204"
 					></up-icon>
@@ -20,22 +20,20 @@
 		</view>
 	</up-popup>
 
-	<!-- 分享海报 -->
-	<the-share-poster></the-share-poster>
 	<the-mark-dom
 		:id="selectMount.id"
 		:show="showModal"
+		@handle-ok="markMountFn"
 		@handleClose="showModal = false"
 	></the-mark-dom>
 </template>
 
 <script setup lang="ts">
 import { ref, toRefs } from "vue";
-import { collectMountApi, queryMountIsCollectApi } from "@/api";
+import { collectMountApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
 import { useSharePosterStore } from "@/store";
 import { MountType } from "@/typing";
-import TheSharePoster from "@components/TheSharePoster.vue";
 
 interface IProps {
 	show: boolean;
@@ -49,7 +47,6 @@ const emit = defineEmits(["handleClose", "handleScrollBottom"]);
 
 const { selectMount } = toRefs(props);
 const sharePosterStore = useSharePosterStore();
-const isCollect = ref(false);
 const showModal = ref(false);
 
 /**
@@ -60,22 +57,17 @@ const closeFn = () => {
 };
 
 /**
- * 查询是否收藏景区
- * */
-const queryCollectState = (id: string) => {
-	return new Promise(async (resolve) => {
-		isCollect.value = await queryMountIsCollectApi(id);
-		resolve(null);
-	});
-};
-
-/**
  * 操作栏操作
  * */
 const clickActiveFn = async (type: string) => {
 	switch (type) {
 		case "star":
-			isCollect.value = await collectMountApi(selectMount.value.id);
+			selectMount.value.collect = await collectMountApi(selectMount.value.id);
+			if (selectMount.value.collect) {
+				selectMount.value.collectCount!++;
+			} else {
+				selectMount.value.collectCount!--;
+			}
 			break;
 		case "chat":
 			showModal.value = true;
@@ -88,9 +80,14 @@ const clickActiveFn = async (type: string) => {
 	}
 };
 
-defineExpose({
-	queryCollectState,
-});
+/**
+ * 评论接口处理完执行函数
+ * */
+const markMountFn = () => {
+	showModal.value = false;
+	// 评论数加
+	selectMount.value.markCount!++;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -104,7 +101,7 @@ defineExpose({
 
 		&__btn {
 			padding: 15rpx;
-			background: rgba(0, 26, 188, 0.15);
+			background: $gxh-color-primary-dark;
 			color: #001abc;
 			font-weight: 600;
 			border-radius: 50%;

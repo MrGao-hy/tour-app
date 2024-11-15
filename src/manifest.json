@@ -50,6 +50,12 @@
     "setting": {
       "urlCheck": false
     },
+    "requiredPrivateInfos": ["getLocation", "chooseLocation"],
+    "permission": {
+      "scope.userLocation": {
+        "desc": "你的位置将用于景区打卡功能"
+      }
+    },
     "usingComponents": true
   },
   "mp-alipay": {

@@ -1,9 +1,9 @@
 <template>
-	<the-mount-card :list="favoriteList"></the-mount-card>
+	<the-mount-card :list="punchList"></the-mount-card>
 </template>
 <script setup lang="ts">
 import TheMountCard from "@/pages/pages-mount/components/TheMountCard.vue";
-import { collectMountListApi } from "@/api";
+import { travelListApi } from "@/api";
 import { onMounted, reactive, ref } from "vue";
 import { MountType, PageConfigVo } from "@/typing";
 
@@ -11,10 +11,10 @@ const page: PageConfigVo = reactive({
 	size: 15,
 	current: 1,
 });
-const favoriteList = ref<MountType[]>([]);
+const punchList = ref<MountType[]>([]);
 
 onMounted(async () => {
-	const res = await collectMountListApi(page);
-	favoriteList.value = res.records;
+	const res = await travelListApi(page);
+	punchList.value = res.records;
 });
 </script>

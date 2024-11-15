@@ -1,12 +1,17 @@
 import http from "../http";
-import { MountType, PageConfigType, PageConfigVo } from "@/typing";
+import {
+	MountType,
+	PageConfigType,
+	PageConfigVo,
+	PunchRecordType,
+} from "@/typing";
 
 /**
  * 查询景区列表
  * */
 export const queryMountListApi = (
 	data: PageConfigVo
-): Promise<PageConfigType<MountType[]>> => {
+): Promise<PageConfigType<MountType>> => {
 	return http.post("mount/query/list", data);
 };
 
@@ -32,4 +37,22 @@ export const createShareQrCodeApi = async (
 			path,
 		},
 	});
+};
+
+/**
+ * 景区打卡接口
+ * */
+export const recordTravelApi = async (
+	data: PunchRecordType
+): Promise<{ base64: string }> => {
+	return http.post("/mountainRecord/punch", data);
+};
+
+/**
+ * 打卡足迹列表接口
+ * */
+export const travelListApi = async (
+	data: PageConfigVo
+): Promise<PageConfigType<MountType>> => {
+	return http.post("/mountainRecord/record/list", data);
 };

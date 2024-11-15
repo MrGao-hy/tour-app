@@ -54,3 +54,18 @@ export const unsubscribeApi = (password: string): Promise<null> => {
 export const updateUserInfoApi = (params: UserType): Promise<null> => {
 	return http.post("user/editInfo", params);
 };
+
+/**
+ * 修改密码
+ * @param oldPassword 旧密码
+ * @param password 新密码
+ * */
+export const editPasswordApi = (
+	oldPassword: string,
+	password: string
+): Promise<null> => {
+	return http.post("/user/change/password", {
+		oldPassword,
+		password,
+	});
+};

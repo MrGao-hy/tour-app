@@ -28,7 +28,12 @@
 				</view>
 			</view>
 			<view class="right">
-				<view class="buy btn u-line-1">立即打卡</view>
+				<view
+					class="buy btn u-line-1"
+					:style="{ background: config.themeColor }"
+					@click="punchMountFn"
+					>立即打卡</view
+				>
 			</view>
 		</view>
 	</view>
@@ -36,15 +41,18 @@
 	<the-mark-dom
 		:id="detail.id"
 		:show="showModal"
+		@handleOk="confirmSubmitFn"
 		@handleClose="showModal = false"
 	></the-mark-dom>
 </template>
 
 <script setup lang="ts">
 import { MountType } from "@/typing";
-import { ref, toRefs } from "vue";
-import { collectMountApi } from "@/api";
+import { onMounted, reactive, ref, toRefs } from "vue";
+import { collectMountApi, recordTravelApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
+import { config } from "@/config";
+import { useCommentStore, useSharePosterStore } from "@/store";
 
 interface IProps {
 	detail: MountType;
@@ -53,8 +61,35 @@ const props = withDefaults(defineProps<IProps>(), {
 	detail: () => ({ id: "" }),
 });
 
+const sharePosterStore = useSharePosterStore();
+const commentStore = useCommentStore();
 const { detail } = toRefs(props);
 const showModal = ref(false);
+
+const punch = reactive({
+	mountId: "",
+	latitude: 0,
+	longitude: 0,
+});
+
+onMounted(() => {
+	uni.getLocation({
+		type: "gcj02",
+		altitude: true,
+		highAccuracyExpireTime: 4000,
+		isHighAccuracy: true,
+		success: async (res) => {
+			console.log("当前位置的经度：" + res.longitude);
+			console.log("当前位置的纬度：" + res.latitude);
+			punch.longitude = res.longitude;
+			punch.latitude = res.latitude;
+		},
+		fail: function (err) {
+			console.error(err);
+			uni.$u.toast(err.errMsg);
+		},
+	});
+});
 
 /**
  * 点击tabs
@@ -68,10 +103,27 @@ const onClickTab = async (type: string) => {
 			showModal.value = true;
 			break;
 		case "share":
+			await sharePosterStore.openSharePosterFn(detail.value);
 			break;
 		default:
 			break;
 	}
+};
+
+/**
+ * 景区打卡
+ * */
+const punchMountFn = async () => {
+	punch.mountId = detail.value.id;
+	await recordTravelApi(punch);
+};
+
+/**
+ * 提交评价
+ * */
+const confirmSubmitFn = () => {
+	showModal.value = false;
+	commentStore.getCommentListFn(detail.value.id);
 };
 </script>
 
@@ -91,37 +143,16 @@ const onClickTab = async (type: string) => {
 			font-size: 20rpx;
 			.item {
 				margin: 0 20rpx;
-				//display: flex;
-				//flex-direction: column;
-				//justify-content: center;
-				//&.car {
-				//	text-align: center;
-				//	position: relative;
-				//	.car-num {
-				//		position: absolute;
-				//		top: -10rpx;
-				//		right: -10rpx;
-				//	}
-				//}
 			}
 		}
 		.right {
 			float: right;
-			//display: flex;
 			font-size: 28rpx;
-			//align-items: center;
 			.btn {
 				line-height: 66rpx;
 				padding: 0 30rpx;
 				border-radius: 36rpx;
 				color: #ffffff;
-			}
-			.cart {
-				background-color: #ed3f14;
-				margin-right: 30rpx;
-			}
-			.buy {
-				background-color: #ff7900;
 			}
 		}
 	}

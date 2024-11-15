@@ -4,3 +4,5 @@ export * from "@/typing/modules/mark";
 export * from "@/typing/modules/user";
 export * from "@/typing/modules/comment";
 export * from "@/typing/modules/role";
+export * from "@/typing/modules/record";
+export * from "@/typing/modules/reply";

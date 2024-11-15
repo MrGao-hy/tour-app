@@ -8,7 +8,7 @@
 		:show="showPoster"
 		:customStyle="{
 			backgroundImage:
-				'url(posterContenthttps://pic.imgdb.cn/item/67321472d29ded1a8c9e825b.jpg)',
+				'url(https://pic.imgdb.cn/item/67321472d29ded1a8c9e825b.jpg)',
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: 'cover',
 			position: 'relative',
@@ -59,7 +59,6 @@ const initCanvas = () => {
 		.select("#firstCanvas")
 		.fields({ node: true, size: true })
 		.exec(async (res) => {
-			console.log(res);
 			if (res[0]) {
 				try {
 					// Canvas 对象
@@ -128,7 +127,7 @@ const initCanvas = () => {
 					// 旅游景点名字
 					ctx.fillStyle = "#FFFFFF";
 					ctx.font = "45px myFont";
-					canvasFun.drawTextVertical(ctx, posterContent.value.name, 20, 40);
+					canvasFun.drawTextVertical(ctx, posterContent.value.name!, 20, 40);
 
 					// 用户名称
 					ctx.fillStyle = "#000000";
@@ -189,7 +188,9 @@ const initCanvas = () => {
 						destHeight: renderWidth * dpr * 5 * (renderHeight / renderWidth),
 						quality: 1,
 						success: function (res: { tempFilePath: string }) {
+							uni.$u.toast("海报生成成功");
 							status.value.progress = 100;
+							status.value.showLoading = false;
 							posterImage.value = res.tempFilePath;
 						},
 						fail: function (err: { errMsg: string }) {

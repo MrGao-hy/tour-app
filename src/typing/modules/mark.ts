@@ -19,4 +19,8 @@ export interface MarkMountType {
 	 * 创建时间
 	 * */
 	createTime?: string;
+	/**
+	 * 总回复数
+	 * */
+	allReply?: number;
 }

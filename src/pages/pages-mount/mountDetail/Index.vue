@@ -25,6 +25,8 @@
 		<the-mount-comment :id="mountId"></the-mount-comment>
 	</scroll-view>
 
+	<!-- 分享海报 -->
+	<the-share-poster></the-share-poster>
 	<the-actions-bottom :detail="mountDetail"></the-actions-bottom>
 </template>
 <script setup lang="ts">
@@ -35,6 +37,7 @@ import TheMountComment from "@/components/TheMountComment.vue";
 import { queryMountDetailApi } from "@/api";
 import TheActionsBottom from "@/pages/pages-mount/mountDetail/components/TheActionsBottom.vue";
 import { useCommentStore } from "@/store";
+import TheSharePoster from "@components/TheSharePoster.vue";
 
 const commentStore = useCommentStore();
 const list = ["详情", "攻略", "评论"];
@@ -115,8 +118,5 @@ const scrollPageFn = (e: any) => {
 <style lang="scss" scoped>
 .scroll-y {
 	height: calc(100vh - 40px);
-	.strategy {
-		//height: 400px;
-	}
 }
 </style>

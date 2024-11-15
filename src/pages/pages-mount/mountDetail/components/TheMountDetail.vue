@@ -1,5 +1,9 @@
 <template>
-	<up-swiper :list="imageList" :autoplay="false" height="300"></up-swiper>
+	<up-swiper
+		:list="[detail.url || '']"
+		:autoplay="false"
+		height="280"
+	></up-swiper>
 	<view class="content">
 		<view class="content-title">{{ detail.name }}</view>
 		<view class="content-sub">

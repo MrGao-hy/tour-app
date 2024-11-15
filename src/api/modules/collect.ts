@@ -1,5 +1,5 @@
 import http from "../http";
-import { MountType } from "@/typing";
+import { MountType, PageConfigType, PageConfigVo } from "@/typing";
 
 /**
  * 查询景区是否收藏
@@ -24,6 +24,8 @@ export const collectMountApi = (mountId: string): Promise<boolean> => {
 /**
  * 我的收藏景区
  * */
-export const collectMountListApi = (): Promise<MountType[]> => {
-	return http.post("/collect/mount/list", {});
+export const collectMountListApi = (
+	data: PageConfigVo
+): Promise<PageConfigType<MountType>> => {
+	return http.post("/collect/mount/list", data);
 };

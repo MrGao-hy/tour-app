@@ -1,7 +1,7 @@
 /**
  * @returns 返回刚刚
  * */
-export const formatTime = (inputTime: any) => {
+export const formatTimeToString = (inputTime: any) => {
 	const now = new Date();
 	const old = new Date(inputTime);
 	const oldDate = new Date(inputTime).getTime();

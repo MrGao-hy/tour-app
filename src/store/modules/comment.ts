@@ -40,7 +40,6 @@ export const useCommentStore = defineStore("comment", {
 					uni.setClipboardData({
 						data: this.selectComment.comment,
 						success: () => {
-							console.log(111);
 							uni.$u.toast("复制成功");
 						},
 						fail(error) {
@@ -68,6 +67,17 @@ export const useCommentStore = defineStore("comment", {
 			} else {
 				this.commentList[index].likeNum--;
 			}
+		},
+		/**
+		 * 调整回复页面
+		 * */
+		toReplyPage(temp: CommentType) {
+			this.selectCommentFn(temp);
+			uni
+				.navigateTo({
+					url: "/pages/pages-mount/reply/Index",
+				})
+				.then();
 		},
 	},
 });

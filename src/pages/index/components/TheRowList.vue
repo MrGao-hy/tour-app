@@ -13,7 +13,6 @@
 			>
 				<view
 					:class="[
-						`item-${item}`,
 						'list__li',
 						item.isFinish && !showAll ? 'mask' : '',
 						item.isFinish ? 'mask_1' : '',
@@ -41,6 +40,7 @@
 						</view>
 					</view>
 				</view>
+				<up-gap height="50" bgColor="#f7f7f7"></up-gap>
 			</scroll-view>
 		</up-checkbox-group>
 	</view>
