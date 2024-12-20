@@ -47,12 +47,13 @@
 </template>
 
 <script setup lang="ts">
-import { MountType } from "@/typing";
+import { CommentType, MountType } from "@/typing";
 import { onMounted, reactive, ref, toRefs } from "vue";
 import { collectMountApi, recordTravelApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
 import { config } from "@/config";
 import { useCommentStore, useSharePosterStore } from "@/store";
+import { storeToRefs } from "pinia";
 
 interface IProps {
 	detail: MountType;
@@ -121,9 +122,9 @@ const punchMountFn = async () => {
 /**
  * 提交评价
  * */
-const confirmSubmitFn = () => {
+const confirmSubmitFn = (temp: CommentType) => {
 	showModal.value = false;
-	commentStore.getCommentListFn(detail.value.id);
+	commentStore.setCommentListFn(temp);
 };
 </script>
 

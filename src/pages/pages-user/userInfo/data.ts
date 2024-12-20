@@ -1,6 +1,6 @@
 export const constellationList = [
 	[
-		{ name: "水瓶座" },
+		"水瓶座",
 		"双鱼座",
 		"白羊座",
 		"金牛座",

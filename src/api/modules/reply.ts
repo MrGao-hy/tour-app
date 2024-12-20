@@ -23,15 +23,10 @@ export const queryReplyListApi = (
 
 /**
  * 回复评论
- * @param markId 评论id
- * @param content 内容
+ * @param data 集合
  * */
 export const replyMarkApi = (
-	markId: string,
-	content: string
+	data: ReplyType
 ): Promise<PageConfigType<ReplyType>> => {
-	return http.post("/markReply/reply", {
-		markId,
-		content,
-	});
+	return http.post("/markReply/reply", data);
 };

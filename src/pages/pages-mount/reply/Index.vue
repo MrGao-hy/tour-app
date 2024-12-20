@@ -30,9 +30,22 @@
 			</view>
 			<view class="content">
 				<rich-text
-					:nodes="selectComment.comment.replace(/\\n/g, '<br>')"
+					:nodes="selectComment.comment.replace(/\n/g, '<br>')"
 				></rich-text>
 			</view>
+			<up-rate
+				v-model="selectComment.mark"
+				size="16"
+				readonly
+				:activeIcon="
+					Number(selectComment.mark) == 3
+						? config.rate.ordinary
+						: Number(selectComment.mark) > 3
+						? config.rate.happy
+						: config.rate.grieved
+				"
+				:inactiveIcon="config.rate.default"
+			></up-rate>
 		</view>
 		<view class="all-reply">
 			<view class="all-reply-top">
@@ -56,9 +69,11 @@
 									{{ item.userInfo.userName }}
 									<the-sex-dom :sex="item.userInfo.sex"></the-sex-dom>
 								</view>
-								<view class="date">{{
-									formatTimeToString(item.createTime)
-								}}</view>
+								<view class="date"
+									>{{ formatTimeToString(item.createTime) }}&ensp;*&ensp;{{
+										item.province
+									}}
+								</view>
 							</view>
 						</view>
 						<!--						<view class="right" :class="{ highlight: item.isLike }">-->
@@ -85,9 +100,7 @@
 					<!--						<view class="text">{{ item.reply.contentStr }}</view>-->
 					<!--					</view>-->
 					<view class="content">
-						<rich-text
-							:nodes="item.content.replace(/\\n/g, '<br>')"
-						></rich-text>
+						<rich-text :nodes="item.content.replace(/\n/g, '<br>')"></rich-text>
 					</view>
 				</view>
 			</view>
@@ -111,7 +124,7 @@ const { selectComment } = storeToRefs(CommentStore);
 
 const page = reactive({
 	current: 1,
-	size: 6,
+	size: config.pageSize,
 });
 const commentList = ref<ReplyType[]>([]);
 const total = ref(0);
@@ -180,6 +193,7 @@ const replyList = async () => {
 	/*评论内容*/
 	.content {
 		font-size: 28rpx;
+		margin-bottom: $gxh-border-margin-padding-base;
 	}
 	.right {
 		display: flex;

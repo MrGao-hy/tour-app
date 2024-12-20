@@ -12,6 +12,14 @@ export interface MarkMountType {
 	 * */
 	comment: string;
 	/**
+	 * 省份
+	 * */
+	province: string;
+	/**
+	 * 城市
+	 * */
+	city: string;
+	/**
 	 * 打分数值
 	 * */
 	mark: number | string;

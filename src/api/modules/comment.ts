@@ -1,14 +1,23 @@
 import http from "../http";
-import { CommentType, MarkMountType } from "@/typing";
+import { CommentType, MarkMountType, PageConfigType } from "@/typing";
 
 /**
  * 查询景区评论列表
+ * @param current 当前页
+ * @param size 页数
+ * @param mountId 景区id
  * */
 export const queryCommentListApi = (
+	current: number,
+	size: number,
 	mountId: string
-): Promise<CommentType[]> => {
+): Promise<PageConfigType<CommentType>> => {
 	return http.post("/mark/comment/list", {
-		mountId,
+		current,
+		size,
+		in: {
+			mountId,
+		},
 	});
 };
 

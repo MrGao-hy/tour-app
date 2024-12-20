@@ -36,10 +36,12 @@ const imageList = [
 
 	.content-sub {
 		margin: 20rpx 0;
+		font-size: $gxh-font-size-base;
+		color: $gxh-color-error;
 	}
 	&-title {
 		font-weight: bold;
-		font-size: 40rpx;
+		font-size: 60rpx;
 	}
 }
 </style>

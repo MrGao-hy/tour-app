@@ -2,10 +2,21 @@
 	<view class="pages">
 		<up-form :model="userInfo" ref="infoRefs">
 			<view class="user-info">
+				<view class="progress">
+					<up-line-progress
+						:percentage="schedule"
+						height="8"
+						:showText="false"
+					></up-line-progress>
+					<view class="progress-text"
+						>资料完成度
+						<text style="color: #697bfe">{{ schedule }}%</text></view
+					>
+				</view>
 				<!--头像-->
 				<up-form-item label="头像" labelWidth="60">
 					<yk-upload
-						:fileList="photos"
+						:fileList="[{ url: userInfo.avatar }]"
 						:maxCount="1"
 						@chooseMedia="afterRead"
 						@delete="deletePic"
@@ -39,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import { TypeEnum, throttle } from "hfyk-app";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
@@ -50,8 +61,6 @@ const userStore = useUserStore();
 const columns = [
 	{ field: "userName", label: "用户名", type: TypeEnum.INPUT },
 	{ field: "name", label: "真实姓名", type: TypeEnum.INPUT },
-	{ field: "idCard", label: "身份证号", type: TypeEnum.INPUT },
-	{ field: "phone", label: "手机号", type: TypeEnum.INPUT },
 	{ field: "sex", label: "性别", type: TypeEnum.RADIO, actions: sexList },
 	{ field: "emit", label: "邮箱", type: TypeEnum.INPUT },
 	{ field: "birthDate", label: "出生日期", type: TypeEnum.DATE, mode: "date" },
@@ -73,9 +82,35 @@ const columns = [
 ];
 const editBtnLoading = ref(false); // 按钮圈圈
 const { userInfo } = storeToRefs(userStore);
+const schedule = ref<string>("");
 
 onMounted(async () => {
 	await userStore.getUserInfo();
+	const count = {
+		all: 0,
+		accomplish: 0,
+	};
+
+	Object.keys(userInfo.value).forEach((key) => {
+		if (
+			[
+				"avatar",
+				"createTime",
+				"id",
+				"oldPassword",
+				"password",
+				"roles",
+				"salt",
+			].includes(key)
+		)
+			return;
+		count.all++;
+		if (!userInfo.value[key]) {
+			count.accomplish++;
+		}
+	});
+	// 完成进度条
+	schedule.value = ((count.accomplish / count.all) * 100).toFixed(0);
 });
 
 // // 删除图片
@@ -114,6 +149,26 @@ const edinInfoBtnFn = throttle(async () => {
 		border-radius: 15rpx;
 		padding: 0 20rpx;
 		margin-bottom: 40rpx;
+		position: relative;
+		.progress {
+			width: 300rpx;
+			position: absolute;
+			right: $gxh-border-margin-padding-base;
+			top: 70rpx;
+			&-text {
+				font-size: $gxh-font-size-hint;
+				color: $gxh-color-hint;
+				text-align: center;
+				margin-top: $gxh-border-margin-padding-sm;
+			}
+			:deep(.u-line-progress__line) {
+				background-image: linear-gradient(
+					to right,
+					#61affc,
+					#697bfe
+				) !important;
+			}
+		}
 	}
 }
 :deep(.u-radio-group--row) {

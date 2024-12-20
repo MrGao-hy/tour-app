@@ -50,16 +50,20 @@
 			maxHeight: '60vh',
 			padding: '60rpx 10rpx 0',
 		}"
-		@close="showMark = false"
+		@close="onCloseMark"
 	>
-		<scroll-view scroll-y style="max-height: 60vh">
+		<scroll-view
+			scroll-y
+			style="max-height: 60vh"
+			@scrolltolower="onScrollToLower"
+		>
 			<the-mount-comment></the-mount-comment>
 		</scroll-view>
 	</up-popup>
 </template>
 
 <script lang="ts" setup>
-import { ref, toRefs } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import { collectMountApi } from "@/api";
 import { MountType } from "@/typing";
 import TheFooterActions from "@/components/TheFooterActions.vue";
@@ -75,7 +79,12 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 const { list } = toRefs(props);
 const commentStore = useCommentStore();
-const showMark = ref(false);
+const showMark = ref<boolean>(false);
+const selectMountId = ref<string>("");
+const page = reactive({
+	current: 1,
+	size: 5,
+});
 
 /**
  * 收藏景区
@@ -95,11 +104,34 @@ const collectMountFn = async (id: string) => {
 };
 
 /**
+ * 评论滚动加载更多
+ * */
+const onScrollToLower = () => {
+	page.current++;
+	commentStore
+		.getCommentListFn(page.current, page.size, selectMountId.value)
+		.then()
+		.catch(() => {
+			page.current--;
+		});
+};
+
+/**
  * 打开评论区弹窗
  * */
 const onOpenMark = async (id: string) => {
-	await commentStore.getCommentListFn(id);
+	selectMountId.value = id;
+	await commentStore.getCommentListFn(page.current, page.size, id);
 	showMark.value = !showMark.value;
+};
+
+/**
+ * 关闭评论区
+ * */
+const onCloseMark = async () => {
+	commentStore.setCommentList();
+	showMark.value = false;
+	page.current = 1;
 };
 
 /**

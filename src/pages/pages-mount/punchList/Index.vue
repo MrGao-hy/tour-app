@@ -1,4 +1,9 @@
 <template>
+	<yk-empty
+		:show="!punchList.length"
+		imageUrl="https://pic.imgdb.cn/item/6737057ad29ded1a8c6f843b.webp"
+		description="您还没有去过的足迹，快去打卡试试吧"
+	></yk-empty>
 	<the-mount-card :list="punchList"></the-mount-card>
 </template>
 <script setup lang="ts">

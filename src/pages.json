@@ -77,6 +77,29 @@
           }
         }
       ]
+    },
+    {
+      "root": "pages/pages-function",
+      "pages": [
+        {
+          "path": "relation/Index",
+          "style": {
+            "navigationBarTitleText": "联系我们"
+          }
+        },
+        {
+          "path": "matter/Index",
+          "style": {
+            "navigationBarTitleText": "问题反馈"
+          }
+        },
+        {
+          "path": "chatGPT/Index",
+          "style": {
+            "navigationBarTitleText": "豆包"
+          }
+        }
+      ]
     }
   ],
   "permission": {
@@ -85,7 +108,7 @@
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "高鲜花",
+    "navigationBarTitleText": "山徒旅行",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },

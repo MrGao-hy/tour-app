@@ -1,12 +1,12 @@
 import http from "../http";
-import { LoginType, UserType } from "@/typing";
+import { LoginType, RegisterUserType, UserType } from "@/typing";
 
 /**
  * 用户注册
- * @param {UserInfoType} data 用户信息
+ * @param {RegisterUserType} data 用户信息
  * @return
  */
-export const registerUserApi = (data: UserType): Promise<null> => {
+export const registerUserApi = (data: RegisterUserType): Promise<null> => {
 	return http.post("user/register", data);
 };
 
@@ -68,4 +68,12 @@ export const editPasswordApi = (
 		oldPassword,
 		password,
 	});
+};
+
+/**
+ * 获取用户ip地址
+ * @return
+ */
+export const getUserIpApi = (): Promise<IpType> => {
+	return http.get("request/ip");
 };

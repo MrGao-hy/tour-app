@@ -75,7 +75,13 @@ export const canvasFun = {
 		canvas.fillText(line, x, y);
 	},
 	/**
-	 * 图片转成圆形
+	 * @description 图片转成圆形
+	 * @param ctx ctx原生元素
+	 * @param image 图片
+	 * @param imgUrl 图片线上地址
+	 * @param x 横坐标位置
+	 * @param y 纵坐标位置
+	 * @param r 圆角
 	 * */
 	drawAvatar: (
 		ctx: any,
@@ -85,20 +91,23 @@ export const canvasFun = {
 		y: number,
 		r: number
 	) => {
-		const d = r * 2;
-		image.src = imgUrl;
-		image.onload = () => {
-			const cx = x + r;
-			const cy = y + r;
-			// ctx.beginPath()
-			ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-			ctx.strokeStyle = "#FFFFFF"; // 设置绘制圆形边框的颜色
-			ctx.stroke(); // 绘制出圆形，默认为黑色，可通过 ctx.strokeStyle = '#FFFFFF'， 设置想要的颜色
-			ctx.clip();
+		return new Promise((resolve, reject) => {
+			const d = r * 2;
+			image.src = imgUrl;
+			image.onload = () => {
+				const cx = x + r;
+				const cy = y + r;
+				ctx.beginPath();
+				ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+				ctx.strokeStyle = "#FFFFFF"; // 设置绘制圆形边框的颜色
+				ctx.stroke(); // 绘制出圆形，默认为黑色，可通过 ctx.strokeStyle = '#FFFFFF'， 设置想要的颜色
+				ctx.clip();
 
-			ctx.drawImage(image, x, y, d, d);
-			ctx.restore();
-		};
+				ctx.drawImage(image.src, x, y, d, d);
+				ctx.restore();
+				resolve("成功");
+			};
+		});
 	},
 	/**
 	 * @description: 方块圆角
@@ -182,7 +191,7 @@ export const canvasFun = {
 					ctx.clip();
 				}
 
-				ctx.drawImage(image, x, y, width, height);
+				ctx.drawImage(image.src, x, y, width, height);
 				resolve(12);
 			};
 		});

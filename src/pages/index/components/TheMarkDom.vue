@@ -23,8 +23,15 @@
 				<up-rate
 					:count="5"
 					size="24"
-					:activeColor="Number(model.mark) >= 3 ? '#F6B204' : 'red'"
 					v-model="model.mark"
+					:activeIcon="
+						Number(model.mark) == 3
+							? config.rate.ordinary
+							: Number(model.mark) > 3
+							? config.rate.happy
+							: config.rate.grieved
+					"
+					:inactiveIcon="config.rate.default"
 				></up-rate>
 			</up-form-item>
 			<up-form-item prop="comment" borderBottom>
@@ -32,6 +39,7 @@
 					v-model="model.comment"
 					count
 					height="100"
+					confirmType="null"
 					maxlength="520"
 					placeholder="我用十年青春,赴你最后之约"
 				></up-textarea>
@@ -48,10 +56,11 @@
 
 <script setup lang="ts">
 import { reactive, ref, toRefs } from "vue";
-import { markMountApi } from "@/api";
+import { getUserIpApi, markMountApi } from "@/api";
 import { MarkMountType } from "@/typing";
 import { useSharePosterStore } from "@/store";
 import { clearVal } from "hfyk-app";
+import { config } from "@/config";
 
 interface IProps {
 	show: boolean;
@@ -96,11 +105,24 @@ const rules = reactive({
 const submitMarkFn = async () => {
 	uFormRef.value
 		.validate()
-		.then(async (valid: boolean) => {
+		.then((valid: boolean) => {
 			if (valid) {
-				await markMountApi(Object.assign(model, { mountId: id.value }));
-				clearVal(model);
-				emit("handleOk");
+				uni.request({
+					url: "https://api.vvhan.com/api/ipInfo",
+					async success(result) {
+						console.log(result);
+						const { data } = result;
+						const info = await markMountApi(
+							Object.assign(model, {
+								mountId: id.value,
+								city: data.info.city.replace("市", ""),
+								province: data.info.prov.replace("省", ""),
+							})
+						);
+						emit("handleOk", info);
+						clearVal(model);
+					},
+				});
 			}
 		})
 		.catch(() => {

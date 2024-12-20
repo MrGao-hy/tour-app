@@ -4,15 +4,15 @@ import path from "path";
 import Unocss from "unocss/vite";
 import conf from "./src/config/env";
 
-// https://vitejs.dev/config/
 export default defineConfig({
+	base: "/h5",
 	plugins: [
 		uni(),
 		// https://github.com/antfu/unocss
 		Unocss(),
 	],
 	server: {
-		// port: 8080,
+		port: 8002,
 		host: "0.0.0.0",
 		proxy: {
 			"/api/": {

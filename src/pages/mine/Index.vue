@@ -37,7 +37,9 @@
 		</view>
 
 		<!--内容区域-->
-		<view class="mine-body"> </view>
+		<view class="mine-main">
+			<the-tools-row></the-tools-row>
+		</view>
 	</view>
 
 	<!-- 操作栏 -->
@@ -57,6 +59,7 @@ import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
 import { actionMenu, initImageHeight } from "./data";
+import TheToolsRow from "@/pages/mine/components/TheToolsRow.vue";
 
 const userStore = useUserStore();
 const { userInfo } = storeToRefs(userStore);
@@ -182,8 +185,7 @@ const onTouchEnd = () => {
 				margin-left: 40rpx;
 				z-index: 1;
 				.nickname {
-					font-weight: 500;
-					font-size: 45rpx;
+					font-size: $gxh-font-size-title;
 					color: $gxh-text-color-inverse;
 					display: flex;
 					align-items: center;
@@ -200,15 +202,15 @@ const onTouchEnd = () => {
 				}
 				.phone {
 					font-size: $gxh-font-size-hint;
-					color: $gxh-text-color-grey;
+					color: $gxh-color-hint;
 				}
 			}
 		}
 	}
-	&-body {
+	&-main {
 		transform: translateY(-10px);
-		height: 100px;
 		background: #fff;
+		padding: $gxh-border-margin-padding-lg;
 		border-radius: 20rpx 20rpx 0 0;
 		flex: 1;
 	}

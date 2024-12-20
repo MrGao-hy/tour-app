@@ -1,3 +1,6 @@
+import Base64 from "./base64";
+let base64 = new Base64();
+
 /**
  * @returns 返回刚刚
  * */
@@ -40,9 +43,6 @@ export const formatTimeToString = (inputTime: any) => {
 		return `${month}-${day}`;
 	}
 };
-
-import Base64 from "./base64";
-let base64 = new Base64();
 
 /**
  * 加密函数

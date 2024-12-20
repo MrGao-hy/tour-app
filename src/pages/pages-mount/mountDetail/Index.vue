@@ -9,6 +9,7 @@
 		:scroll-top="scrollTop"
 		scroll-with-animation
 		@scroll="scrollPageFn"
+		@scrolltolower="onScrollToLower"
 	>
 		<view class="detail" id="detail">
 			<the-mount-detail :detail="mountDetail"></the-mount-detail>
@@ -23,6 +24,7 @@
 		</view>
 		<up-line></up-line>
 		<the-mount-comment :id="mountId"></the-mount-comment>
+		<up-gap height="50"></up-gap>
 	</scroll-view>
 
 	<!-- 分享海报 -->
@@ -30,14 +32,15 @@
 	<the-actions-bottom :detail="mountDetail"></the-actions-bottom>
 </template>
 <script setup lang="ts">
-import { getCurrentInstance, nextTick, ref } from "vue";
-import { onLoad } from "@dcloudio/uni-app";
+import { getCurrentInstance, nextTick, onUnmounted, reactive, ref } from "vue";
+import { onLoad, onReachBottom } from "@dcloudio/uni-app";
 import TheMountDetail from "@/pages/pages-mount/mountDetail/components/TheMountDetail.vue";
 import TheMountComment from "@/components/TheMountComment.vue";
 import { queryMountDetailApi } from "@/api";
 import TheActionsBottom from "@/pages/pages-mount/mountDetail/components/TheActionsBottom.vue";
 import { useCommentStore } from "@/store";
 import TheSharePoster from "@components/TheSharePoster.vue";
+import { config } from "@/config";
 
 const commentStore = useCommentStore();
 const list = ["详情", "攻略", "评论"];
@@ -49,13 +52,17 @@ const scrollTop = ref(0);
 const mountDetail = ref();
 const instance = getCurrentInstance();
 const query = uni.createSelectorQuery().in(instance);
+const page = reactive({
+	current: 1,
+	size: config.pageSize,
+});
 
 onLoad(async (options: any) => {
 	const { id } = options;
 	if (id) {
 		mountId.value = id;
 		mountDetail.value = await queryMountDetailApi(id);
-		await commentStore.getCommentListFn(id);
+		await commentStore.getCommentListFn(page.current, page.size, id);
 
 		// 计算高度
 		await nextTick(() => {
@@ -75,6 +82,23 @@ onLoad(async (options: any) => {
 		});
 	}
 });
+
+onUnmounted(() => {
+	commentStore.setCommentList();
+});
+
+/**
+ * 滚动到底部触发加载
+ * */
+const onScrollToLower = () => {
+	page.current++;
+	commentStore
+		.getCommentListFn(page.current, page.size, mountId.value)
+		.then()
+		.catch(() => {
+			page.current--;
+		});
+};
 
 /**
  * 点击选项卡
@@ -116,7 +140,15 @@ const scrollPageFn = (e: any) => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.u-subsection) {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+}
 .scroll-y {
-	height: calc(100vh - 40px);
+	height: calc(100vh - 84px);
+	.strategy {
+		padding: $gxh-border-margin-padding-lg;
+	}
 }
 </style>

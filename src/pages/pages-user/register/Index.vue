@@ -24,22 +24,18 @@
 import { ref, reactive } from "vue";
 import { registerUserApi } from "@/api";
 import { TypeEnum } from "hfyk-app";
-import { UserType } from "@/typing";
+import { RegisterUserType } from "@/typing";
 
-const userFormData: UserType = reactive({
+const userFormData = reactive<RegisterUserType>({
 	userName: "",
 	password: "",
 	phone: "",
-	idCard: "",
-	address: "",
 });
 const ykFormRef = ref();
 const columns = reactive([
 	{ field: "userName", label: "用户名", type: TypeEnum.INPUT, required: true },
-	{ field: "password", label: "密码", type: TypeEnum.INPUT, required: true },
 	{ field: "phone", label: "手机号", type: TypeEnum.INPUT, required: true },
-	{ field: "idCard", label: "身份证号", type: TypeEnum.ID_CARD },
-	{ field: "address", label: "家庭住址", type: TypeEnum.INPUT },
+	{ field: "password", label: "密码", type: TypeEnum.INPUT, required: true },
 ]);
 const rules = reactive({
 	userName: [
@@ -53,6 +49,21 @@ const rules = reactive({
 			max: 11,
 			message: "长度在2-11个字符之间",
 			trigger: ["blur", "change"],
+		},
+	],
+	phone: [
+		{
+			required: true,
+			message: "请输入您的账号",
+			trigger: ["blur", "change"],
+		},
+		{
+			validator: (rule: any, value: string) => {
+				return uni.$u.test.mobile(value);
+			},
+			message: "手机号码不正确",
+			// 触发器可以同时用blur和change
+			trigger: ["change", "blur"],
 		},
 	],
 	password: [
@@ -75,25 +86,12 @@ const rules = reactive({
 			trigger: ["change", "blur"],
 		},
 	],
-	phone: [
-		{
-			required: true,
-			message: "请输入您的手机号",
-			trigger: ["blur", "change"],
-		},
-		{
-			validator: (rule: any, value: string) => {
-				return uni.$u.test.mobile(value);
-			},
-			message: "手机号码不正确",
-			trigger: ["change", "blur"],
-		},
-	],
 });
 
 const registerUserFn = () => {
 	ykFormRef.value.formRef.validate().then(async () => {
 		await registerUserApi(userFormData);
+		uni.$u.toast("注册成功");
 		await uni.redirectTo({
 			url: "/pages/pages-user/login/Index",
 		});

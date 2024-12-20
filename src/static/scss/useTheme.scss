@@ -33,13 +33,13 @@ $gxh-image-bg-color: #c8c9cc;
 /* 文章场景相关 */
 $gxh-color-title: #2c405a; // 文章标题颜色
 $gxh-weight-title: 700;
-$gxh-font-size-title: 40rpx;
+$gxh-font-size-title: 44rpx;
 $gxh-color-subtitle: #555555; // 二级标题颜色
-$gxh-font-size-subtitle: 36rpx;
+$gxh-font-size-subtitle: 38rpx;
 $gxh-color-paragraph: #3f536e; // 文章段落颜色
-$gxh-font-size-paragraph: 30rpx;
+$gxh-font-size-paragraph: 32rpx;
 $gxh-color-hint: #999; // 提示文字
-$gxh-font-size-hint: 22rpx;
+$gxh-font-size-hint: 26rpx;
 
 
 /* 边框颜色 */
@@ -70,3 +70,5 @@ $gxh-box-shadow: 0 0 10rpx 4rpx rgba(0, 0, 0, 0.16);
 $gxh-border-margin-padding-sm: 10rpx;
 $gxh-border-margin-padding-base: 20rpx;
 $gxh-border-margin-padding-lg: 25rpx;
+/* 底部线条 */
+$gxh-border-line: 1px solid #c8c7cc66;

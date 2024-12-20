@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { deleteCommentApi, queryCommentListApi } from "@/api";
 import { CommentType } from "@/typing";
+import { useUserStore } from "@/store";
 
 export const useCommentStore = defineStore("comment", {
 	state: () => ({
@@ -11,14 +12,27 @@ export const useCommentStore = defineStore("comment", {
 		/**
 		 * 获取评论列表
 		 * */
-		getCommentListFn(id: string) {
-			return new Promise(async (resolve) => {
-				const res = await queryCommentListApi(id);
-				this.commentList = res.map((item) =>
-					Object.assign(item, { isLike: false, likeNum: 0 })
-				);
+		getCommentListFn(current: number, size: number, id: string) {
+			return new Promise(async (resolve, reject) => {
+				const res = await queryCommentListApi(current, size, id);
+				if (!res.records.length) {
+					uni.$u.toast("没有更多评论了");
+					reject(res);
+				}
+				this.commentList = [
+					...this.commentList,
+					...res.records.map((item) =>
+						Object.assign(item, { isLike: false, likeNum: 0 })
+					),
+				];
 				resolve(res);
 			});
+		},
+		setCommentListFn(mark: CommentType) {
+			// 假数据push到数组里面，形成有数据视觉效果
+			const userStore = useUserStore();
+			mark.userInfo = userStore.userInfo;
+			this.commentList.unshift(mark);
 		},
 		/**
 		 * 点击操作栏
@@ -58,6 +72,12 @@ export const useCommentStore = defineStore("comment", {
 			this.selectComment = temp;
 		},
 		/**
+		 * 选中数据
+		 * */
+		setCommentList(temp: CommentType[] = []) {
+			this.commentList = temp;
+		},
+		/**
 		 * 点赞
 		 * */
 		clickLike(index: number) {
@@ -69,7 +89,7 @@ export const useCommentStore = defineStore("comment", {
 			}
 		},
 		/**
-		 * 调整回复页面
+		 * 跳转回复页面
 		 * */
 		toReplyPage(temp: CommentType) {
 			this.selectCommentFn(temp);

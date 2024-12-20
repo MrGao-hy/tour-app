@@ -18,7 +18,9 @@ export interface UserLoginType {
 export const useUserStore = defineStore("user", {
 	unistorage: true,
 	state: () => ({
-		userInfo: {} as UserType,
+		userInfo: {} as {
+			[key: string]: UserType;
+		},
 	}),
 	getters: {},
 	actions: {
@@ -51,9 +53,9 @@ export const useUserStore = defineStore("user", {
 			uni.showModal({
 				title,
 				showCancel: false,
-				confirmText: code === 40004 ? "登录" : "我知道了",
+				confirmText: code === 40004 || code === 40005 ? "登录" : "我知道了",
 				success: async (res) => {
-					if (res.confirm && code === 40004) {
+					if (res.confirm && (code === 40004 || code === 40005)) {
 						uni.removeStorageSync("diary_token");
 						clearVal(this.userInfo);
 						await uni.redirectTo({

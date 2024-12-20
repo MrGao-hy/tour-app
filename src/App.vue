@@ -5,17 +5,18 @@ import conf from "@/config/env";
 uni.loadFontFace({
 	family: "myFont",
 	global: true,
-	source: `url("${conf.baseUrl}/font/方正黄草简体.ttf")`,
+	source: `url("./static/方正黄草简体.ttf")`,
 	scopes: ["webview", "native"],
 	success() {},
 });
 </script>
 <style lang="scss">
 @import "uview-plus/index.scss";
+@import ".\static\icon\font\font_1\iconfont-weapp-icon.css";
+@import ".\static\icon\font\font_1\iconfont.css";
 @font-face {
 	font-family: "Bitstream";
-	src: url("http://127.0.0.1:9000/diary/font/AlimamaDongFangDaKai-Regular.ttf")
-		format("truetype");
+	src: url("./static/AlimamaDongFangDaKai-Regular.ttf") format("truetype");
 }
 view,
 button,

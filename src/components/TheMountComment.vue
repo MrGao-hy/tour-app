@@ -30,13 +30,20 @@
 				</view>
 			</view>
 			<view class="content">
-				<rich-text :nodes="item.comment.replace(/\\n/g, '<br>')"></rich-text>
+				<rich-text :nodes="item.comment.replace(/\n/g, '<br>')"></rich-text>
 			</view>
 			<up-rate
 				v-model="item.mark"
 				size="16"
 				readonly
-				:activeColor="Number(item.mark) >= 3 ? '#F6B204' : 'red'"
+				:activeIcon="
+					Number(item.mark) == 3
+						? config.rate.ordinary
+						: Number(item.mark) > 3
+						? config.rate.happy
+						: config.rate.grieved
+				"
+				:inactiveIcon="config.rate.default"
 			></up-rate>
 			<view class="reply-box">
 				<!--							<view-->
@@ -57,8 +64,10 @@
 			</view>
 			<view class="bottom">
 				<view class="bottom__left">
-					{{ formatTimeToString(item.createTime) }}
-					<view class="reply" @tap.stop="replyFn(item)">回复</view>
+					{{ formatTimeToString(item.createTime) }}&ensp;·&ensp;{{
+						item.province
+					}}
+					<view class="reply-btn" @tap.stop="replyFn(item)">回复</view>
 				</view>
 				<view class="bottom__right">
 					<up-icon
@@ -96,7 +105,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { CommentType, MarkMountType } from "@/typing";
+import { CommentType, MarkMountType, ReplyType } from "@/typing";
 import { formatTimeToString } from "@/utils/utils";
 import env from "@/config/env";
 import { useCommentStore } from "@/store";
@@ -111,7 +120,6 @@ const { commentList, selectComment } = storeToRefs(commentStore);
 const showMenu = ref(false);
 const replyVal = ref("");
 const focus = ref(false);
-const replyMark = ref();
 const actionMenu: ActionMenu[] = reactive([
 	{
 		key: 1,
@@ -163,15 +171,30 @@ const replyFn = (temp: CommentType) => {
  * 回复消息
  * */
 const replyMarkFn = async () => {
-	console.log(111);
-	await replyMarkApi(selectComment.value.id, replyVal.value);
-	commentList.value.find((item) => {
-		if (selectComment.value.id === item.id) {
-			selectComment.value.allReply++;
-		}
+	uni.request({
+		url: "https://api.vvhan.com/api/ipInfo",
+		async success(result) {
+			console.log(result);
+			const { data } = result;
+			// await replyMarkApi(selectComment.value.id, replyVal.value);
+			await replyMarkApi({
+				markId: selectComment.value.id,
+				content: replyVal.value,
+				city: data.info.city.replace("市", ""),
+				province: data.info.prov.replace("省", ""),
+			} as ReplyType);
+			commentList.value.find((item) => {
+				if (
+					selectComment.value.allReply &&
+					selectComment.value.id === item.id
+				) {
+					selectComment.value.allReply++;
+				}
+			});
+			replyVal.value = "";
+			focus.value = false;
+		},
 	});
-	replyVal.value = "";
-	focus.value = false;
 };
 
 /**
@@ -249,11 +272,12 @@ const onBlur = () => {
 			display: flex;
 			justify-content: space-between;
 			font-size: 24rpx;
-			color: $gxh-text-color-grey;
+			color: $gxh-text-color-disable;
 			&__left {
 				display: flex;
-				.reply {
-					margin-left: 10rpx;
+				.reply-btn {
+					margin-left: $gxh-border-margin-padding-lg;
+					color: $gxh-color-success;
 				}
 			}
 			&__right {

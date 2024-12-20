@@ -1,8 +1,17 @@
+export interface RegisterUserType {
+	userName: string;
+	password: string;
+	phone: string;
+}
+
 export interface UserInfoType {
 	id: string;
 	userName: string;
 	avatar: string;
 	phone: string;
+	/**
+	 * 性别
+	 * */
 	sex: string;
 }
 
@@ -15,10 +24,6 @@ export interface UserType extends UserInfoType {
 	 * 出生日期
 	 * */
 	birthDate: string;
-	/**
-	 * 性别
-	 * */
-	sex: string;
 	/**
 	 * 星座
 	 * */
