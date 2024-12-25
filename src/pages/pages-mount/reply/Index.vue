@@ -1,12 +1,17 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-11 10:36:02
+  LastEditTime: 2024-05-16 10:59:52
+  Description: 评论回复列表页面
+  FilePath: \src\pages-mount\reply\Index.vue
+-->
 <template>
 	<scroll-view class="wrap" scroll-y @scrolltolower="onScrollToLower">
 		<view class="comment">
 			<view class="top">
 				<view class="left">
 					<view class="heart-photo">
-						<up-avatar
-							:src="`${env.baseUrl}${selectComment.userInfo.avatar}`"
-						></up-avatar>
+						<the-avatar :avatar="selectComment.userInfo.avatar"></the-avatar>
 					</view>
 					<view class="user-info">
 						<view class="name">
@@ -59,10 +64,10 @@
 					<view class="top">
 						<view class="left">
 							<view class="heart-avatar">
-								<up-avatar
-									:src="`${env.baseUrl}${item.userInfo.avatar}`"
+								<the-avatar
+									:avatar="item.userInfo.avatar"
 									size="32"
-								></up-avatar>
+								></the-avatar>
 							</view>
 							<view class="user-info">
 								<view class="name">
@@ -118,6 +123,7 @@ import { storeToRefs } from "pinia";
 import env from "@/config/env";
 import TheSexDom from "@components/TheSexDom.vue";
 import { config } from "@/config";
+import TheAvatar from "@components/TheAvatar.vue";
 
 const CommentStore = useCommentStore();
 const { selectComment } = storeToRefs(CommentStore);

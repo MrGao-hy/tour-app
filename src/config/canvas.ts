@@ -99,7 +99,7 @@ export const canvasFun = {
 				const cy = y + r;
 				ctx.beginPath();
 				ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-				ctx.strokeStyle = "#FFFFFF"; // 设置绘制圆形边框的颜色
+				ctx.strokeStyle = "#fa3534"; // 设置绘制圆形边框的颜色
 				ctx.stroke(); // 绘制出圆形，默认为黑色，可通过 ctx.strokeStyle = '#FFFFFF'， 设置想要的颜色
 				ctx.clip();
 
@@ -144,14 +144,14 @@ export const canvasFun = {
 		ctx.stroke();
 	},
 	/**
-	 * @description:
-	 * @param {any} ctx：
-	 * @param {number} x：x轴坐标
-	 * @param {number} y：y轴坐标
-	 * @param {number} width：矩阵的宽度
-	 * @param {number} height：矩阵的高度
-	 * @param {number} radius：圆角角度
-	 * @param {string} color：颜色
+	 * @description: aa
+	 * @param ctx ctx元素：
+	 * @param x x轴坐标
+	 * @param y y轴坐标
+	 * @param width 矩阵的宽度
+	 * @param height 矩阵的高度
+	 * @param radius 圆角角度
+	 * @param color 颜色
 	 * @return {*}
 	 */
 	fillRoundRect(
@@ -170,7 +170,15 @@ export const canvasFun = {
 		ctx.restore();
 	},
 	/**
-	 * 线上图片转化
+	 * @description 图片绘画
+	 * @param ctx ctx元素
+	 * @param image 图片存储容器
+	 * @param url base64图片
+	 * @param x 横坐标
+	 * @param y 纵坐标
+	 * @param width 宽度
+	 * @param height 高度
+	 * @param radius 圆角
 	 * */
 	drawImage(
 		ctx: any,
@@ -183,6 +191,7 @@ export const canvasFun = {
 		radius?: number
 	) {
 		return new Promise((resolve) => {
+			image.crossOrigin = "Anonymous";
 			image.src = url;
 			image.onload = () => {
 				if (radius) {
@@ -191,7 +200,13 @@ export const canvasFun = {
 					ctx.clip();
 				}
 
-				ctx.drawImage(image.src, x, y, width, height);
+				ctx.drawImage(
+					image.src,
+					x,
+					y,
+					width,
+					image.height * (width / image.width)
+				);
 				resolve(12);
 			};
 		});
@@ -227,11 +242,26 @@ export const canvasFun = {
 		ctx.fill();
 	},
 	/**
-	 *     文本竖向排列
+	 *  @description 文本竖向排列
+	 *  @param ctx ctx实例
+	 *  @param text 内容
+	 *  @param x 横坐标
+	 *  @param y 纵坐标
+	 *  @param fillStyle 字体颜色
+	 *  @param font 字体大小、字体样式、粗细 例：45px myFont
 	 */
-	drawTextVertical(ctx: any, text: string, x: number, y: number) {
+	drawTextVertical(
+		ctx: any,
+		text: string,
+		x: number,
+		y: number,
+		fillStyle: string,
+		font: string
+	) {
 		let letterSpacing = 2; // 设置字间距
 
+		ctx.fillStyle = fillStyle;
+		ctx.font = font;
 		for (let i = 0; i < text.length; i++) {
 			const str = text.slice(i, i + 1).toString();
 
@@ -263,5 +293,21 @@ export const canvasFun = {
 				y += ctx.measureText(str).width + letterSpacing; // 计算文字宽度
 			}
 		}
+	},
+	drawLine(
+		ctx: any,
+		startX: number,
+		startY: number,
+		endX: number,
+		endY: number,
+		lineWidth: number = 1,
+		color: string = "#FFFFFF"
+	) {
+		ctx.beginPath();
+		ctx.lineWidth = lineWidth;
+		ctx.strokeStyle = color;
+		ctx.moveTo(startX, startY);
+		ctx.lineTo(endX, endY);
+		ctx.stroke();
 	},
 };

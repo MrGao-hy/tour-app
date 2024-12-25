@@ -1,4 +1,4 @@
-import http from "../http";
+import http from "@/api/http";
 import { MountType, PageConfigType, PageConfigVo } from "@/typing";
 
 /**

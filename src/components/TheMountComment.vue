@@ -9,7 +9,7 @@
 	<view class="comment" v-for="(item, index) in commentList" :key="item.id">
 		<!-- 左边数据 -->
 		<view class="left">
-			<up-avatar :src="`${env.baseUrl}${item.userInfo.avatar}`"></up-avatar>
+			<the-avatar :avatar="item.userInfo.avatar"></the-avatar>
 		</view>
 
 		<!-- 右边数据 -->
@@ -105,15 +105,15 @@
 
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import { CommentType, MarkMountType, ReplyType } from "@/typing";
+import { CommentType, ReplyType } from "@/typing";
 import { formatTimeToString } from "@/utils/utils";
-import env from "@/config/env";
 import { useCommentStore } from "@/store";
 import { storeToRefs } from "pinia";
-import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
-import TheSexDom from "@components/TheSexDom.vue";
 import { config } from "@/config";
 import { replyMarkApi } from "@/api";
+import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
+import TheSexDom from "@components/TheSexDom.vue";
+import TheAvatar from "@components/TheAvatar.vue";
 
 const commentStore = useCommentStore();
 const { commentList, selectComment } = storeToRefs(commentStore);

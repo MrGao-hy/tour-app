@@ -1,3 +1,10 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-11 10:36:02
+  LastEditTime: 2024-05-16 10:59:52
+  Description: 修改个人信息页面
+  FilePath: \src\pages-user\userInfo\Index.vue
+-->
 <template>
 	<view class="pages">
 		<up-form :model="userInfo" ref="infoRefs">
@@ -60,7 +67,15 @@ import { constellationList, educationList, sexList } from "./data";
 const userStore = useUserStore();
 const columns = [
 	{ field: "userName", label: "用户名", type: TypeEnum.INPUT },
+	{
+		field: "avatar",
+		label: "网络头像",
+		type: TypeEnum.INPUT,
+		placeholder: "请直接上传网络头像地址",
+	},
 	{ field: "name", label: "真实姓名", type: TypeEnum.INPUT },
+	{ field: "phone", label: "手机号", type: TypeEnum.INPUT },
+	{ field: "idCard", label: "身份证", type: TypeEnum.INPUT },
 	{ field: "sex", label: "性别", type: TypeEnum.RADIO, actions: sexList },
 	{ field: "emit", label: "邮箱", type: TypeEnum.INPUT },
 	{ field: "birthDate", label: "出生日期", type: TypeEnum.DATE, mode: "date" },
@@ -93,19 +108,13 @@ onMounted(async () => {
 
 	Object.keys(userInfo.value).forEach((key) => {
 		if (
-			[
-				"avatar",
-				"createTime",
-				"id",
-				"oldPassword",
-				"password",
-				"roles",
-				"salt",
-			].includes(key)
+			["createTime", "id", "oldPassword", "password", "roles", "salt"].includes(
+				key
+			)
 		)
 			return;
 		count.all++;
-		if (!userInfo.value[key]) {
+		if (userInfo.value[key]) {
 			count.accomplish++;
 		}
 	});

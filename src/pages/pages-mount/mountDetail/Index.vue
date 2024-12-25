@@ -1,3 +1,10 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-11 10:36:02
+  LastEditTime: 2024-05-16 10:59:52
+  Description: 景区详情列表页面
+  FilePath: \src\pages-mount\mountDetail\Index.vue
+-->
 <template>
 	<up-subsection
 		:list="list"
@@ -23,7 +30,7 @@
 			</up-steps>
 		</view>
 		<up-line></up-line>
-		<the-mount-comment :id="mountId"></the-mount-comment>
+		<the-mount-comment></the-mount-comment>
 		<up-gap height="50"></up-gap>
 	</scroll-view>
 
@@ -33,7 +40,7 @@
 </template>
 <script setup lang="ts">
 import { getCurrentInstance, nextTick, onUnmounted, reactive, ref } from "vue";
-import { onLoad, onReachBottom } from "@dcloudio/uni-app";
+import { onLoad } from "@dcloudio/uni-app";
 import TheMountDetail from "@/pages/pages-mount/mountDetail/components/TheMountDetail.vue";
 import TheMountComment from "@/components/TheMountComment.vue";
 import { queryMountDetailApi } from "@/api";

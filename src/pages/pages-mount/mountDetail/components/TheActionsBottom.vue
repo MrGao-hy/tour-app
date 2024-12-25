@@ -16,7 +16,7 @@
 						:size="20"
 						:color="$u.color['contentColor']"
 					></up-icon>
-					<view class="text u-line-1">评论</view>
+					<view class="text u-line-1">打分</view>
 				</view>
 				<view class="item car" @tap="onClickTab('share')">
 					<up-icon
@@ -28,11 +28,11 @@
 				</view>
 			</view>
 			<view class="right">
-				<view
-					class="buy btn u-line-1"
-					:style="{ background: config.themeColor }"
-					@click="punchMountFn"
-					>立即打卡</view
+				<view class="buy btn photograph" @click="punchMountFn('photograph')"
+					>拍照打卡</view
+				>
+				<view class="buy btn place" @click="punchMountFn('place')"
+					>地点打卡</view
 				>
 			</view>
 		</view>
@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+import { imageToBase64 } from "hfyk-app";
 import { CommentType, MountType } from "@/typing";
 import { onMounted, reactive, ref, toRefs } from "vue";
 import { collectMountApi, recordTravelApi } from "@/api";
@@ -73,25 +74,6 @@ const punch = reactive({
 	longitude: 0,
 });
 
-onMounted(() => {
-	uni.getLocation({
-		type: "gcj02",
-		altitude: true,
-		highAccuracyExpireTime: 4000,
-		isHighAccuracy: true,
-		success: async (res) => {
-			console.log("当前位置的经度：" + res.longitude);
-			console.log("当前位置的纬度：" + res.latitude);
-			punch.longitude = res.longitude;
-			punch.latitude = res.latitude;
-		},
-		fail: function (err) {
-			console.error(err);
-			uni.$u.toast(err.errMsg);
-		},
-	});
-});
-
 /**
  * 点击tabs
  * */
@@ -114,9 +96,42 @@ const onClickTab = async (type: string) => {
 /**
  * 景区打卡
  * */
-const punchMountFn = async () => {
-	punch.mountId = detail.value.id;
-	await recordTravelApi(punch);
+const punchMountFn = async (type: string) => {
+	switch (type) {
+		case "photograph":
+			uni.chooseImage({
+				count: 1,
+				success: async (res) => {
+					const base64Url = await imageToBase64(res.tempFilePaths);
+					detail.value.posterBgImageUrl = `data:image/jpg;base64,${base64Url}`;
+					await sharePosterStore.openSharePosterFn(detail.value);
+				},
+			});
+			break;
+		case "place":
+			// 获取经度纬度
+			uni.getLocation({
+				type: "gcj02",
+				altitude: true,
+				highAccuracyExpireTime: 4000,
+				isHighAccuracy: true,
+				success: async (res) => {
+					console.log("当前位置的经度：" + res.longitude);
+					console.log("当前位置的纬度：" + res.latitude);
+					punch.longitude = res.longitude;
+					punch.latitude = res.latitude;
+					punch.mountId = detail.value.id;
+					await recordTravelApi(punch);
+				},
+				fail: function (err) {
+					console.error(err);
+					uni.$u.toast(err.errMsg);
+				},
+			});
+			break;
+		default:
+			break;
+	}
 };
 
 /**
@@ -144,16 +159,26 @@ const confirmSubmitFn = (temp: CommentType) => {
 			font-size: 20rpx;
 			.item {
 				margin: 0 20rpx;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
 			}
 		}
 		.right {
 			float: right;
 			font-size: 28rpx;
+			display: flex;
 			.btn {
-				line-height: 66rpx;
-				padding: 0 30rpx;
-				border-radius: 36rpx;
+				padding: $gxh-border-margin-padding-base;
 				color: #ffffff;
+				&.photograph {
+					background-image: linear-gradient(to left top, #736efe, #5efce8);
+					border-radius: 36rpx 0 0 36rpx;
+				}
+				&.place {
+					background-image: linear-gradient(to left bottom, #43cbff, #9708cc);
+					border-radius: 0 36rpx 36rpx 0;
+				}
 			}
 		}
 	}

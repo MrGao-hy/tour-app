@@ -1,4 +1,4 @@
-import http from "../http";
+import http from "@/api/http";
 import { CommentType, MarkMountType, PageConfigType } from "@/typing";
 
 /**

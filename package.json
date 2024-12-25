@@ -38,7 +38,8 @@
     "cz": "git add . && czg",
     "postinstall": "simple-git-hooks",
     "updatehooks": "git config core.hooksPath .git/hooks/ && rm -rf .git/hooks && npx simple-git-hooks",
-    "mac:m1:esbuild": "node arm-esbuild-version.js"
+    "mac:m1:esbuild": "node arm-esbuild-version.js",
+    "clean": "rimraf node_modules && rimraf pnpm-lock.yaml && npm cache verify --force"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-alpha-3081220230802001",
@@ -55,13 +56,13 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-alpha-3081220230802001",
     "@dcloudio/uni-mp-xhs": "3.0.0-alpha-3081220230802001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3081220230802001",
-    "axios": "^0.27.2",
+    "axios": "^1.7.9",
     "cz-git": "^1.4.1",
     "dayjs": "^1.11.13",
-    "hfyk-app": "^0.9.44",
-    "html2canvas": "^1.4.1",
+    "hfyk-app": "^0.10.3",
     "pinia": "~2.0.32",
     "pinia-plugin-unistorage": "^0.0.8",
+    "qrcode": "^1.5.4",
     "uview-plus": "^3.3.32",
     "vue": "^3.2.45",
     "vue-i18n": "^9.1.10",

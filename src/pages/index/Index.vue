@@ -70,8 +70,12 @@ const count = computed(() => {
 	return map.length;
 });
 
-onMounted(async () => {
-	await getMountList();
+onMounted(() => {
+	getMountList();
+});
+
+uni.$on("queryMountList", () => {
+	getMountList();
 });
 
 /**

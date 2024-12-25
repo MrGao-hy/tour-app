@@ -23,10 +23,6 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
 	detail: () => ({ id: "" }),
 });
-
-const imageList = [
-	"https://img1.baidu.com/it/u=219170186,2668466130&fm=253&fmt=auto?w=750&h=500",
-];
 </script>
 
 <style lang="scss" scoped>

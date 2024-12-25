@@ -19,7 +19,7 @@
 			<image class="image" :src="imageUrl" mode="aspectFill"></image>
 
 			<view class="user-header">
-				<up-avatar :src="userInfo.avatar" random-bg-color size="70"></up-avatar>
+				<the-avatar :avatar="userInfo.avatar" size="70"></the-avatar>
 				<view class="user-header__info">
 					<view class="nickname">
 						<text>{{ userInfo.userName }}</text>
@@ -60,6 +60,8 @@ import { useUserStore } from "@/store";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
 import { actionMenu, initImageHeight } from "./data";
 import TheToolsRow from "@/pages/mine/components/TheToolsRow.vue";
+import { clearVal } from "hfyk-app";
+import TheAvatar from "@components/TheAvatar.vue";
 
 const userStore = useUserStore();
 const { userInfo } = storeToRefs(userStore);
@@ -95,13 +97,20 @@ const backgroundStyle = computed(() => {
  * */
 const onClickMenuFn = (temp: ActionMenu) => {
 	switch (temp.key) {
+		case 1:
+			uni.removeStorageSync("diary_token");
+			clearVal(userInfo.value);
+			uni.reLaunch({
+				url: "/pages/pages-user/login/Index",
+			});
+			break;
 		case 4:
 			uni.showModal({
 				title: "是否注销用户？",
 				content: "注销用户后您账号下的所以数据无法恢复",
 				success: (e) => {
 					if (e.confirm) {
-						uni.$u.toast("注销成功");
+						uni.$u.toast("注销失败，程序员太菜了，没有实现改功能");
 					}
 				},
 			});

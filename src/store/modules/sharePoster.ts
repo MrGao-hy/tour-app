@@ -9,10 +9,8 @@ export const useSharePosterStore = defineStore("sharePoster", {
 			showLoading: false,
 			progress: 0,
 		},
-		posterContent: {
-			posterBgImageUrl:
-				"https://pic.imgdb.cn/item/67321472d29ded1a8c9e825b.jpg",
-		} as MountType,
+		posterContent: {} as MountType,
+		posterImage: "",
 	}),
 	actions: {
 		/**
@@ -32,10 +30,9 @@ export const useSharePosterStore = defineStore("sharePoster", {
 			// 	temp.id,
 			// 	"pages/pages-mount/mountDetail/Index"
 			// );
-			// this.posterContent = Object.assign(temp, { qrCode: res.base64 });
-			setTimeout(() => {
-				uni.$emit("init-canvas", temp);
-			}, 2000);
+			this.posterContent = temp;
+			setTimeout(() => {}, 500);
+			uni.$emit("init-canvas", temp);
 		},
 		/**
 		 * 关闭分享海报弹框
@@ -44,6 +41,7 @@ export const useSharePosterStore = defineStore("sharePoster", {
 			this.showPoster = false;
 			this.status.showLoading = false;
 			this.status.progress = 0;
+			this.posterImage = "";
 		},
 	},
 });

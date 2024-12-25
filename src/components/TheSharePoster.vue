@@ -7,27 +7,37 @@
 		:safeAreaInsetBottom="false"
 		:show="showPoster"
 		:customStyle="{
-			// backgroundImage:
-			// 	'url(https://pic.imgdb.cn/item/67321472d29ded1a8c9e825b.jpg)',
+			backgroundImage: `url(${bgUrl})`,
 			backgroundRepeat: 'no-repeat',
 			backgroundSize: 'cover',
 			position: 'relative',
+			overflow: 'hidden',
 		}"
 		@close="closeSharePosterFn"
 	>
-		<canvas
-			class="myCanvas"
-			style="width: 300px; height: 550px"
-			id="firstCanvas"
-			canvas-id="firstCanvas"
-		/>
-
 		<view class="dark" v-if="status.showLoading">
 			<view class="dark-contain">
 				<up-line-progress :percentage="status.progress"></up-line-progress>
 				<text style="text-align: center; margin-top: 10px">生成中...</text>
 			</view>
 		</view>
+
+		<canvas
+			v-if="!posterImage"
+			class="myCanvas"
+			:style="{
+				width: $u.addUnit(renderWidth),
+				height: $u.addUnit(renderHeight),
+			}"
+			id="firstCanvas"
+			canvas-id="firstCanvas"
+		/>
+		<up-image
+			v-else
+			:src="posterImage"
+			:width="renderWidth"
+			:height="renderHeight"
+		></up-image>
 
 		<view class="button">
 			<view class="btn btn-close" @tap.stop="closeSharePosterFn">取消</view>
@@ -39,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+import QRCode from "qrcode";
 import { getCurrentInstance, reactive, ref } from "vue";
 import { canvasFun } from "@/config";
 import { useSharePosterStore, useUserStore } from "@/store";
@@ -47,23 +58,21 @@ import { storeToRefs } from "pinia";
 const userStore = useUserStore();
 const sharePosterStore = useSharePosterStore();
 const { userInfo } = storeToRefs(userStore);
-const { posterContent, showPoster, status } = storeToRefs(sharePosterStore);
+const { posterContent, showPoster, status, posterImage } =
+	storeToRefs(sharePosterStore);
 const { closeSharePosterFn } = sharePosterStore;
-const posterImage = ref("");
 const instance = getCurrentInstance();
 const canvas = reactive({
 	width: 0,
 	height: 0,
 });
-const avatar =
-	"https://img.picgo.net/2024/12/18/avatar_defaultb45ecabee4bd9e80.webp";
 // Canvas 绘制上下文
 const image = new Image();
 const bg_image = new Image();
-const qrCode_url = new Image();
+const qrCode_Image = new Image();
 // Canvas 画布的实际绘制宽高
 const renderWidth = 300;
-const renderHeight = 550;
+const renderHeight = 500;
 // 底部容器高度
 const bottomBoxHeight = 150;
 // 二维码宽度、高度
@@ -71,10 +80,15 @@ const qrCodeLong = 80;
 // 底部容器padding值
 const boxPadding = 10;
 const avatarWidth = 50;
+const avatar = "https://img2.baidu.com/it/u=525862022,1873122894&fm=253";
+const qrCode =
+	"https://gxh151.top/h5/#/pages/pages-mount/mountDetail/Index?id=";
+const bgUrl =
+	"https://k.sinaimg.cn/n/sinakd20118/448/w1024h1824/20240401/0620-60976d49e464a4092c2c6f01f0dfc520.jpg/w700d1q75cms.jpg";
+const signature = "我用十年青春，赴你最后之约";
+const ctx = uni.createCanvasContext("firstCanvas", instance);
 
 const initCanvas = async () => {
-	const ctx = uni.createCanvasContext("firstCanvas", instance);
-
 	try {
 		// Canvas 对象
 
@@ -88,7 +102,7 @@ const initCanvas = async () => {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		// 背景色
 		// ctx.fillStyle = "#ffffff";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		// ctx.fillRect(0, 0, canvas.width, canvas.height);
 		canvasFun.drawRoundRect(
 			ctx,
 			0,
@@ -105,8 +119,7 @@ const initCanvas = async () => {
 		await canvasFun.drawImage(
 			ctx,
 			bg_image,
-			posterContent.value.posterBgImageUrl! ||
-				"https://pic.imgdb.cn/item/67321472d29ded1a8c9e825b.jpg",
+			posterContent.value.posterBgImageUrl! || bgUrl,
 			0,
 			0,
 			renderWidth,
@@ -126,38 +139,65 @@ const initCanvas = async () => {
 		);
 
 		// 旅游景点名字
-		ctx.fillStyle = "#FFFFFF";
-		ctx.font = "45px myFont";
 		canvasFun.drawTextVertical(
 			ctx,
-			posterContent.value.name! || "泰山",
+			posterContent.value.name! || "山",
 			20,
-			40
+			40,
+			"#FFFFFF",
+			"45px myFont"
+		);
+
+		// 竖线
+		canvasFun.drawLine(ctx, 65, 40, 65, 200, 2);
+
+		// 小标题
+		canvasFun.drawTextVertical(
+			ctx,
+			"山不在高，有仙则灵",
+			75,
+			80,
+			"#FFFFFF",
+			"18px myFont"
 		);
 
 		// 用户名称
 		ctx.fillStyle = "#000000";
-		ctx.font = "16px myFont";
+		ctx.font = "16px Bitstream";
 		canvasFun.canvasWraptitleText(
 			ctx,
 			userInfo.value.userName,
 			boxPadding + avatarWidth + 5,
-			renderHeight - (40 + boxPadding),
+			renderHeight - avatarWidth,
 			renderWidth - (qrCodeLong + boxPadding * 4),
 			16,
 			1
 		);
 		// 用户签名信息
 		ctx.fillStyle = "#999999";
-		ctx.font = "12px myFont";
+		ctx.font = "12px Bitstream";
 		canvasFun.canvasWraptitleText(
 			ctx,
-			userInfo.value.signature || "我用十年青春，赴你最后之约",
+			userInfo.value.signature || signature,
 			boxPadding + avatarWidth + 5,
-			renderHeight - (boxPadding + 24),
-			renderWidth - (qrCodeLong + boxPadding * 4),
+			renderHeight - (avatarWidth - 16),
+			renderWidth - (qrCodeLong + avatarWidth + boxPadding * 3),
 			12,
 			2
+		);
+
+		// 分享二维码
+		console.log(qrCode + posterContent.value.id);
+		const shareQr = await QRCode.toDataURL(qrCode + posterContent.value.id);
+
+		await canvasFun.drawImage(
+			ctx,
+			qrCode_Image,
+			shareQr,
+			renderWidth - (qrCodeLong + boxPadding),
+			renderHeight - (qrCodeLong + boxPadding),
+			qrCodeLong,
+			qrCodeLong
 		);
 		// 头像
 		await canvasFun.drawAvatar(
@@ -165,23 +205,9 @@ const initCanvas = async () => {
 			image,
 			avatar,
 			boxPadding,
-			renderHeight - (60 + boxPadding),
+			renderHeight - (avatarWidth + boxPadding * 2),
 			avatarWidth / 2
 		);
-
-		// 分享二维码
-		// const shareQr = "data:image/png;base64," + posterContent.value.qrCode;
-		const shareQr =
-			"data:image/png;base64,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";
-		// await canvasFun.drawImage(
-		// 	ctx,
-		// 	qrCode_url,
-		// 	shareQr,
-		// 	renderWidth - (qrCodeLong + boxPadding),
-		// 	renderHeight - (qrCodeLong + boxPadding),
-		// 	qrCodeLong,
-		// 	qrCodeLong
-		// );
 
 		// 绘画成功后生成图片
 		ctx.draw(false, () => {
@@ -196,14 +222,12 @@ const initCanvas = async () => {
 				destHeight: renderWidth * dpr * 5 * (renderHeight / renderWidth),
 				quality: 1,
 				success: function (res: { tempFilePath: string }) {
-					console.log(res);
+					posterImage.value = res.tempFilePath;
 					uni.$u.toast("海报生成成功");
 					status.value.progress = 100;
 					status.value.showLoading = false;
-					posterImage.value = res.tempFilePath;
 				},
 				fail: function (err: { errMsg: string }) {
-					console.log(err.errMsg);
 					status.value.showLoading = false;
 					uni.$u.toast("海报生成失败:" + err.errMsg);
 				},
@@ -211,13 +235,9 @@ const initCanvas = async () => {
 		});
 	} catch (e) {
 		status.value.showLoading = false;
-		console.log(e);
+		console.error(e);
 	}
 };
-
-// setTimeout(() => {
-// 	initCanvas();
-// }, 2000);
 
 uni.$on("init-canvas", () => {
 	initCanvas();
@@ -226,54 +246,35 @@ uni.$on("init-canvas", () => {
 /**
  * 保存海报图片
  * */
-const savePoster = (url: string) => {
-	uni.saveImageToPhotosAlbum({
-		filePath: url,
-		success: function () {
-			uni.showToast({
-				title: "保存成功",
-				icon: "none",
-				duration: 1500,
-			});
-		},
-		fail(err) {
-			if (
-				err.errMsg === "saveImageToPhotosAlbum:fail:auth denied" ||
-				err.errMsg === "saveImageToPhotosAlbum:fail auth deny" ||
-				err.errMsg === "saveImageToPhotosAlbum:fail authorize no response"
-			) {
-				uni.showModal({
-					title: "提示",
-					content: "需要您授权保存相册",
-					showCancel: false,
-					success: (modalSuccess) => {
-						uni.openSetting({
-							success(settingdata) {
-								if (settingdata.authSetting["scope.writePhotosAlbum"]) {
-									uni.saveImageToPhotosAlbum({
-										filePath: url,
-										success: function () {
-											uni.showToast({
-												title: "保存成功",
-												icon: "success",
-												duration: 2000,
-											});
-										},
-									});
-								} else {
-									uni.showToast({
-										title: "授权失败，请稍后重新获取",
-										icon: "none",
-										duration: 1500,
-									});
-								}
-							},
-						});
-					},
-				});
-			}
-		},
-	});
+const savePoster = (base64Url: string) => {
+	if (status.value.showLoading) return;
+	// 提取Base64编码的图片数据部分
+	const base64Data = base64Url.replace(/^data:image\/\w+;base64,/, "");
+
+	// 将Base64编码的图片数据转换为Uint8Array
+	const byteString = atob(base64Data);
+	const arrayBuffer = new ArrayBuffer(byteString.length);
+	const intArray = new Uint8Array(arrayBuffer);
+	for (let i = 0; i < byteString.length; i++) {
+		intArray[i] = byteString.charCodeAt(i);
+	}
+
+	// 创建一个Blob对象
+	const blob = new Blob([arrayBuffer], { type: "image/png" });
+
+	// 创建一个下载链接
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = "image.png"; // 设置下载的文件名
+	document.body.appendChild(a);
+	a.click();
+
+	// 移除下载链接
+	setTimeout(() => {
+		document.body.removeChild(a);
+		window.URL.revokeObjectURL(url);
+	}, 0);
 };
 </script>
 

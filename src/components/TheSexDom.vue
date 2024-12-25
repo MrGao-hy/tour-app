@@ -2,11 +2,11 @@
 	<view
 		class="sex"
 		:style="{
-			background: sex === '0' ? '#F07471' : '#5FADD5',
+			background: sex === '0' ? '#F07471' : sex === '1' ? '#5FADD5' : '#ff9900',
 		}"
 	>
 		<up-icon
-			:name="sex === '0' ? 'woman' : sex === '1' ? 'man' : ''"
+			:name="sex === '0' ? 'woman' : sex === '1' ? 'man' : 'question'"
 			size="10"
 			color="#fff"
 		></up-icon>

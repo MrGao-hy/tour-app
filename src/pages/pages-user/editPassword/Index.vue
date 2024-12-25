@@ -1,3 +1,10 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-11 10:36:02
+  LastEditTime: 2024-05-16 10:59:52
+  Description: 修改密码页面
+  FilePath: \src\pages-user\editPassword\Index.vue
+-->
 <template>
 	<view class="edit-pwd">
 		<yk-form

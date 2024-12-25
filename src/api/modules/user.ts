@@ -1,4 +1,4 @@
-import http from "../http";
+import http from "@/api/http";
 import { LoginType, RegisterUserType, UserType } from "@/typing";
 
 /**
@@ -74,6 +74,11 @@ export const editPasswordApi = (
  * 获取用户ip地址
  * @return
  */
-export const getUserIpApi = (): Promise<IpType> => {
-	return http.get("request/ip");
+export const getUserIpApi = (): Promise<any> => {
+	return http.get("/request/constellation", {
+		params: {
+			type: "scorpio",
+			date: "today",
+		},
+	});
 };

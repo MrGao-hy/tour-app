@@ -1,3 +1,10 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-11 10:36:02
+  LastEditTime: 2024-05-16 10:59:52
+  Description: 景区打卡列表页面
+  FilePath: \src\pages-mount\punchList\Index.vue
+-->
 <template>
 	<yk-empty
 		:show="!punchList.length"

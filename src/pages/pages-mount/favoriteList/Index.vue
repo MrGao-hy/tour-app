@@ -1,3 +1,10 @@
+<!--
+  Author: 高先华
+  Date: 2024-05-14 10:36:02
+  LastEditTime: 2024-05-20 10:59:52
+  Description: 收藏景区列表页面
+  FilePath: \src\pages-mount\favoriteList\Index.vue
+-->
 <template>
 	<yk-empty
 		:show="!favoriteList.length"

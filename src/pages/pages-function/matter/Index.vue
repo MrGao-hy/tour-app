@@ -1,5 +1,5 @@
 <!--
-  Author: GaoXianHua
+  Author: 高先华
   Date: 2022-05-11 10:36:02
   LastEditTime: 2022-05-16 10:59:52
   Description: 问题反馈界面
@@ -55,7 +55,7 @@
 					v-model="problemForm.problemDescription"
 					placeholder="请填写10字以上的问题描述，以便我们更好的帮助您解决问题，提高产品质量"
 					height="120"
-					confirmType="null"
+					:confirmType="null"
 					maxlength="300"
 					count
 				></up-textarea>
@@ -165,6 +165,7 @@ const submitProblemFn = () => {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
+		align-content: space-around;
 		:deep(.u-tag) {
 			width: 200rpx;
 			display: flex;
