@@ -59,7 +59,7 @@
     "axios": "^1.7.9",
     "cz-git": "^1.4.1",
     "dayjs": "^1.11.13",
-    "hfyk-app": "^0.10.3",
+    "hfyk-app": "^0.10.4",
     "pinia": "~2.0.32",
     "pinia-plugin-unistorage": "^0.0.8",
     "qrcode": "^1.5.4",

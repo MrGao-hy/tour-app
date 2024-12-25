@@ -1,7 +1,7 @@
 import conf from "@/config/env";
 
 export const config = {
-	themeColor: "#E78AF2",
+	themeColor: "#025CF5",
 	hint: "#c8c7cc",
 	pageSize: 15,
 	rate: {

@@ -10,8 +10,10 @@
 	<yk-login
 		:customUserValidator="UserNumValidator"
 		:PwdNumValidator="PwdNumValidator"
+		userPlaceholder="输入您注册的用户名/手机号"
 		prefix="tour"
-		logo=""
+		loginType="1"
+		logo="/static/images/logo.png"
 		:themeColor="config.themeColor"
 		@login="loginMsgFn"
 		@handleClickMenu="selectActionFn"
