@@ -3,6 +3,7 @@ import uni from "@dcloudio/vite-plugin-uni";
 import path from "path";
 import Unocss from "unocss/vite";
 import conf from "./src/config/env";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
 	base: "/h5",
@@ -10,7 +11,24 @@ export default defineConfig({
 		uni(),
 		// https://github.com/antfu/unocss
 		Unocss(),
+		// 打包体积分析
+		visualizer({
+			open: true,
+			filename: "visualizer.html", //分析图生成的文件名
+		}),
 	],
+	build: {
+		target: "esnext",
+		// 开启minimize选项来进行代码压缩
+		minify: "terser",
+		terserOptions: {
+			compress: {
+				drop_console: true,
+			},
+		},
+		// 开启chunk大小警告
+		chunkSizeWarningLimit: 2000,
+	},
 	server: {
 		port: 8002,
 		host: "0.0.0.0",
