@@ -1,6 +1,6 @@
 <template>
 	<view class="tools">
-		<template v-for="(oneItem, i) in ToolsMenu" :key="i">
+		<template v-for="(oneItem, i) in toolsMenu" :key="i">
 			<navigator :url="oneItem.url" hover-class="none">
 				<view class="tools-col">
 					<view class="tools-left">
@@ -17,24 +17,7 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 import { config } from "@/config";
-
-const ToolsMenu = reactive([
-	{
-		label: "豆包",
-		icon: "doubao",
-		url: "/pages/pages-function/chatGPT/Index?webUrl=https://www.doubao.com/chat/&title=豆包",
-	},
-	{
-		label: "文心一言",
-		icon: "doubao",
-		url: "/pages/pages-function/chatGPT/Index?webUrl=https://yiyan.baidu.com/&title=文心一言",
-	},
-	{
-		label: "联系我们",
-		icon: "lianxiwomen",
-		url: "/pages/pages-function/relation/Index",
-	},
-]);
+import { toolsMenu } from "@/pages/mine/data";
 </script>
 
 <style lang="scss" scoped>

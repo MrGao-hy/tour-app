@@ -20,3 +20,10 @@ interface MatterType {
 export const matterApi = (data: MatterType) => {
 	return http.post("/problemInfo/submit", data);
 };
+
+/**
+ * 获取美女图片背景图
+ * */
+export const getBgImageApi = () => {
+	return http.get("/request/poster/bg");
+};

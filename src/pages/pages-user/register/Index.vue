@@ -92,8 +92,8 @@ const registerUserFn = () => {
 	ykFormRef.value.formRef.validate().then(async () => {
 		await registerUserApi(userFormData);
 		uni.$u.toast("注册成功");
-		await uni.redirectTo({
-			url: "/pages/pages-user/login/Index",
+		await uni.navigateBack({
+			delta: 1,
 		});
 	});
 };

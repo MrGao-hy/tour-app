@@ -8,7 +8,7 @@
 import env from "@/config/env";
 
 interface IProps {
-	avatar: string | null;
+	avatar?: string;
 	size?: string | number;
 }
 const props = withDefaults(defineProps<IProps>(), {

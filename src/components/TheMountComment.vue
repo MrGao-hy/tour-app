@@ -78,6 +78,7 @@
 			</view>
 		</view>
 	</view>
+	<up-gap height="40" bgColor="#FFFFFF"></up-gap>
 
 	<view v-if="focus" class="reply-ipt">
 		<up-input
@@ -87,13 +88,11 @@
 			@blur="onBlur"
 		></up-input>
 		<up-button
-			text="回复"
+			text="发送"
 			:color="config.themeColor"
 			@mousedown.prevent="replyMarkFn"
 		></up-button>
 	</view>
-
-	<up-gap height="40" bgColor="#FFFFFF"></up-gap>
 
 	<the-function-col
 		:show="showMenu"
@@ -209,6 +208,7 @@ const onBlur = () => {
 .comment {
 	display: flex;
 	padding: 20rpx;
+	background: white;
 
 	.right {
 		flex: 1;

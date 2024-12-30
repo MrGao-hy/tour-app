@@ -156,9 +156,6 @@ const submitProblemFn = () => {
 		}
 	}
 
-	:deep(.u-textarea) {
-		background: $gxh-bg-color-grey;
-	}
 	.u-button {
 		margin-top: 100px;
 		box-shadow: $gxh-box-shadow;

@@ -12,6 +12,7 @@
 		@touchstart="onTouchstart"
 		@touchend="onTouchEnd"
 		@touchmove="onTouchMove"
+		@tap="userStore.getToDayIntegralCount()"
 	>
 		<!--背景图-->
 		<view class="bg-img" :style="backgroundStyle">
@@ -19,19 +20,34 @@
 			<image class="image" :src="imageUrl" mode="aspectFill"></image>
 
 			<view class="user-header">
-				<the-avatar :avatar="userInfo.avatar" size="70"></the-avatar>
-				<view class="user-header__info">
-					<view class="nickname">
-						<text>{{ userInfo.userName }}</text>
-						<view class="actions-icon" @tap="showMenu = true">
-							<up-icon
-								name="arrow-down-fill"
-								color="#F5F1EC"
-								size="14"
-							></up-icon>
+				<view class="user-header__left">
+					<the-avatar :avatar="userInfo.avatar" size="70"></the-avatar>
+					<view class="user-header__info">
+						<view class="nickname">
+							<text>{{ userInfo.userName }}</text>
+							<view class="actions-icon" @tap="showMenu = true">
+								<up-icon
+									name="arrow-down-fill"
+									color="#F5F1EC"
+									size="14"
+								></up-icon>
+							</view>
 						</view>
+						<view class="phone">{{ userInfo.phone }}</view>
 					</view>
-					<view class="phone">{{ userInfo.phone }}</view>
+				</view>
+				<view class="user-header__right">
+					<canvas
+						id="integral_chart"
+						canvas-id="integral_chart"
+						style="width: 100%; height: 300px"
+					></canvas>
+					<navigator
+						url="/pages/pages-task/integralRecord/Index"
+						hover-class="none"
+					>
+						<view class="user-header__right__btn">查看积分</view>
+					</navigator>
 				</view>
 			</view>
 		</view>
@@ -54,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue";
+import { computed, onUnmounted, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
@@ -62,9 +78,11 @@ import { actionMenu, initImageHeight } from "./data";
 import TheToolsRow from "@/pages/mine/components/TheToolsRow.vue";
 import { clearVal } from "hfyk-app";
 import TheAvatar from "@components/TheAvatar.vue";
+import { onReady } from "@dcloudio/uni-app";
+import echartsFn from "@/config/eCharts";
 
 const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
+const { userInfo, todayIntegralCount } = storeToRefs(userStore);
 const showMenu = ref(false);
 // 用户滑动
 const clientData = reactive({
@@ -73,10 +91,8 @@ const clientData = reactive({
 	moveY: 0, // 手指当前在屏幕中的位置
 	pageAtTop: true, // 是否到顶
 });
-// 图片地址
-const imageUrl = ref(
-	"https://img2.baidu.com/it/u=1487066423,2442859433&fm=253"
-);
+// 背景图片地址
+const imageUrl = ref("/static/images/bg.jpeg");
 const imageHeight = ref(initImageHeight);
 // 过度时间
 const transform = reactive({
@@ -86,10 +102,19 @@ const transform = reactive({
 const moving = ref<boolean>(false);
 const backgroundStyle = computed(() => {
 	const style: any = {};
-	style.height = `${imageHeight.value}rpx`;
+	style.height = `${imageHeight.value}px`;
 	style.transform = transform.scale;
 	style.transition = transform.time;
 	return style;
+});
+
+onReady(() => {
+	userStore.getToDayIntegralCount();
+	echartsFn.initChart(todayIntegralCount.value);
+});
+
+onUnmounted(() => {
+	echartsFn.destroyChart();
 });
 
 /**
@@ -142,7 +167,7 @@ const onTouchMove = (e: any) => {
 	}
 	moving.value = true;
 	if (moveDistance > 0) {
-		if (imageHeight.value > 1000) return;
+		if (imageHeight.value > 800) return;
 		imageHeight.value = initImageHeight + moveDistance;
 		transform.scale = "scale(1)";
 		transform.time = ".1s ease-out";
@@ -184,12 +209,14 @@ const onTouchEnd = () => {
 			bottom: 0;
 		}
 		.user-header {
-			display: flex;
-			align-items: flex-end;
-			padding: 0 30rpx 50rpx;
-			position: absolute;
-			bottom: 0;
-			z-index: 2;
+			&__left {
+				display: flex;
+				align-items: flex-end;
+				padding: 0 30rpx 50rpx;
+				position: absolute;
+				bottom: 0;
+				z-index: 2;
+			}
 			&__info {
 				margin-left: 40rpx;
 				z-index: 1;
@@ -214,14 +241,35 @@ const onTouchEnd = () => {
 					color: $gxh-color-hint;
 				}
 			}
+
+			&__right {
+				position: absolute;
+				bottom: 0;
+				z-index: 2;
+				right: 0;
+				width: 40vw;
+
+				&__btn {
+					position: absolute;
+					bottom: 20px;
+					left: 70rpx;
+					//background: #F2F6FF;
+					background: linear-gradient(to bottom, #f2f6ff, #d2e1ff);
+					color: #2571c5;
+					padding: $gxh-border-margin-padding-sm $gxh-border-margin-padding-base;
+					border-radius: 100px;
+					font-size: 30rpx;
+					font-weight: 600;
+				}
+			}
 		}
 	}
 	&-main {
 		transform: translateY(-10px);
+		height: calc(100% - 240px);
 		background: #fff;
 		padding: $gxh-border-margin-padding-lg;
 		border-radius: 20rpx 20rpx 0 0;
-		flex: 1;
 	}
 }
 </style>

@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { clearVal } from "hfyk-app";
-import { userInfoApi, userLoginApi } from "@/api";
+import { getTodayIntegralCountApi, userInfoApi, userLoginApi } from "@/api";
 import { UserType } from "@/typing";
-import conf from "@/config/env";
+import { config } from "@/config";
 
 export interface UserLoginType {
 	/**
@@ -15,14 +15,13 @@ export interface UserLoginType {
 	pwd: string;
 }
 
-export const useUserStore = defineStore("user", {
-	unistorage: true,
+export const useUserStore = defineStore(`${config.prefix}user`, {
 	state: () => ({
-		userInfo: {} as {
-			[key: string]: UserType;
-		},
+		userInfo: {} as UserType,
 		isFirst_1: true,
 		isFirst_2: true,
+		savePath: "",
+		todayIntegralCount: 0,
 	}),
 	getters: {},
 	actions: {
@@ -31,33 +30,23 @@ export const useUserStore = defineStore("user", {
 		 * */
 		async loginFn(username: string, password: string) {
 			const login = await userLoginApi(username, password);
-			uni.$u.toast("登录成功");
-			uni.setStorageSync("diary_token", login.token);
+			uni.setStorageSync(`${config.prefix}token`, login.token);
+			console.log(this.savePath);
+			if (!this.savePath || this.savePath === "/pages/pages-user/login/Index")
+				return uni.switchTab({ url: "/pages/index/Index" });
 
-			const pages = getCurrentPages();
-			// 上一个页面的路由数据
-			const prevPage = pages[pages.length - 2];
-			console.log(prevPage);
-			if (!prevPage) {
+			if (["/pages/index/Index", "/pages/mine/Index"].includes(this.savePath)) {
+				uni.$emit("queryMountList");
 				await uni.switchTab({
-					url: "/pages/index/Index",
+					url: this.savePath,
 				});
 			} else {
-				// 首页因为有缓存，所以需要queryMountList重新加载数据
-				if (
-					["pages/index/Index", "pages/mine/Index"].includes(prevPage.route)
-				) {
-					uni.$emit("queryMountList");
-					await uni.navigateBack({
-						delta: 1,
-					});
-				} else {
-					await uni.redirectTo({
-						url: prevPage.$page.fullPath,
-					});
-				}
+				await uni.redirectTo({
+					url: this.savePath,
+				});
 			}
 			await this.getUserInfo();
+			uni.$u.toast("登录成功");
 		},
 		/**
 		 * 查询用户信息
@@ -75,14 +64,24 @@ export const useUserStore = defineStore("user", {
 				confirmText: code === 40004 || code === 40005 ? "登录" : "我知道了",
 				success: async (res) => {
 					if (res.confirm && (code === 40004 || code === 40005)) {
-						uni.removeStorageSync("diary_token");
+						uni.removeStorageSync(`${config.prefix}token`);
 						clearVal(this.userInfo);
 						await uni.navigateTo({
 							url: "/pages/pages-user/login/Index",
 						});
+						const pages = getCurrentPages();
+						this.savePath = pages[0].$page.fullPath;
 					}
 				},
 			});
 		},
+		/**
+		 * @description 获取个人当天获得的积分
+		 * */
+		async getToDayIntegralCount() {
+			this.todayIntegralCount = await getTodayIntegralCountApi();
+		},
 	},
+	// @ts-ignore
+	unistorage: true,
 });

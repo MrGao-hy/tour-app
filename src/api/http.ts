@@ -3,6 +3,7 @@ import axios from "axios";
 import { getFullURL } from "@/utils/http";
 import { useUserStore } from "@/store";
 import conf from "@/config/env";
+import { config } from "@/config";
 
 const instance = axios.create({
 	// #ifdef H5
@@ -41,11 +42,11 @@ const instance = axios.create({
 /**
  * 请求拦截
  */
-instance.interceptors.request.use((config) => {
-	const { method, params } = config;
+instance.interceptors.request.use((confer) => {
+	const { method, params } = confer;
 	// 附带鉴权的token
 	const headers: any = {
-		Authorization: uni.getStorageSync("diary_token"),
+		Authorization: uni.getStorageSync(`${config.prefix}token`),
 	};
 	// 不缓存get请求
 	if (method === "get") {
@@ -54,14 +55,14 @@ instance.interceptors.request.use((config) => {
 	// delete请求参数放入body中
 	if (method === "delete") {
 		headers["Content-type"] = "application/json;";
-		Object.assign(config, {
+		Object.assign(confer, {
 			data: params,
 			params: {},
 		});
 	}
 
 	return {
-		...config,
+		...confer,
 		headers,
 	};
 });

@@ -139,7 +139,6 @@ const jumpPage = (url) => {
 
 <style lang="scss" scoped>
 .relation {
-	background: white;
 	/*头部*/
 	&__header {
 		display: flex;

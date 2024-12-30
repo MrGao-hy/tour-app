@@ -15,29 +15,19 @@
 		}"
 		@close="closeSharePosterFn"
 	>
-		<view class="dark" v-if="status.showLoading">
+		<up-image
+			v-show="posterImage"
+			:src="posterImage"
+			:width="renderWidth"
+			:height="renderHeight"
+		></up-image>
+
+		<view class="dark" v-show="status.showLoading">
 			<view class="dark-contain">
 				<up-line-progress :percentage="status.progress"></up-line-progress>
 				<text style="text-align: center; margin-top: 10px">生成中...</text>
 			</view>
 		</view>
-
-		<canvas
-			v-if="!posterImage"
-			class="myCanvas"
-			:style="{
-				width: $u.addUnit(renderWidth),
-				height: $u.addUnit(renderHeight),
-			}"
-			id="firstCanvas"
-			canvas-id="firstCanvas"
-		/>
-		<up-image
-			v-else
-			:src="posterImage"
-			:width="renderWidth"
-			:height="renderHeight"
-		></up-image>
 
 		<view class="button">
 			<view class="btn btn-close" @tap.stop="closeSharePosterFn">取消</view>
@@ -46,6 +36,18 @@
 			>
 		</view>
 	</up-popup>
+
+	<!--  -->
+	<canvas
+		v-if="!posterImage"
+		class="myCanvas"
+		:style="{
+			width: $u.addUnit(renderWidth),
+			height: $u.addUnit(renderHeight),
+		}"
+		id="firstCanvas"
+		canvas-id="firstCanvas"
+	/>
 </template>
 
 <script lang="ts" setup>
@@ -326,5 +328,10 @@ const savePoster = (base64Url: string) => {
 			border: 1rpx solid #0fa;
 		}
 	}
+}
+.myCanvas {
+	position: fixed;
+	top: -1000px;
+	left: -1000px;
 }
 </style>

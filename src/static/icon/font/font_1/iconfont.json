@@ -6,18 +6,60 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10732734",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "27269598",
+      "name": "筛选-展开",
+      "font_class": "up-zhankai",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "27269631",
+      "name": "筛选-收起",
+      "font_class": "up-shouqi",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "36029741",
+      "name": "听歌识曲-copy",
+      "font_class": "tinggeshiqu40x40",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "34064570",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "157920",
+      "name": "听歌量",
+      "font_class": "tinggeliang",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "26854668",
+      "name": "音乐",
+      "font_class": "yinle",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
       "icon_id": "9589859",
       "name": "分享",
       "font_class": "fenxiang",
       "unicode": "e6b1",
       "unicode_decimal": 59057
-    },
-    {
-      "icon_id": "1920212",
-      "name": "微信",
-      "font_class": "weixin",
-      "unicode": "e61b",
-      "unicode_decimal": 58907
     },
     {
       "icon_id": "8064102",

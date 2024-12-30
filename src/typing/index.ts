@@ -6,3 +6,6 @@ export * from "@/typing/modules/comment";
 export * from "@/typing/modules/role";
 export * from "@/typing/modules/record";
 export * from "@/typing/modules/reply";
+export * from "@/typing/modules/music";
+export * from "@/typing/modules/diary";
+export * from "@/typing/modules/integral";

@@ -30,10 +30,16 @@ page {
 	height: 100%;
 	/* #endif */
 	/* #ifdef H5 */
-	height: calc(100% - 55px);
+	//height: calc(100% - 55px);
+	height: 100%;
 	/* #endif */
+	background: $gxh-bg-color;
 }
 uni-modal {
 	z-index: 999999 !important;
+}
+/* TODO 设置这个浏览器点击禁用原生搜索框 */
+.uni-input-input:disabled {
+	pointer-events: none;
 }
 </style>

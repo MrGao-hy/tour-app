@@ -55,7 +55,9 @@ export default defineConfig({
 		// 配置`scss`和`less`全局变量
 		preprocessorOptions: {
 			scss: {
-				additionalData: '@import "~@/static/scss/useTheme.scss";',
+				additionalData:
+					'@import "~@/static/scss/useTheme.scss";' +
+					'@import "~@/static/scss/common.scss";',
 			},
 			less: {
 				additionalData: '@import "@/styles/vars/_base.less";',

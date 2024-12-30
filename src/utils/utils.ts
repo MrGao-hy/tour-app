@@ -61,3 +61,55 @@ export function encryptData(data) {
 export function decryptData(encryptedData) {
 	return JSON.parse(base64.decode(encryptedData.toString()));
 }
+
+/**
+ * 如果数值超过10000，就转为万单位
+ * @param num 例：10345
+ * @return String 例：10万
+ */
+export const formatNumber = (num: number | string): string => {
+	num = parseInt(String(num), 10);
+
+	if (num >= 0 && num < 10000) {
+		return num.toString();
+	}
+	if (num >= 10000 && num < 100000000) {
+		return `${(num / 10000).toFixed(1)}万`;
+	}
+	return `${(num / 100000000).toFixed(1)}亿`;
+};
+
+/**
+ * 时间转换为格式 04:31
+ * @param time timeStamp时间戳
+ * @return string 04:31
+ */
+export const durationConvert = (time: number | string) => {
+	let secondTime = parseInt(time.toString(), 10); // 秒
+	let minuteTime = 0; // 分
+
+	if (secondTime > 60) {
+		// 如果秒数大于60，将秒数转换成整数
+		// 获取分钟，除以60取整数，得到整数分钟
+		minuteTime = parseInt(String(secondTime / 60), 10);
+		// 获取秒数，秒数取余，得到整数秒数
+		secondTime = parseInt(String(secondTime % 60), 10);
+		// 如果分钟大于60，将分钟转换成小时
+		if (minuteTime > 60) {
+			// 获取小时后取余的分，获取分钟除以60取余的分
+			minuteTime = parseInt(String(minuteTime % 60), 10);
+		}
+	}
+	let result;
+	if (secondTime >= 10) {
+		result = `${parseInt(String(secondTime), 10)}秒`;
+	} else {
+		result = `0${parseInt(String(secondTime), 10)}秒`;
+	}
+
+	if (minuteTime > 0) {
+		result = `${parseInt(String(minuteTime), 10)}分${result}`;
+	}
+	// console.log('result',result);
+	return result;
+};
