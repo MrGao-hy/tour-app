@@ -84,7 +84,8 @@ instance.interceptors.response.use(
 		}
 		if ((status || statusCode) === 200) {
 			const blacklist = [
-				20001, 20002, 20005, 40001, 40002, 40003, 40004, 40005, 40006, 50001,
+				20001, 20002, 20005, 40001, 40002, 40003, 40004, 40005, 40006, 50000,
+				50001,
 			];
 			const isIntercept = blacklist.includes(data.code);
 			if (isIntercept) {

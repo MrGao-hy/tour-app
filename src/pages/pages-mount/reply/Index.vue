@@ -235,6 +235,9 @@ const replyList = async () => {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		&__right {
+			width: 100px;
+		}
 	}
 	.item {
 		border-bottom: solid 1rpx $u-border-color;

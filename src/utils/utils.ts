@@ -2,7 +2,9 @@ import Base64 from "./base64";
 let base64 = new Base64();
 
 /**
- * @returns 返回刚刚
+ * @description 获取时间处理
+ * @param inputTime 时间
+ * @returns
  * */
 export const formatTimeToString = (inputTime: any) => {
 	const now = new Date();

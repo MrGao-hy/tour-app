@@ -142,8 +142,8 @@
                 },
                 "buttons": [
                   {
-                    "text": "\ue698",
-                    "fontSrc": "/static/font/iconfont.ttf",
+                    "text": "\ue603",
+                    "fontSrc": "/static/icon/font/font_1/iconfont.ttf",
                     "width": "auto",
                     "background": "#00000000",
                     "fontSize": "22px"
@@ -185,6 +185,12 @@
           "path": "music/player/Index",
           "style": {
             "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "music/commentList/Index",
+          "style": {
+            "navigationBarTitleText": "歌单列表"
           }
         }
       ]

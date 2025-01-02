@@ -1,6 +1,10 @@
 <template>
 	<up-avatar
-		:src="avatar?.includes('https://') ? avatar : `${env.baseUrl}${avatar}`"
+		:src="
+			avatar?.includes('https') || avatar?.includes('http')
+				? avatar
+				: `${env.baseUrl}${avatar}`
+		"
 		:size="size"
 	></up-avatar>
 </template>
@@ -8,7 +12,7 @@
 import env from "@/config/env";
 
 interface IProps {
-	avatar?: string;
+	avatar: string;
 	size?: string | number;
 }
 const props = withDefaults(defineProps<IProps>(), {

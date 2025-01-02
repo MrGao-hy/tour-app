@@ -4,14 +4,14 @@ import { SongInfoType } from "@/typing";
 /**
  * 网易云热门歌单
  * */
-const getMusicHotClassApi = () => {
+export const getMusicHotClassApi = () => {
 	return http.get("/music/hot/class");
 };
 
 /**
  * 网易云歌单分类
  * */
-const getMusicClassApi = () => {
+export const getMusicClassApi = () => {
 	return http.get("/music/class");
 };
 
@@ -21,11 +21,11 @@ const getMusicClassApi = () => {
  * @param page 页码
  * @param size 页数
  * */
-const querySongListApi = (
+export const querySongListApi = (
 	id: number,
 	page: number,
 	size: number
-): Promise<any[]> => {
+): Promise<{ total: number; list: any[] }> => {
 	return http.get("/music/song/list", {
 		params: {
 			id,
@@ -36,10 +36,50 @@ const querySongListApi = (
 };
 
 /**
+ * 歌曲最新评论列表
+ * @param id 歌曲id
+ * @param current 页码
+ * @param size 页数
+ * */
+export const queryMusicNewCommentListApi = (
+	id: string | number,
+	current: number,
+	size: number
+): Promise<{ total: number; list: any[] }> => {
+	return http.get("/music/song/comment/list", {
+		params: {
+			id,
+			current,
+			size,
+		},
+	});
+};
+
+/**
+ * 歌曲热门评论列表
+ * @param id 歌曲id
+ * @param current 页码
+ * @param size 页数
+ * */
+export const queryMusicHotCommentListApi = (
+	id: string | number,
+	current: number,
+	size: number
+): Promise<{ total: number; list: any[] }> => {
+	return http.get("/music/song/commentHot/list", {
+		params: {
+			id,
+			current,
+			size,
+		},
+	});
+};
+
+/**
  * 判断歌曲可以播放吗
  * @param id 歌曲id
  * */
-const getSongCanPlayApi = (id: number): Promise<any> => {
+export const getSongCanPlayApi = (id: number): Promise<any> => {
 	return http.get("/music/song/can/play", {
 		params: {
 			id,
@@ -52,7 +92,7 @@ const getSongCanPlayApi = (id: number): Promise<any> => {
  * @param id id
  * @param level 音质 standard => 标准,higher => 较高, exhigh=>极高, lossless=>无损, hires=>Hi-Res, jyeffect => 高清环绕声, sky => 沉浸环绕声, jymaster => 超清母带
  * */
-const querySongDetailApi = (id: number): Promise<any[]> => {
+export const querySongDetailApi = (id: number): Promise<any[]> => {
 	return http.get("/music/song/detail", {
 		params: {
 			id,
@@ -65,7 +105,7 @@ const querySongDetailApi = (id: number): Promise<any[]> => {
  * @param id id
  * @param level 音质 standard => 标准,higher => 较高, exhigh=>极高, lossless=>无损, hires=>Hi-Res, jyeffect => 高清环绕声, sky => 沉浸环绕声, jymaster => 超清母带
  * */
-const querySongMp3Api = (id: number, level: string): Promise<any> => {
+export const querySongMp3Api = (id: number, level: string): Promise<any> => {
 	return http.get("/music/song/mp3", {
 		params: {
 			id,
@@ -78,7 +118,7 @@ const querySongMp3Api = (id: number, level: string): Promise<any> => {
  * 获取歌词
  * @param id 歌曲id
  * */
-const querySongLyricApi = (id: number): Promise<string> => {
+export const querySongLyricApi = (id: number): Promise<string> => {
 	return http.get("/music/song/lyric", {
 		params: {
 			id,
@@ -90,7 +130,7 @@ const querySongLyricApi = (id: number): Promise<string> => {
  * 搜索歌曲接口
  * @param keywords 关键字
  * */
-const searchMusicListApi = (keywords: string): Promise<any[]> => {
+export const searchMusicListApi = (keywords: string): Promise<any[]> => {
 	return http.get("/music/search/song", {
 		params: {
 			keywords,
@@ -102,22 +142,10 @@ const searchMusicListApi = (keywords: string): Promise<any[]> => {
  * 随机一首网易云音乐
  * @param type 音乐分类
  * */
-const getMusicOnceApi = (type: string): Promise<SongInfoType> => {
+export const getMusicOnceApi = (type: string): Promise<SongInfoType> => {
 	return http.get("/song/detail", {
 		params: {
 			type,
 		},
 	});
-};
-
-export {
-	getMusicClassApi,
-	getMusicHotClassApi,
-	querySongListApi,
-	getSongCanPlayApi,
-	querySongDetailApi,
-	querySongMp3Api,
-	querySongLyricApi,
-	searchMusicListApi,
-	getMusicOnceApi,
 };

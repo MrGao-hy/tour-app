@@ -4,6 +4,8 @@ import { ref } from "vue";
 import {
 	getMusicOnceApi,
 	getSongCanPlayApi,
+	queryMusicHotCommentListApi,
+	queryMusicNewCommentListApi,
 	querySongDetailApi,
 	querySongListApi,
 	querySongLyricApi,
@@ -55,6 +57,7 @@ const usePlayer = defineStore("diary_player", {
 			level: "higher",
 			songList: [] as any[],
 			lyrics: [] as string[],
+			songId: "",
 		};
 	},
 	getters: {
@@ -90,6 +93,7 @@ const usePlayer = defineStore("diary_player", {
 		async getPlayer(id: number) {
 			// const isCanPlay = await getSongCanPlayApi(id);
 			// if(!isCanPlay) return;
+			this.songId = id;
 			// 歌曲url
 			const res_1 = await querySongMp3Api(id, this.level);
 			// 歌曲详细信息
@@ -389,6 +393,13 @@ const usePlayer = defineStore("diary_player", {
 					// console.log(123)
 				}
 			}, 100);
+		},
+		/**
+		 * @description 控制音量
+		 * @param count 0-静音；1-最大声音
+		 * */
+		controlVolume(count: number) {
+			innerAudioContext.volume = count;
 		},
 	},
 });

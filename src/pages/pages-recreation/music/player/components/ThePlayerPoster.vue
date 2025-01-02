@@ -44,7 +44,12 @@ FilePath: \uni-preset-vue-vite-ts\src\components\ThePlayerPoster.vue
 			</view>
 		</view>
 
-		<!-- 5. 进度条 -->
+		<!-- 5. 功能栏 -->
+		<view class="player-page-cd__function">
+			<the-music-function-menu :songId="songId"></the-music-function-menu>
+		</view>
+
+		<!-- 6. 进度条 -->
 		<view class="player-page-cd__progress">
 			<!-- 当前时间 -->
 			<view class="player-page-cd__progress-start">
@@ -80,11 +85,12 @@ import { useAppStore, usePlayer } from "@/store";
 
 import { durationConvert } from "@/utils/utils";
 import { storeToRefs } from "pinia";
-import TheLyric from "./TheLyric.vue";
+import TheLyric from "@/pages/pages-recreation/music/player/components/TheLyric.vue";
+import TheMusicFunctionMenu from "@/pages/pages-recreation/music/player/components/TheMusicFunctionMenu.vue";
 
 const appStore = useAppStore();
 const playerStore = usePlayer();
-const { songInfo, playerStatus, lyrics } = storeToRefs(playerStore);
+const { songInfo, playerStatus, lyrics, songId } = storeToRefs(playerStore);
 /**
  * 进度条拖拉后，进度条最后获取的值
  * */
@@ -225,7 +231,14 @@ const onTouchEnd = async (e: any) => {
 			}
 		}
 	}
-	// 4. 进度条
+	/* 5. 功能块 */
+	.player-page-cd__function {
+		position: absolute;
+		left: 0;
+		bottom: 100rpx;
+		width: 100%;
+	}
+	/* 6. 进度条 */
 	.player-page-cd__progress {
 		position: absolute;
 		height: 13rpx;

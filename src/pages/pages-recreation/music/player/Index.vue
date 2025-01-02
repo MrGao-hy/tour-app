@@ -387,6 +387,8 @@ const toDetailArtist = () => {};
 		// 3. 操作栏
 		.detail-player__main-action {
 			width: 100%;
+			position: absolute;
+			bottom: 10px;
 
 			.detail-player__main-action-opt {
 				--main-action-opt-size: 115.4rpx;
