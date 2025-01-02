@@ -5,7 +5,7 @@ export const config = {
 	themeColor: "#025CF5",
 	hint: "#c8c7cc",
 	empty: "/static/images/empty.png",
-	music: "/static/images/music/music.webp",
+	music: "/static/images/music/music.png",
 	pageSize: 15,
 	rate: {
 		default: `/static/icon/rate_default.png`,

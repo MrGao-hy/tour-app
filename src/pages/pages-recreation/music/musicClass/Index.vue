@@ -33,10 +33,9 @@ onMounted(async () => {
 	classify.value = await getMusicClassApi();
 });
 /**
- * 点击搜索栏跳转搜索页面
+ * @description 点击搜索栏跳转搜索页面
  * */
 onNavigationBarSearchInputClicked(() => {
-	console.log(111);
 	uni.navigateTo({
 		url: "/pages/pages-recreation/music/search/Index",
 	});

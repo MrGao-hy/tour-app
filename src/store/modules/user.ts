@@ -72,13 +72,13 @@ export const useUserStore = defineStore(
 			}
 		};
 		/**
-		 * @description: 查询用户信息
+		 * @description 查询用户信息
 		 * */
 		const getUserInfo = async () => {
 			userInfo.value = await userInfoApi();
 		};
 		/**
-		 * @description: 提示or退出登录
+		 * @description 提示or退出登录
 		 * */
 		const outLogin = (code: number, title = "是否退出登录") => {
 			uni.showModal({

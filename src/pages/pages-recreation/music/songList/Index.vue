@@ -120,7 +120,9 @@ onPageScroll((e) => {
 });
 
 /**
- * 暂停/开始
+ * @description 暂停/开始
+ * @param isCurrent 是否是当前值
+ * @param songId 歌曲id
  * */
 const playerStatusChange = (isCurrent: boolean, songId: number) => {
 	if (isCurrent) {
@@ -147,7 +149,8 @@ const playerStatusChange = (isCurrent: boolean, songId: number) => {
 };
 
 /**
- * 跳转到播放界面
+ * @description 跳转到播放界面
+ * @param songId 歌曲id
  * */
 const toSongMusicFn = (songId: string) => {
 	uni.navigateTo({

@@ -5,11 +5,16 @@ import { ref } from "vue";
 export const useAppStore = defineStore(`${config.prefix}app`, () => {
 	const currentTab = ref(0);
 	const startX = ref(0);
+	/**
+	 * @description 点击tabs
+	 * @param val 点击的数值
+	 * */
 	const clickTabBar = (val: number) => {
 		currentTab.value = val;
 	};
 	/**
-	 * @description: 手指按下执行函数
+	 * @description 手指按下执行函数
+	 * @param e
 	 * */
 	const onTouchStart = (e: any) => {
 		if (e.changedTouches.length == 1) {
@@ -18,7 +23,8 @@ export const useAppStore = defineStore(`${config.prefix}app`, () => {
 		}
 	};
 	/**
-	 * @description: 手指抬起执行函数
+	 * @description 手指抬起执行函数
+	 * @param e
 	 * */
 	const onTouchEnd = (e: any) => {
 		return new Promise((resolve) => {

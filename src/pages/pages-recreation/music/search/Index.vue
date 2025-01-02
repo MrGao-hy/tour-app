@@ -72,11 +72,14 @@ onMounted(() => {
 	historyList.push(...JSON.parse(uni.getStorageSync("history")));
 });
 /**
- * 点击搜索栏跳转搜索页面
+ * @description 搜索栏输入值
  * */
 onNavigationBarSearchInputChanged((e) => {
 	searchVal.value = e.text;
 });
+/**
+ * @description 点击搜索搜索音乐
+ * */
 onNavigationBarButtonTap((e) => {
 	if (e.index === 0) {
 		if (!historyList.includes(searchVal.value)) {
@@ -94,7 +97,8 @@ onPageScroll((e) => {
 });
 
 /**
- * 搜索页面
+ * @description 搜索音乐列表数据
+ * @param val 搜索值
  * */
 const searchEvent = async (val: string) => {
 	const res = await searchMusicListApi(val);
@@ -109,7 +113,7 @@ const searchEvent = async (val: string) => {
 };
 
 /**
- * 删除历史记录
+ * @description 删除历史搜索记录
  * */
 const deleteFn = () => {
 	historyList.length = 0;
@@ -117,7 +121,8 @@ const deleteFn = () => {
 };
 
 /**
- * 跳转详情页面
+ * @description 跳转详情页面
+ * @param temp 音乐数据
  * */
 const jumpPageFn = (temp: ListVo) => {
 	uni.navigateTo({

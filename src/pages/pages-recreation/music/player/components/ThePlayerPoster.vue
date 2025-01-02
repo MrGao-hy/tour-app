@@ -92,10 +92,10 @@ const ratioChanging = (e: any) => {
 	playerStore.handleRatioChanging(e.detail.value);
 };
 const isLyric = ref(true);
-const startX = ref(0);
 
 /**
- * 进度条点击后，获取当前时间值
+ * @description 进度条点击后，获取当前时间值
+ * @param e
  * */
 const ratioChange = (e: any) => {
 	// #ifndef MP-WEIXIN
@@ -106,7 +106,9 @@ const ratioChange = (e: any) => {
 	// #endif
 };
 
-// 时间格式：秒转化分秒
+/**
+ * @description 时间格式：秒转化分秒
+ * */
 const timeConvert = computed(() => {
 	return (timeStamp = 0) => {
 		return durationConvert(timeStamp);
@@ -114,26 +116,32 @@ const timeConvert = computed(() => {
 });
 
 /**
- * 点击中间按钮跳转指定位置
+ * @description 点击中间按钮跳转指定位置
  * */
 const centerBtnClick = (e) => {
 	playerStore.handleRatioChange(e.centerTime / 2);
 };
 
-const copy = (e) => {
+/**
+ * @description 复制
+ * @param e 内容
+ * */
+const copy = (e: any) => {
 	uni.showModal({
 		content: JSON.stringify(e.lyrics),
 	});
 };
 
 /**
- * 手指按下执行函数
+ * @description 手指按下执行函数
+ * @param e
  * */
 const onTouchStart = (e: any) => {
 	appStore.onTouchStart(e);
 };
 /**
- * 手指抬起执行函数
+ * @description 手指抬起执行函数
+ * @param e
  * */
 const onTouchEnd = async (e: any) => {
 	const res = await appStore.onTouchEnd(e);

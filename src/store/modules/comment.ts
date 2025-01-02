@@ -24,8 +24,12 @@ export const useCommentStore = defineStore(`${config.prefix}comment`, () => {
 		},
 	});
 	const commentList = ref<Array<CommentType>>([]);
+
 	/**
-	 * @description: 获取评论列表
+	 * @description 获取评论列表
+	 * @param current 当前页
+	 * @param size 页码
+	 * @param id 景区id
 	 * */
 	const getCommentListFn = (current: number, size: number, id: string) => {
 		return new Promise(async (resolve, reject) => {
@@ -44,7 +48,8 @@ export const useCommentStore = defineStore(`${config.prefix}comment`, () => {
 		});
 	};
 	/**
-	 * @description: 把评论数据放在列表里，实现假评论成功视觉
+	 * @description 把评论数据放在列表里，实现假评论成功视觉
+	 * @param mark 评分数据详情
 	 * */
 	const setCommentListFn = (mark: CommentType) => {
 		// 假数据push到数组里面，形成有数据视觉效果
@@ -53,7 +58,8 @@ export const useCommentStore = defineStore(`${config.prefix}comment`, () => {
 		commentList.value.unshift(mark);
 	};
 	/**
-	 * @description: 点击操作栏
+	 * @description 操作评分功能栏
+	 * @param type 1-删除评论；2-复制评论
 	 * */
 	const onClickMenu = async (type: number) => {
 		switch (type) {
@@ -84,30 +90,34 @@ export const useCommentStore = defineStore(`${config.prefix}comment`, () => {
 		}
 	};
 	/**
-	 * @description: 选中数据
+	 * @description 选中数据
+	 * @param temp 评分内容详情
 	 * */
 	const selectCommentFn = (temp: CommentType) => {
 		selectComment.value = temp;
 	};
 	/**
-	 * @description: 保存数据到列表
+	 * @description 保存数据到列表
+	 * @param temp 评分列表
 	 * */
 	const setCommentList = (temp: CommentType[] = []) => {
 		commentList.value = temp;
 	};
 	/**
-	 * @description: 点赞评论
+	 * @description 点赞评论
+	 * @param index 索引
 	 * */
 	const clickLike = (index: number) => {
 		commentList.value[index].isLike = !commentList.value[index].isLike;
-		if (commentList.value[index].isLike == true) {
+		if (commentList.value[index].isLike) {
 			commentList.value[index].likeNum++;
 		} else {
 			commentList.value[index].likeNum--;
 		}
 	};
 	/**
-	 * @description: 跳转回复页面
+	 * @description 跳转回复页面
+	 * @param temp 评分内容详情
 	 * */
 	const toReplyPage = (temp: CommentType) => {
 		uni

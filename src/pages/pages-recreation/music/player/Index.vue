@@ -13,12 +13,7 @@ FilePath: \uni-preset-vue-vite-ts\src\pages\player\index.vue
 	<!-- ↓ 播放器详情 -->
 	<view class="detail-player">
 		<!--              :style="{ opacity: backgroundLoad ? '1' : '0' }"  -->
-		<image
-			class="detail-player__bg-image"
-			@load="bgLoad"
-			:src="bgImage"
-			mode="aspectFill"
-		/>
+		<image class="detail-player__bg-image" :src="bgImage" mode="aspectFill" />
 
 		<view class="detail-player__bg-filter" />
 
@@ -199,7 +194,7 @@ onBeforeUnmount(() => {
 });
 
 /**
- * 暂停/开始
+ * @description 暂停/开始
  * */
 const playerStatusChange = () => {
 	if (playerStore.playerStatus.paused) {
@@ -212,21 +207,21 @@ const playerStatusChange = () => {
 };
 
 /**
- * 上一首歌
+ * @description 上一首歌
  * */
 const playerPrev = () => {
 	playerStore.setPlayerPrev();
 };
 
 /**
- * 下一首
+ * @description 下一首
  * */
 const playerNext = () => {
 	playerStore.setPlayerNext();
 };
 
 /**
- * 切换模式
+ * @description 切换模式
  * */
 const setPlayerModeFn = () => {
 	const modeArray = ["", "列表循环", "列表播放", "随机播放", "单曲循环"];
@@ -241,7 +236,7 @@ const setPlayerModeFn = () => {
 };
 
 /**
- * 返回页面
+ * @description 返回页面
  * */
 const backPageFn = () => {
 	uni.navigateBack({
@@ -250,7 +245,7 @@ const backPageFn = () => {
 };
 
 /**
- * 跳转作者详情页面
+ * @description 跳转作者详情页面
  * */
 const toDetailArtist = () => {};
 </script>

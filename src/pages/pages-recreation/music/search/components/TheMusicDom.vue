@@ -44,7 +44,8 @@ const props = withDefaults(defineProps<IProps>(), {
 const emit = defineEmits(["jumpPageFn"]);
 
 /**
- * 点击dom事件
+ * @description 点击页面dom传值
+ * @param temp 音乐数据
  * */
 const jumpSongDetailFn = (temp: ListVo) => {
 	emit("jumpPageFn", temp);
