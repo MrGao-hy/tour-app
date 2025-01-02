@@ -5,9 +5,21 @@ export interface RegisterUserType {
 }
 
 export interface UserInfoType {
+	/**
+	 * id
+	 * */
 	id: string;
+	/**
+	 * 用户名
+	 * */
 	userName: string;
+	/**
+	 * 头像
+	 * */
 	avatar: string;
+	/**
+	 * 手机号
+	 * */
 	phone: string;
 	/**
 	 * 性别

@@ -88,9 +88,12 @@ const qrCode =
 const bgUrl =
 	"https://k.sinaimg.cn/n/sinakd20118/448/w1024h1824/20240401/0620-60976d49e464a4092c2c6f01f0dfc520.jpg/w700d1q75cms.jpg";
 const signature = "我用十年青春，赴你最后之约";
-const ctx = uni.createCanvasContext("firstCanvas", instance);
 
+/**
+ * @description 初始化canvas绘画海报
+ * */
 const initCanvas = async () => {
+	const ctx = uni.createCanvasContext("firstCanvas", instance);
 	try {
 		// Canvas 对象
 
@@ -246,7 +249,8 @@ uni.$on("init-canvas", () => {
 });
 
 /**
- * 保存海报图片
+ * @description 保存海报图片
+ * @param base64Url base64图片
  * */
 const savePoster = (base64Url: string) => {
 	if (status.value.showLoading) return;

@@ -30,6 +30,7 @@
 			</up-steps>
 		</view>
 		<up-line></up-line>
+		<!-- 评论区 -->
 		<the-mount-comment></the-mount-comment>
 		<up-gap height="50"></up-gap>
 	</scroll-view>

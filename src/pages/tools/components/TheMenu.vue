@@ -11,7 +11,6 @@
 					:key="index"
 					:url="item.url"
 					hover-class="none"
-					@click="toActiveFn(item)"
 				>
 					<view
 						class="scroll-list__line__item"
@@ -19,10 +18,6 @@
 							item.length > 5 && 'scroll-list__line__item--no-margin-right',
 						]"
 					>
-						<!--            <image-->
-						<!--              class="scroll-list__line__item__image"-->
-						<!--              :src="item.image"-->
-						<!--            ></image>-->
 						<view :class="['t-icon', `t-icon-${item.icon}`]"></view>
 						<text
 							class="scroll-list__line__item__text"
@@ -50,15 +45,6 @@ const props = withDefaults(defineProps<IProps>(), {
 	menus: () => [],
 	color: "#000000",
 });
-
-/**
- * 跳转页面
- * */
-const toActiveFn = (temp) => {
-	if (!temp.url) {
-		uni.$u.toast("功能待开发中");
-	}
-};
 </script>
 
 <style lang="scss" scoped>

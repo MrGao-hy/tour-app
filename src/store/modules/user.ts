@@ -3,6 +3,7 @@ import { clearVal } from "hfyk-app";
 import { getTodayIntegralCountApi, userInfoApi, userLoginApi } from "@/api";
 import { UserType } from "@/typing";
 import { config } from "@/config";
+import { ref } from "vue";
 
 export interface UserLoginType {
 	/**
@@ -15,49 +16,71 @@ export interface UserLoginType {
 	pwd: string;
 }
 
-export const useUserStore = defineStore(`${config.prefix}user`, {
-	state: () => ({
-		userInfo: {} as UserType,
-		isFirst_1: true,
-		isFirst_2: true,
-		savePath: "",
-		todayIntegralCount: 0,
-	}),
-	getters: {},
-	actions: {
+// interface UserStore {
+// 	userInfo: UserType;
+// 	isFirst_1: boolean;
+// 	isFirst_2: boolean;
+// 	savePath: string;
+// 	todayIntegralCount: number;
+// 	loginFn(username: string, password: string): Promise<void>;
+// 	getUserInfo(): Promise<void>;
+// 	getToDayIntegralCount(): Promise<void>;
+// 	outLogin(code: number, title?: string): void;
+// }
+
+export const useUserStore = defineStore(
+	`${config.prefix}user`,
+	() => {
+		const userInfo = ref<UserType>({
+			password: "",
+			birthDate: "",
+			constellation: "",
+			emit: "",
+			signature: "",
+			id: "",
+			userName: "",
+			avatar: "",
+			phone: "",
+			sex: "",
+		});
+		const isFirst_1 = ref(true);
+		const isFirst_2 = ref(true);
+		const savePath = ref("");
+		const todayIntegralCount = ref(0);
 		/**
-		 * 登录
+		 * @description 登录
 		 * */
-		async loginFn(username: string, password: string) {
+		const loginFn = async (username: string, password: string) => {
 			const login = await userLoginApi(username, password);
 			uni.setStorageSync(`${config.prefix}token`, login.token);
-			console.log(this.savePath);
-			if (!this.savePath || this.savePath === "/pages/pages-user/login/Index")
+			await getUserInfo();
+			uni.$u.toast("登录成功");
+			if (!savePath.value || savePath.value === "/pages/pages-user/login/Index")
 				return uni.switchTab({ url: "/pages/index/Index" });
 
-			if (["/pages/index/Index", "/pages/mine/Index"].includes(this.savePath)) {
+			if (
+				["/pages/index/Index", "/pages/mine/Index"].includes(savePath.value)
+			) {
 				uni.$emit("queryMountList");
 				await uni.switchTab({
-					url: this.savePath,
+					url: savePath.value,
 				});
 			} else {
 				await uni.redirectTo({
-					url: this.savePath,
+					url: savePath.value,
 				});
 			}
-			await this.getUserInfo();
-			uni.$u.toast("登录成功");
-		},
+		};
 		/**
-		 * 查询用户信息
+		 * @description: 查询用户信息
 		 * */
-		async getUserInfo() {
-			this.userInfo = await userInfoApi();
-		},
+		const getUserInfo = async () => {
+			userInfo.value = await userInfoApi();
+		};
 		/**
-		 * 提示or退出登录
+		 * @description: 提示or退出登录
 		 * */
-		outLogin(code: number, title = "是否退出登录") {
+		const outLogin = (code: number, title = "是否退出登录") => {
 			uni.showModal({
 				title,
 				showCancel: false,
@@ -65,23 +88,37 @@ export const useUserStore = defineStore(`${config.prefix}user`, {
 				success: async (res) => {
 					if (res.confirm && (code === 40004 || code === 40005)) {
 						uni.removeStorageSync(`${config.prefix}token`);
-						clearVal(this.userInfo);
+						clearVal(userInfo.value);
 						await uni.navigateTo({
 							url: "/pages/pages-user/login/Index",
 						});
 						const pages = getCurrentPages();
-						this.savePath = pages[0].$page.fullPath;
+						savePath.value = pages[0].$page.fullPath;
 					}
 				},
 			});
-		},
+		};
 		/**
 		 * @description 获取个人当天获得的积分
 		 * */
-		async getToDayIntegralCount() {
-			this.todayIntegralCount = await getTodayIntegralCountApi();
-		},
+		const getToDayIntegralCount = async () => {
+			todayIntegralCount.value = await getTodayIntegralCountApi();
+		};
+
+		return {
+			userInfo,
+			isFirst_1,
+			isFirst_2,
+			savePath,
+			todayIntegralCount,
+
+			loginFn,
+			getUserInfo,
+			outLogin,
+			getToDayIntegralCount,
+		};
 	},
-	// @ts-ignore
-	unistorage: true,
-});
+	{
+		unistorage: true,
+	}
+);

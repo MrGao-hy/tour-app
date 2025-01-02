@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import TheMenu from "@/pages/test/components/TheMenu.vue";
+import TheMenu from "@/pages/tools/components/TheMenu.vue";
 import { reactive } from "vue";
 
 const menus = reactive([
@@ -20,11 +20,6 @@ const menus = reactive([
 		url: "/pages/pages-task/diary/calendar/Index",
 	},
 ]);
-const toMusicPage = () => {
-	uni.navigateTo({
-		url: "/pages/pages-recreation/music/musicClass/Index",
-	});
-};
 </script>
 
 <style lang="scss" scoped>

@@ -88,6 +88,9 @@ const rules = reactive({
 	],
 });
 
+/**
+ * @description 注册用户
+ * */
 const registerUserFn = () => {
 	ykFormRef.value.formRef.validate().then(async () => {
 		await registerUserApi(userFormData);

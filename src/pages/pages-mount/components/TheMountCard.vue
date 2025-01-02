@@ -87,7 +87,8 @@ const page = reactive({
 });
 
 /**
- * 收藏景区
+ * @description 收藏景区
+ * @param id 景区id
  * */
 const collectMountFn = async (id: string) => {
 	await collectMountApi(id);
@@ -104,7 +105,7 @@ const collectMountFn = async (id: string) => {
 };
 
 /**
- * 评论滚动加载更多
+ * @description 评论滚动加载更多
  * */
 const onScrollToLower = () => {
 	page.current++;
@@ -117,7 +118,8 @@ const onScrollToLower = () => {
 };
 
 /**
- * 打开评论区弹窗
+ * @description 打开评论区弹窗
+ * @param id 景区id
  * */
 const onOpenMark = async (id: string) => {
 	selectMountId.value = id;
@@ -126,7 +128,7 @@ const onOpenMark = async (id: string) => {
 };
 
 /**
- * 关闭评论区
+ * @description 关闭评论区
  * */
 const onCloseMark = async () => {
 	commentStore.setCommentList();
@@ -135,7 +137,8 @@ const onCloseMark = async () => {
 };
 
 /**
- * 跳转详情页面
+ * @description 跳转详情页面
+ * @param temp 景区数据
  * */
 const toPageFn = (temp: MountType) => {
 	uni.navigateTo({

@@ -1,5 +1,10 @@
 <template>
-	<view class="calendar-wrapper" :style="{ background: config.themeColor }">
+	<view
+		class="calendar-wrapper"
+		:style="{ background: config.themeColor }"
+		@touchend="onTouchEnd"
+		@touchstart="onTouchStart"
+	>
 		<view class="header" v-if="headerBar">
 			<view class="preWidth" @click="changeMonth('pre')">
 				<view class="pre"></view>
@@ -25,7 +30,7 @@
 				<view class="item" v-for="(item, index) in months" :key="index">
 					<view
 						class="day"
-						@click="selectOne(item, $event)"
+						@click="selectOne(item)"
 						:class="{
 							choose:
 								choose === `${item.year}-${item.month}-${item.day}` &&
@@ -78,6 +83,7 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { config } from "@/config";
 import LunarCalendar from "lunar-calendar";
 import { DayVo } from "@/typing";
+import { useAppStore } from "@/store";
 
 interface IProps {
 	// 星期几为第一天(0为星期日)
@@ -100,6 +106,7 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 const emit = defineEmits(["onDayClick", "onMonthClick"]);
 
+const appStore = useAppStore();
 const showDate = ref(false);
 const dateVal = ref();
 const weektext = reactive(["日", "一", "二", "三", "四", "五", "六"]);
@@ -117,37 +124,55 @@ const choose = ref("");
 const dayHeight = ref(100);
 
 onMounted(() => {
-	// data.dates = monthDay(data.y, data.m);
 	getMonthDay(date.y, date.m);
 
 	props.open ? toggle() : calculateTop();
 	choose.value = getToday().date;
 });
 
-// 顶部星期栏
+/**
+ * @description 顶部星期栏
+ * */
 const weekDay = computed(() => {
 	return weektext
 		.slice(props.weekstart)
 		.concat(weektext.slice(0, props.weekstart));
 });
 
+/**
+ * @description 收起的高度
+ * */
 const height = computed(() => {
 	return `${Math.ceil(months.value.length / 7) * dayHeight.value}rpx`;
 });
 
+/**
+ * @description 获取一个月所以天数数据
+ * @param y 年
+ * @param m 月
+ * */
 const getMonthDay = (y: string | number, m: string | number) => {
 	const mounts = LunarCalendar.calendar(y, m, true).monthData;
-	months.value = mounts.map((item) => ({
+	months.value = mounts.map((item: any) => ({
 		...item,
 		isCurM: item.month === date.m,
+		month: formatNum(item.month),
+		day: formatNum(item.day),
 	}));
 };
 
+/**
+ * @description 把小于10的数字转换两位数
+ * @param num 数字
+ * */
 const formatNum = (num: number | string) => {
 	const res = Number(num);
 	return res < 10 ? `0${res}` : res;
 };
 
+/**
+ * @description 获取今天日期
+ * */
 const getToday = () => {
 	const date = new Date();
 	const y = date.getFullYear();
@@ -163,29 +188,33 @@ const getToday = () => {
 	return today;
 };
 
-// 是否工作日
+/**
+ * @description 是否工作日
+ * */
 const isWorkDay = (y: number, m: number, d: number) => {
 	const ymd = `${y}/${m}/${d}`;
 	const formatDY = new Date(ymd.replace(/-/g, "/"));
 	const week = formatDY.getDay();
-	if (week === 0 || week === 6) {
-		return false;
-	}
-	return true;
+	return !(week === 0 || week === 6);
 };
 
-// 是否未来日期
+/**
+ * @description 是否未来日期
+ * */
 const isFutureDay = (y: number, m: number, d: number) => {
 	const ymd = `${y}/${m}/${d}`;
 	const formatDY = new Date(ymd.replace(/-/g, "/"));
 	const showTime = formatDY.getTime();
 	const curTime = new Date().getTime();
-	if (showTime > curTime) {
-		return true;
-	}
-	return false;
+	return showTime > curTime;
 };
-// 标记日期
+
+/**
+ * @description 标记日期
+ * @param y 年
+ * @param m 月
+ * @param d 天
+ * */
 const isMarkDay = (y: number, m: number, d: number) => {
 	let flag = false;
 	const dy = `${y}-${m}-${d}`;
@@ -197,7 +226,12 @@ const isMarkDay = (y: number, m: number, d: number) => {
 	return flag;
 };
 
-// 是否是今天
+/**
+ * @description 是否是今天
+ * @param y 年
+ * @param m 月
+ * @param d 天
+ * */
 const isToday = (y: number, m: number, d: number) => {
 	const checkD = `${y}-${m}-${d}`;
 	const today = getToday().date;
@@ -207,7 +241,9 @@ const isToday = (y: number, m: number, d: number) => {
 	return false;
 };
 
-// 展开收起
+/**
+ * @description 展开收起
+ * */
 const toggle = () => {
 	monthOpen.value = !monthOpen.value;
 	headerBar.value = !headerBar.value;
@@ -226,9 +262,12 @@ const calculateTop = () => {
 	}
 };
 
-// 点击回调
-const selectOne = (i: any, event: string) => {
-	const date = `${i.year}-${i.month}-${formatNum(i.day)}`;
+/**
+ * @description 点击回调
+ * @param i 索引
+ * */
+const selectOne = (i: any) => {
+	const date = `${i.year}-${i.month}-${i.day}`;
 	const selectD = new Date(date).getTime() - 8 * 60 * 60 * 1000;
 	const curTime = new Date().getTime();
 	const week = new Date(date).getDay();
@@ -259,6 +298,10 @@ const selectOne = (i: any, event: string) => {
 	}
 };
 
+/**
+ * @description 更新年月
+ * @param type pre-上一个月，next-下一个月
+ * */
 const changeMonth = (type: string) => {
 	if (type === "pre") {
 		if (date.m + 1 === 2) {
@@ -278,7 +321,7 @@ const changeMonth = (type: string) => {
 };
 
 /**
- * 打开时间选择器
+ * @description 打开时间选择器
  * */
 const openDateSelectFn = () => {
 	showDate.value = true;
@@ -286,13 +329,34 @@ const openDateSelectFn = () => {
 };
 
 /**
- * 选择年月
+ * @description 选择年月
  * */
 const selectYearMonthFn = () => {
 	date.y = new Date(dateVal.value).getFullYear(); // 年
 	date.m = new Date(dateVal.value).getMonth() + 1; // 月
 	getMonthDay(date.y, date.m);
 	showDate.value = false;
+};
+
+/**
+ * @description 手指按下执行函数
+ * @param e
+ * */
+const onTouchStart = (e: any) => {
+	appStore.onTouchStart(e);
+};
+
+/**
+ * @description 手指抬起执行函数
+ * @param e
+ * */
+const onTouchEnd = async (e: any) => {
+	const res = await appStore.onTouchEnd(e);
+	if (res === "left") {
+		changeMonth("pre");
+	} else {
+		changeMonth("next");
+	}
 };
 </script>
 

@@ -47,14 +47,14 @@ const props = withDefaults(defineProps<IProps>(), {
 const emit = defineEmits(["handleClick", "handleClose"]);
 
 /**
- * 点击操作
+ * @description: 点击操作
  * */
 const onClickMenuFn = (temp: ActionMenu) => {
 	emit("handleClick", temp);
 };
 
 /**
- * 关闭弹窗
+ * @description: 关闭弹窗
  * */
 const closeFn = () => {
 	emit("handleClose");

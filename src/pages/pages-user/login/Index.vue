@@ -46,13 +46,15 @@ const PwdNumValidator = ref({
 });
 const userStore = useUserStore();
 
-// 子传父提示登录信息
+/**
+ * @description 密码登录
+ * */
 const loginMsgFn = (options: LoginType) => {
 	userStore.loginFn(options.user, options.pwd);
 };
 
 /**
- * 注册或者忘记密码
+ * @description 注册或者忘记密码
  * */
 const selectActionFn = (index: number) => {
 	switch (index) {

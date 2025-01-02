@@ -7,9 +7,9 @@
       }
     },
     {
-      "path": "pages/test/Index",
+      "path": "pages/tools/Index",
       "style": {
-        "navigationBarTitleText": "娱乐"
+        "navigationBarTitleText": "工具箱"
       }
     },
     {
@@ -212,8 +212,8 @@
         "selectedIconPath": "./static/icon/home.png"
       },
       {
-        "text": "娱乐",
-        "pagePath": "pages/test/Index"
+        "text": "工具",
+        "pagePath": "pages/tools/Index"
       },
       {
         "text": "我的",

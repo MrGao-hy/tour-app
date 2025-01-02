@@ -71,7 +71,7 @@ const rules = {
 };
 
 /**
- * 修改密码
+ * @description 修改密码
  * */
 const editPasswordFn = () => {
 	pwdRef.value.formRef.validate().then((valid: boolean) => {

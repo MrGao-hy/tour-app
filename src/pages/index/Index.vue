@@ -18,7 +18,7 @@
 						></up-switch>
 					</view>
 				</view>
-				<!-- 旅游内容界面 -->
+				<!-- 景区模块内容界面 -->
 				<the-row-list
 					:list="mountList"
 					:showAll="showAll"

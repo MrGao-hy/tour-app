@@ -140,13 +140,16 @@ onMounted(() => {
 	replyList();
 });
 
+/**
+ * @description 滚动加载更多回复
+ * */
 const onScrollToLower = () => {
 	page.current++;
 	replyList();
 };
 
 /**
- * 获取回复列表
+ * @description 获取回复列表
  * */
 const replyList = async () => {
 	const list = await queryReplyListApi(

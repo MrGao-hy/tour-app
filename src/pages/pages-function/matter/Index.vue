@@ -135,6 +135,9 @@ const rules = ref({
 	],
 });
 
+/**
+ * @description 选择问题类型
+ * */
 const checkTypesFn = (name: string) => {
 	types.value.map((item, i) => {
 		item.checked = name === item.name;
@@ -142,6 +145,9 @@ const checkTypesFn = (name: string) => {
 	problemForm.type = name;
 };
 
+/**
+ * @description 提交问题
+ * */
 const submitProblemFn = () => {
 	problemRef.value.validate().then(async () => {
 		await matterApi(problemForm);

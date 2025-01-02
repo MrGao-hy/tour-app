@@ -91,7 +91,7 @@ instance.interceptors.response.use(
 				userStore.outLogin(data.code, data.message);
 				return Promise.reject(v);
 			}
-			uni.$u.toast(data.message);
+			// uni.$u.toast(data.message);
 			return data.data;
 		}
 		// alert(v.statusText, '网络错误')

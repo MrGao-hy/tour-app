@@ -78,7 +78,7 @@
 			</view>
 		</view>
 	</view>
-	<up-gap height="40" bgColor="#FFFFFF"></up-gap>
+	<up-gap height="40"></up-gap>
 
 	<view v-if="focus" class="reply-ipt">
 		<up-input
@@ -136,22 +136,33 @@ const actionMenu: ActionMenu[] = reactive([
 	},
 ]);
 
-// 跳转到全部回复
+/**
+ * @description 跳转到全部回复
+ * @param temp 评论详情
+ * */
 const toAllReply = (temp: CommentType) => {
 	commentStore.toReplyPage(temp);
 };
-// 点赞
+/**
+ * @description 点赞
+ * @param index 索引
+ * */
 const getLike = (index: number) => {
 	commentStore.clickLike(index);
 };
 
+/**
+ * @description 打开弹窗
+ * @param temp 评论详情
+ * */
 const openActionMenuFn = (temp: CommentType) => {
 	commentStore.selectCommentFn(temp);
 	showMenu.value = true;
 };
 
 /**
- * 点击调整详情
+ * @description 点击打开评论操作功能
+ * @param temp 操作功能
  * */
 const onClickMenuFn = (temp: ActionMenu) => {
 	commentStore.onClickMenu(temp.key);
@@ -159,7 +170,8 @@ const onClickMenuFn = (temp: ActionMenu) => {
 };
 
 /**
- * 打开回复评论
+ * @description 打开回复评论
+ * @param temp 评论详情
  * */
 const replyFn = (temp: CommentType) => {
 	focus.value = true;
@@ -167,15 +179,13 @@ const replyFn = (temp: CommentType) => {
 };
 
 /**
- * 回复消息
+ * @description 回复消息
  * */
 const replyMarkFn = async () => {
 	uni.request({
 		url: "https://api.vvhan.com/api/ipInfo",
-		async success(result) {
-			console.log(result);
+		async success(result: any) {
 			const { data } = result;
-			// await replyMarkApi(selectComment.value.id, replyVal.value);
 			await replyMarkApi({
 				markId: selectComment.value.id,
 				content: replyVal.value,
@@ -197,7 +207,7 @@ const replyMarkFn = async () => {
 };
 
 /**
- * 失去焦点
+ * @description 失去焦点
  * */
 const onBlur = () => {
 	focus.value = false;

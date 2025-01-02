@@ -70,7 +70,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, reactive, ref } from "vue";
+import {
+	computed,
+	onBeforeUnmount,
+	onMounted,
+	onUnmounted,
+	reactive,
+	ref,
+} from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
@@ -78,7 +85,6 @@ import { actionMenu, initImageHeight } from "./data";
 import TheToolsRow from "@/pages/mine/components/TheToolsRow.vue";
 import { clearVal } from "hfyk-app";
 import TheAvatar from "@components/TheAvatar.vue";
-import { onReady } from "@dcloudio/uni-app";
 import echartsFn from "@/config/eCharts";
 
 const userStore = useUserStore();
@@ -108,17 +114,17 @@ const backgroundStyle = computed(() => {
 	return style;
 });
 
-onReady(() => {
+onMounted(() => {
 	userStore.getToDayIntegralCount();
 	echartsFn.initChart(todayIntegralCount.value);
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
 	echartsFn.destroyChart();
 });
 
 /**
- * 操作用户栏
+ * @description 操作用户栏
  * */
 const onClickMenuFn = (temp: ActionMenu) => {
 	switch (temp.key) {
@@ -148,7 +154,10 @@ const onClickMenuFn = (temp: ActionMenu) => {
 	}
 };
 
-// 手指按下
+/**
+ * @description 手指按下
+ * @param e 底层返回数据
+ * */
 const onTouchstart = (e: any) => {
 	if (clientData.pageAtTop === false) {
 		return;
@@ -157,7 +166,10 @@ const onTouchstart = (e: any) => {
 	clientData.startY = e.touches[0].clientY;
 };
 
-// 手指移动
+/**
+ * @description 手指移动
+ * @param e 底层返回数据
+ * */
 const onTouchMove = (e: any) => {
 	clientData.moveY = e.touches[0].clientY;
 	const moveDistance = clientData.moveY - clientData.startY;
@@ -173,7 +185,9 @@ const onTouchMove = (e: any) => {
 		transform.time = ".1s ease-out";
 	}
 };
-// 手指抬起
+/**
+ * @description 手指抬起
+ * */
 const onTouchEnd = () => {
 	if (moving.value === false) {
 		return;

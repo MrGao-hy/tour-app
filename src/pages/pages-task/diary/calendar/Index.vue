@@ -7,11 +7,13 @@
 -->
 
 <template>
-	<the-calendar
-		@onDayClick="selectDateFn"
-		@onMonthClick="onMonthClick"
-		:markDays="markDays"
-	/>
+	<view>
+		<the-calendar
+			@onDayClick="selectDateFn"
+			@onMonthClick="onMonthClick"
+			:markDays="markDays"
+		/>
+	</view>
 
 	<!-- 固定打卡点 -->
 	<view class="field">
@@ -24,8 +26,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/store";
 import { formatTime } from "hfyk-app";
 
 // 接口
@@ -34,8 +34,6 @@ import { queryDiaryListApi } from "@/api";
 import TheCalendar from "@/pages/pages-task/diary/calendar/components/TheCalendar.vue";
 
 const markDays = ref<string[]>([]);
-const userStore = useUserStore();
-const { userInfo } = storeToRefs(userStore);
 const showPoster = ref(false);
 const date = formatTime(new Date().getTime(), "yyyy-MM-dd");
 
@@ -51,8 +49,11 @@ onUnmounted(() => {
 	uni.$off("refreshIntegral");
 });
 
-// 打卡签到
-const selectDateFn = (e) => {
+/**
+ * @description 跳转到写日记上
+ * @param e 点击日历组件返回数据
+ * */
+const selectDateFn = (e: any) => {
 	uni.navigateTo({
 		url: `/pages/pages-task/diary/write/Index?date=${e.date || date}`,
 	});
@@ -64,7 +65,7 @@ const clockInFn = async () => {
 };
 
 /**
- * 点击按钮
+ * @description 切换月份查询一个月的数据
  * */
 const onMonthClick = async (dat: string) => {
 	markDays.value = await queryDiaryListApi(dat);

@@ -9,12 +9,7 @@
 <template>
 	<view class="relation relation-page">
 		<view class="relation__header">
-			<!-- #ifndef MP-WEIXIN -->
-			<!--			<image-->
-			<!--				class="relation__header-img"-->
-			<!--				src="/unpackage/res/icons/1024x1024.png"-->
-			<!--			></image>-->
-			<!-- #endif -->
+			<image class="relation__header-img" src="/static/images/logo.png"></image>
 			<view class="relation__header-version">
 				山徒旅行
 				<!-- #ifdef APP_PLUS -->
@@ -112,9 +107,10 @@ plus.runtime.getProperty(plus.runtime.appid, function (res) {
 // #endif
 
 /**
- * 复制内容
+ * @description 复制内容
+ * @param content 内容
  * */
-const copyDataFn = (content) => {
+const copyDataFn = (content: string) => {
 	uni.setClipboardData({
 		data: content,
 		success: () => {
@@ -126,9 +122,10 @@ const copyDataFn = (content) => {
 	});
 };
 /**
- * 跳转页面
+ * @description 跳转页面
+ * @param url 跳转地址
  * */
-const jumpPage = (url) => {
+const jumpPage = (url: string | undefined) => {
 	if (url) {
 		uni.navigateTo({
 			url,

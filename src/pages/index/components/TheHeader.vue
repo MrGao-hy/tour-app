@@ -43,6 +43,10 @@ const headMenu: HeadMenuType[] = reactive([
 	},
 ]);
 
+/**
+ * @description 跳转到指定页面
+ * @param temp 跳转页面对象
+ * */
 const toFavoriteListFn = (temp: HeadMenuType) => {
 	uni.navigateTo({
 		url: temp.url,

@@ -15,7 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
 import { config } from "@/config";
 import { toolsMenu } from "@/pages/mine/data";
 </script>

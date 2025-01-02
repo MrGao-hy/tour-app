@@ -142,6 +142,9 @@ onLoad(async (options: any) => {
 	}
 });
 
+/**
+ * @description 保存每日日记
+ * */
 const saveDiaryFn = async () => {
 	await saveDiaryApi(diary);
 	await userStore.getToDayIntegralCount();

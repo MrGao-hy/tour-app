@@ -39,7 +39,7 @@
 	</view>
 
 	<the-mark-dom
-		:id="detail.id"
+		:MountId="detail.id"
 		:show="showModal"
 		@handleOk="confirmSubmitFn"
 		@handleClose="showModal = false"
@@ -49,12 +49,10 @@
 <script setup lang="ts">
 import { imageToBase64 } from "hfyk-app";
 import { CommentType, MountType } from "@/typing";
-import { onMounted, reactive, ref, toRefs } from "vue";
+import { reactive, ref, toRefs } from "vue";
 import { collectMountApi, recordTravelApi } from "@/api";
 import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
-import { config } from "@/config";
 import { useCommentStore, useSharePosterStore } from "@/store";
-import { storeToRefs } from "pinia";
 
 interface IProps {
 	detail: MountType;
@@ -75,7 +73,8 @@ const punch = reactive({
 });
 
 /**
- * 点击tabs
+ * @description 点击tabs
+ * @param type collect-收藏；mark-评价；share-分享海报
  * */
 const onClickTab = async (type: string) => {
 	switch (type) {
@@ -94,7 +93,8 @@ const onClickTab = async (type: string) => {
 };
 
 /**
- * 景区打卡
+ * @description 景区打卡
+ * @param type 打开类型：photograph-拍照打卡；place-地点打卡
  * */
 const punchMountFn = async (type: string) => {
 	switch (type) {
@@ -135,7 +135,8 @@ const punchMountFn = async (type: string) => {
 };
 
 /**
- * 提交评价
+ * @description 提交评价
+ * @param temp 评论数据详情
  * */
 const confirmSubmitFn = (temp: CommentType) => {
 	showModal.value = false;

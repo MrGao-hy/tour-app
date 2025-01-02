@@ -21,7 +21,7 @@
 	</up-popup>
 
 	<the-mark-dom
-		:id="selectMount.id"
+		:MountId="selectMount.id"
 		:show="showModal"
 		@handle-ok="markMountFn"
 		@handleClose="showModal = false"
@@ -50,14 +50,14 @@ const sharePosterStore = useSharePosterStore();
 const showModal = ref(false);
 
 /**
- * 关闭弹窗
+ * @description 关闭弹窗
  * */
 const closeFn = () => {
 	emit("handleClose");
 };
 
 /**
- * 操作栏操作
+ * @description 操作栏操作
  * */
 const clickActiveFn = async (type: string) => {
 	switch (type) {
@@ -81,7 +81,7 @@ const clickActiveFn = async (type: string) => {
 };
 
 /**
- * 评论接口处理完执行函数
+ * @description 评论接口处理完执行函数
  * */
 const markMountFn = () => {
 	showModal.value = false;

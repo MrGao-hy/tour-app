@@ -25,8 +25,6 @@
 					<yk-upload
 						:fileList="[{ url: userInfo.avatar }]"
 						:maxCount="1"
-						@chooseMedia="afterRead"
-						@delete="deletePic"
 					></yk-upload>
 				</up-form-item>
 				<!--签名-->
@@ -139,7 +137,9 @@ onMounted(async () => {
 //   });
 // };
 
-// 修改用户信息
+/**
+ * @description 修改用户信息
+ * */
 const edinInfoBtnFn = throttle(async () => {
 	editBtnLoading.value = true;
 	await updateUserInfoApi(userInfo.value);

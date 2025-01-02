@@ -64,22 +64,24 @@ import { config } from "@/config";
 
 interface IProps {
 	show: boolean;
-	id: string;
+	MountId: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
 	show: false,
-	id: "",
+	MountId: "",
 });
 const emit = defineEmits(["handleClose", "handleOk"]);
 
 const sharePosterStore = useSharePosterStore();
-const { id } = toRefs(props);
+const { MountId } = toRefs(props);
 const uFormRef = ref();
 const model: MarkMountType = reactive({
 	id: "",
 	mountId: "",
 	comment: "",
 	mark: "",
+	city: "",
+	province: "",
 });
 const rules = reactive({
 	mark: [
@@ -100,7 +102,7 @@ const rules = reactive({
 });
 
 /**
- * 提交对本次旅行满意度
+ * @description 提交对本次旅行满意度
  * */
 const submitMarkFn = async () => {
 	uFormRef.value
@@ -109,12 +111,11 @@ const submitMarkFn = async () => {
 			if (valid) {
 				uni.request({
 					url: "https://api.vvhan.com/api/ipInfo",
-					async success(result) {
-						console.log(result);
+					async success(result: any) {
 						const { data } = result;
 						const info = await markMountApi(
 							Object.assign(model, {
-								mountId: id.value,
+								mountId: MountId.value,
 								city: data.info.city.replace("市", ""),
 								province: data.info.prov.replace("省", ""),
 							})
@@ -132,7 +133,7 @@ const submitMarkFn = async () => {
 };
 
 /**
- * 关闭弹窗
+ * @description 关闭弹窗
  * */
 const onClose = () => {
 	emit("handleClose");
