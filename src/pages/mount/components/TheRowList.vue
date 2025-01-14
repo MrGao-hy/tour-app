@@ -52,14 +52,14 @@
 		:safeAreaInsetBottom="false"
 		:customStyle="{
 			minHeight: '30vh',
-			maxHeight: '60vh',
+			maxHeight: '70vh',
 			padding: '60rpx 10rpx 0',
 		}"
 		@close="onCloseMark"
 	>
 		<scroll-view
 			scroll-y
-			style="max-height: 60vh"
+			style="max-height: 70vh"
 			@scrolltolower="onScrollToLower"
 		>
 			<the-mount-comment></the-mount-comment>
@@ -74,6 +74,7 @@ import TheFooterActions from "@/components/TheFooterActions.vue";
 import { collectMountApi } from "@/api";
 import TheMountComment from "@/components/TheMountComment.vue";
 import { useCommentStore } from "@/store";
+import { config } from "@/config";
 
 interface IProps {
 	list: MountType[];
@@ -92,7 +93,7 @@ const showMark = ref(false);
 const commentStore = useCommentStore();
 const page = reactive({
 	current: 1,
-	size: 5,
+	size: config.pageSize,
 });
 
 /**

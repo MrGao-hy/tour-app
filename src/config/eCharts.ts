@@ -109,14 +109,14 @@ const echartsFn = {
 	initChart: (val: number) => {
 		// 获取 canvas 节点
 		const chartDom = document.getElementById("integral_chart");
-		chart.value = echarts.init(chartDom);
-		// 改变当前值
-		echartsFn.option.series[0].data[0].value = val;
-		echartsFn.option.series[1].data[0].value = val;
-
-		// 配置图表的选项
-
-		chart.value.setOption(echartsFn.option);
+		if (chartDom) {
+			chart.value = echarts.init(chartDom);
+			// 改变当前值
+			echartsFn.option.series[0].data[0].value = val;
+			echartsFn.option.series[1].data[0].value = val;
+			// 配置图表的选项
+			chart.value.setOption(echartsFn.option);
+		}
 	},
 	destroyChart: () => {
 		chart.value.dispose();

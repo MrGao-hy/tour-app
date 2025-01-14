@@ -52,7 +52,7 @@
 
 <script lang="ts" setup>
 import QRCode from "qrcode";
-import { getCurrentInstance, reactive, ref } from "vue";
+import { getCurrentInstance, onUnmounted, reactive, ref } from "vue";
 import { canvasFun } from "@/config";
 import { useSharePosterStore, useUserStore } from "@/store";
 import { storeToRefs } from "pinia";
@@ -89,6 +89,10 @@ const bgUrl =
 	"https://k.sinaimg.cn/n/sinakd20118/448/w1024h1824/20240401/0620-60976d49e464a4092c2c6f01f0dfc520.jpg/w700d1q75cms.jpg";
 const signature = "我用十年青春，赴你最后之约";
 
+onUnmounted(() => {
+	uni.$off("init-canvas");
+});
+
 /**
  * @description 初始化canvas绘画海报
  * */
@@ -124,7 +128,7 @@ const initCanvas = async () => {
 		await canvasFun.drawImage(
 			ctx,
 			bg_image,
-			posterContent.value.posterBgImageUrl! || bgUrl,
+			posterContent.value!.posterBgImageUrl! || bgUrl,
 			0,
 			0,
 			renderWidth,
@@ -146,7 +150,7 @@ const initCanvas = async () => {
 		// 旅游景点名字
 		canvasFun.drawTextVertical(
 			ctx,
-			posterContent.value.name! || "山",
+			posterContent.value!.name! || "山",
 			20,
 			40,
 			"#FFFFFF",
@@ -192,8 +196,7 @@ const initCanvas = async () => {
 		);
 
 		// 分享二维码
-		console.log(qrCode + posterContent.value.id);
-		const shareQr = await QRCode.toDataURL(qrCode + posterContent.value.id);
+		const shareQr = await QRCode.toDataURL(qrCode + posterContent.value!.id);
 
 		await canvasFun.drawImage(
 			ctx,

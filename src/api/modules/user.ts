@@ -1,8 +1,8 @@
 import http from "@/api/http";
-import { LoginType, RegisterUserType, UserType } from "@/typing";
+import { AddressVo, LoginType, RegisterUserType, UserType } from "@/typing";
 
 /**
- * 用户注册
+ * @description 用户注册
  * @param {RegisterUserType} data 用户信息
  * @return
  */
@@ -11,7 +11,7 @@ export const registerUserApi = (data: RegisterUserType): Promise<null> => {
 };
 
 /**
- * 用户名登录
+ * @description 用户名登录
  * @param userName 用户名
  * @param password 密码
  * @return token
@@ -27,7 +27,7 @@ export const userLoginApi = (
 };
 
 /**
- * 查询用户信息
+ * @description 查询用户信息
  * @param id 用户id不传查自己信息
  */
 export const userInfoApi = (id = ""): Promise<UserType> => {
@@ -37,7 +37,7 @@ export const userInfoApi = (id = ""): Promise<UserType> => {
 };
 
 /**
- * 注销账号
+ * @description 注销账号
  * @return
  */
 export const unsubscribeApi = (password: string): Promise<null> => {
@@ -47,7 +47,7 @@ export const unsubscribeApi = (password: string): Promise<null> => {
 };
 
 /**
- * 更新用户信息
+ * @description 更新用户信息
  * @param params 信息集合
  * @return
  */
@@ -56,7 +56,7 @@ export const updateUserInfoApi = (params: UserType): Promise<null> => {
 };
 
 /**
- * 修改密码
+ * @description 修改密码
  * @param oldPassword 旧密码
  * @param password 新密码
  * */
@@ -71,7 +71,7 @@ export const editPasswordApi = (
 };
 
 /**
- * 获取用户ip地址
+ * @description 获取用户ip地址
  * @return
  */
 export const getUserIpApi = (): Promise<any> => {
@@ -80,5 +80,37 @@ export const getUserIpApi = (): Promise<any> => {
 			type: "scorpio",
 			date: "today",
 		},
+	});
+};
+
+/**
+ * @description 获取默认地址
+ * */
+export const getDefaultAddressApi = (): Promise<AddressVo> => {
+	return http.post("/shippingAddress/default");
+};
+
+/**
+ * @description 保存地址
+ * @param params 参数
+ * */
+export const saveAddressApi = (params: AddressVo) => {
+	return http.post("/shippingAddress/create", params);
+};
+
+/**
+ * @description 我的地址列表
+ * */
+export const queryAddressListApi = (): Promise<AddressVo[]> => {
+	return http.post("/shippingAddress/list");
+};
+
+/**
+ * @description 获取默认地址
+ * @param id 地址id
+ * */
+export const queryOneAddressApi = (id: string): Promise<AddressVo> => {
+	return http.post("/shippingAddress/detail", {
+		id,
 	});
 };

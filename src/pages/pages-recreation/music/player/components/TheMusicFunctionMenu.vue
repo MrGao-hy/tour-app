@@ -58,10 +58,10 @@ import { formatNumber } from "@/utils/utils";
 import { storeToRefs } from "pinia";
 
 interface IProps {
-	songId: string;
+	songId: number;
 }
 const props = withDefaults(defineProps<IProps>(), {
-	songId: "",
+	songId: 0,
 });
 const playerStore = usePlayer();
 const songCommentStore = useSongCommentStore();

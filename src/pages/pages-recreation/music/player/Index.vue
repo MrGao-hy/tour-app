@@ -3,7 +3,7 @@ Author: 高先华
 Date: 2022-05-11 10:36:02
 LastEditTime: 2022-05-16 10:59:52
 Description: 完整版播放器界面
-FilePath: \uni-preset-vue-vite-ts\src\pages\player\index.vue
+FilePath: \uni-preset-vue-vite-ts\src\pages\player\mount.vue
 -->
 <template>
 	<!--  <page-meta :page-style="mainStore.getPageMetaStyle" />-->

@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "10709013",
+      "name": "礼品费",
+      "font_class": "lipinfei",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "11641876",
+      "name": "疑问",
+      "font_class": "yiwen",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "23943047",
+      "name": "礼品",
+      "font_class": "lipin",
+      "unicode": "f91c",
+      "unicode_decimal": 63772
+    },
+    {
+      "icon_id": "24473081",
+      "name": "礼品",
+      "font_class": "goods",
+      "unicode": "fc92",
+      "unicode_decimal": 64658
+    },
+    {
+      "icon_id": "25672612",
+      "name": "收货地址",
+      "font_class": "shouhuodizhi",
+      "unicode": "ff0d",
+      "unicode_decimal": 65293
+    },
+    {
       "icon_id": "10732734",
       "name": "日历",
       "font_class": "rili",

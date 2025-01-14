@@ -14,8 +14,8 @@
 <script setup lang="ts">
 import { config } from "@/config";
 import { onLoad } from "@dcloudio/uni-app";
-import { reactive, ref } from "vue";
-import TheMusicComment from "@/pages/pages-recreation/music/components/TheMusicComment.vue";
+import { ref } from "vue";
+import TheMusicComment from "@/pages/pages-recreation/music/player/components/TheMusicComment.vue";
 import { useSongCommentStore } from "@/store";
 import { storeToRefs } from "pinia";
 

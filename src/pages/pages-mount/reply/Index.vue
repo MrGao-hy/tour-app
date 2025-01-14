@@ -89,14 +89,14 @@
 						<!--								class="like"-->
 						<!--								:size="30"-->
 						<!--								color="#9a9a9a"-->
-						<!--								@click="getLike(index)"-->
+						<!--								@click="getLike(mount)"-->
 						<!--							></up-icon>-->
 						<!--							<up-icon-->
 						<!--								v-if="item.isLike"-->
 						<!--								name="thumb-up-fill"-->
 						<!--								class="like"-->
 						<!--								:size="30"-->
-						<!--								@click="getLike(index)"-->
+						<!--								@click="getLike(mount)"-->
 						<!--							></up-icon>-->
 						<!--						</view>-->
 					</view>

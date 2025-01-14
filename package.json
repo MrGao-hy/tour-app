@@ -60,7 +60,7 @@
     "cz-git": "^1.4.1",
     "dayjs": "^1.11.13",
     "echarts": "^5.6.0",
-    "hfyk-app": "^0.10.4",
+    "hfyk-app": "^0.10.7",
     "lunar-calendar": "^0.1.4",
     "pinia": "~2.0.32",
     "pinia-plugin-unistorage": "^0.0.8",

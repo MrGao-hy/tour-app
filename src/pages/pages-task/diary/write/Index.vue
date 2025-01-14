@@ -13,9 +13,8 @@
 				<view class="container__form-info__title">📌 日记标题</view>
 				<up-input
 					v-model="diary.title"
-					border="none"
-					height="100"
-					placeholder="您还没写今天日记呢"
+					placeholder="今天的小秘密还没来得及和日记本分享呢"
+					:border="isEdit ? 'surround' : 'none'"
 					:disabled="isEdit"
 				></up-input>
 			</view>
@@ -37,7 +36,6 @@
 					<up-line-progress
 						:percentage="proportion"
 						:showText="false"
-						activeColor="#ff99aa"
 					></up-line-progress>
 					<view>&ensp;{{ maxCredit }}积分</view>
 				</view>
@@ -50,7 +48,8 @@
 				<view class="container__form-info__title">📝 日记内容</view>
 				<up-textarea
 					v-model="diary.content"
-					placeholder="快把每天发生的美好事情记录下来吧"
+					:height="100"
+					placeholder="嘿😃，今天的小秘密还没来得及和日记本分享呢吧！快拿起笔，把这一天的喜怒哀乐、琐碎日常都写下来，让日记本成为你的专属树洞，开启今日份的心灵之旅吧～"
 					:disabled="isEdit"
 				></up-textarea>
 			</view>
@@ -58,7 +57,7 @@
 		<up-button
 			v-if="!isEdit"
 			class="container__save"
-			color="#FF99AA"
+			:color="config.themeColor"
 			@click="saveDiaryFn"
 			>签到</up-button
 		>
@@ -74,6 +73,7 @@ import { formatTime } from "hfyk-app";
 import { queryDiaryContentApi, saveDiaryApi } from "@/api";
 import { DiaryVo } from "@/typing";
 import { useUserStore } from "@/store";
+import { config } from "@/config";
 
 interface Type extends DiaryVo {
 	[key: string]: string | unknown;
@@ -148,6 +148,7 @@ onLoad(async (options: any) => {
 const saveDiaryFn = async () => {
 	await saveDiaryApi(diary);
 	await userStore.getToDayIntegralCount();
+	uni.$u.toast("保存成功");
 	// uni.$emit("refreshIntegral");
 };
 
@@ -214,6 +215,13 @@ const toRunningPageFn = () => {
 				justify-content: center;
 				align-items: center;
 				color: darkgray;
+				:deep(.u-line-progress__line) {
+					background-image: linear-gradient(
+						to right,
+						#61affc,
+						#697bfe
+					) !important;
+				}
 			}
 		}
 	}

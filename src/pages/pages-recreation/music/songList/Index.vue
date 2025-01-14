@@ -98,9 +98,11 @@ const authorFormat = computed(() => {
 
 onLoad((options: any) => {
 	const { id } = options;
-	songId.value = id;
-	// 获取歌曲列表
-	playerStore.getMusicList(id, current.value);
+	if (id) {
+		songId.value = id;
+		// 获取歌曲列表
+		playerStore.getMusicList(id, current.value);
+	}
 });
 onReachBottom(() => {
 	load.value = "loading";

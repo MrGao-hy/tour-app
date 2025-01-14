@@ -60,39 +60,9 @@ import { TypeEnum, throttle } from "hfyk-app";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import { updateUserInfoApi } from "@/api";
-import { constellationList, educationList, sexList } from "./data";
+import { columns } from "./data";
 
 const userStore = useUserStore();
-const columns = [
-	{ field: "userName", label: "用户名", type: TypeEnum.INPUT },
-	{
-		field: "avatar",
-		label: "网络头像",
-		type: TypeEnum.INPUT,
-		placeholder: "请直接上传网络头像地址",
-	},
-	{ field: "name", label: "真实姓名", type: TypeEnum.INPUT },
-	{ field: "phone", label: "手机号", type: TypeEnum.INPUT },
-	{ field: "idCard", label: "身份证", type: TypeEnum.INPUT },
-	{ field: "sex", label: "性别", type: TypeEnum.RADIO, actions: sexList },
-	{ field: "emit", label: "邮箱", type: TypeEnum.INPUT },
-	{ field: "birthDate", label: "出生日期", type: TypeEnum.DATE, mode: "date" },
-	{
-		field: "constellation",
-		label: "星座",
-		type: TypeEnum.SELECT,
-		column: constellationList,
-	},
-	{
-		field: "education",
-		label: "学历",
-		type: TypeEnum.SELECT,
-		column: educationList,
-	},
-	{ field: "school", label: "学校", type: TypeEnum.INPUT },
-	{ field: "major", label: "专业", type: TypeEnum.INPUT },
-	{ field: "address", label: "住址", type: TypeEnum.INPUT },
-];
 const editBtnLoading = ref(false); // 按钮圈圈
 const { userInfo } = storeToRefs(userStore);
 const schedule = ref<string>("");
@@ -122,7 +92,7 @@ onMounted(async () => {
 
 // // 删除图片
 // const deletePic = async (event: any) => {
-//   const i = event.index;
+//   const i = event.mount;
 //   photos.value.splice(i, 1);
 //   await deleteFileApi(userInfo.value.avatar);
 //   userInfo.value.avatar = "";

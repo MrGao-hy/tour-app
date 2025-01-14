@@ -48,8 +48,8 @@
 			<view class="reply-box">
 				<!--							<view-->
 				<!--								class="item"-->
-				<!--								v-for="(item, index) in item.replyList"-->
-				<!--								:key="item.index"-->
+				<!--								v-for="(item, mount) in item.replyList"-->
+				<!--								:key="item.mount"-->
 				<!--							>-->
 				<!--								<view class="username">{{ item.userInfo.userName }}111</view>-->
 				<!--								<view class="text">-->

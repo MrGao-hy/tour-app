@@ -123,9 +123,17 @@ const timeConvert = computed(() => {
 
 /**
  * @description 点击中间按钮跳转指定位置
+ * @param centerTime 创建时间
+ * @param centerLyric 这段歌词
  * */
-const centerBtnClick = (e) => {
-	playerStore.handleRatioChange(e.centerTime / 2);
+const centerBtnClick = ({
+	centerTime,
+	centerLyric,
+}: {
+	centerTime: number;
+	centerLyric: string;
+}) => {
+	playerStore.handleRatioChange(centerTime);
 };
 
 /**

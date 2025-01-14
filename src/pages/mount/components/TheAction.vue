@@ -31,7 +31,7 @@
 <script setup lang="ts">
 import { ref, toRefs } from "vue";
 import { collectMountApi } from "@/api";
-import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
+import TheMarkDom from "@/pages/mount/components/TheMarkDom.vue";
 import { useSharePosterStore } from "@/store";
 import { MountType } from "@/typing";
 
@@ -73,7 +73,7 @@ const clickActiveFn = async (type: string) => {
 			showModal.value = true;
 			break;
 		case "share":
-			await sharePosterStore.openSharePosterFn(selectMount.value);
+			sharePosterStore.openSharePosterFn(selectMount.value);
 			break;
 		default:
 			break;

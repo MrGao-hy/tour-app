@@ -149,6 +149,8 @@ const toPageFn = (temp: MountType) => {
 
 <style scoped lang="scss">
 .favorite {
+	height: 100%;
+	overflow: scroll;
 	&-footer {
 		display: flex;
 		justify-content: space-around;

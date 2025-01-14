@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { MountType } from "@/typing";
-import { createShareQrCodeApi } from "@/api";
 import { reactive, ref } from "vue";
 
 export const useSharePosterStore = defineStore("sharePoster", () => {
@@ -25,10 +24,6 @@ export const useSharePosterStore = defineStore("sharePoster", () => {
 			}
 			status.progress += 10;
 		}, 300);
-		// const res = await createShareQrCodeApi(
-		// 	temp.id,
-		// 	"pages/pages-mount/mountDetail/Index"
-		// );
 		posterContent.value = temp;
 		uni.$emit("init-canvas", temp);
 	};

@@ -51,7 +51,7 @@ import { imageToBase64 } from "hfyk-app";
 import { CommentType, MountType } from "@/typing";
 import { reactive, ref, toRefs } from "vue";
 import { collectMountApi, recordTravelApi } from "@/api";
-import TheMarkDom from "@/pages/index/components/TheMarkDom.vue";
+import TheMarkDom from "@/pages/mount/components/TheMarkDom.vue";
 import { useCommentStore, useSharePosterStore } from "@/store";
 
 interface IProps {

@@ -7,3 +7,4 @@ export * from "@/api/modules/apply";
 export * from "@/api/modules/music";
 export * from "@/api/modules/diary";
 export * from "@/api/modules/integral";
+export * from "@/api/modules/goods";

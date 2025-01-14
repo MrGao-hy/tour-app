@@ -1,29 +1,22 @@
 import http from "@/api/http";
-
-interface MatterType {
-	/**
-	 * 问题归类
-	 * */
-	type: string;
-	/**
-	 * 问题描述
-	 * */
-	problemDescription: string;
-	/**
-	 * 联系方式
-	 * */
-	contactWay: string;
-}
+import { MatterType } from "@/typing";
 /**
- * app问题提交
+ * @description app问题提交
  * */
 export const matterApi = (data: MatterType) => {
 	return http.post("/problemInfo/submit", data);
 };
 
 /**
- * 获取美女图片背景图
+ * @description 获取美女图片背景图
  * */
 export const getBgImageApi = () => {
 	return http.get("/request/poster/bg");
+};
+
+/**
+ * @description 获取轮播图
+ * */
+export const getSwiperListApi = (): Promise<string[]> => {
+	return http.get("/request/swiper");
 };

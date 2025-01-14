@@ -52,7 +52,7 @@ module.exports = {
 		//   { value: 'style', name: 'style:    代码格式' },
 		//   { value: 'refactor', name: 'refactor: 代码重构' },
 		//   { value: 'perf', name: 'perf:     性能优化' },
-		//   { value: 'tools', name: 'tools:     添加疏漏测试或已有测试改动' },
+		//   { value: 'index', name: 'index:     添加疏漏测试或已有测试改动' },
 		//   {
 		//     value: 'build',
 		//     name: 'build:    构建流程、外部依赖变更 (如升级 npm 包、修改打包配置等)'

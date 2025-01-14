@@ -21,16 +21,25 @@
 							<view
 								class="box"
 								:style="`background-image:URL('${
-									item.imgUrl || config.music
+									item.coverImgUrl || config.music
 								}')`"
 							>
-								<view class="hot">
+								<view class="box-hot" v-if="item.usedCount || item.playCount">
 									<view class="iconfont icon-tinggeliang"></view>
-									{{ item.usedCount ? formatNumber(item.usedCount) : "" }}
+									{{
+										item.playCount
+											? formatNumber(item.playCount)
+											: formatNumber(item.usedCount)
+									}}
+								</view>
+
+								<view class="box-bottom" v-if="item.updateFrequency">
+									{{ item.updateFrequency }}
 								</view>
 							</view>
 						</navigator>
-						<view class="text">{{ item.name }}</view>
+						<view class="title">{{ item.name }}</view>
+						<view class="description">{{ item.description }}</view>
 					</view>
 				</template>
 			</scroll-view>
@@ -61,6 +70,7 @@ const props = withDefaults(defineProps<IProps>(), {
 		flex-direction: column;
 		margin: 0 11rpx;
 		flex: 1;
+		width: 220rpx;
 		.box {
 			width: 220rpx;
 			height: 220rpx;
@@ -70,7 +80,9 @@ const props = withDefaults(defineProps<IProps>(), {
 			background-color: $gxh-image-bg-color;
 			background-size: 100% 100%;
 			background-repeat: no-repeat;
-			.hot {
+			position: relative;
+			overflow: hidden;
+			&-hot {
 				color: white;
 				font-size: 22rpx;
 				display: flex;
@@ -79,6 +91,28 @@ const props = withDefaults(defineProps<IProps>(), {
 					margin-right: $gxh-border-margin-padding-sm;
 				}
 			}
+			&-bottom {
+				width: 100%;
+				color: white;
+				font-size: $gxh-font-size-sm;
+				text-align: center;
+				padding: $gxh-border-margin-padding-sm;
+				background-color: rgba(0, 0, 0, 0.5);
+				position: absolute;
+				bottom: 0;
+				left: 0;
+			}
+		}
+
+		.title {
+			color: $gxh-color-title;
+			font-size: $gxh-font-size-lg;
+			@include line-feed(1);
+		}
+		.description {
+			color: $gxh-color-hint;
+			font-size: $gxh-font-size-hint;
+			@include line-feed(2);
 		}
 	}
 }

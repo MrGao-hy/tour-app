@@ -50,6 +50,7 @@ const props = withDefaults(defineProps<IProps>(), {
 <style lang="scss" scoped>
 .fun-item {
 	overflow: hidden;
+	margin: $gxh-border-margin-padding-base 0;
 	:deep(.u-scroll-list__scroll-view__content) {
 		width: 100%;
 	}

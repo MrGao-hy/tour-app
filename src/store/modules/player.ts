@@ -57,7 +57,7 @@ const usePlayer = defineStore("diary_player", {
 			level: "higher",
 			songList: [] as any[],
 			lyrics: [] as string[],
-			songId: "",
+			songId: 0,
 		};
 	},
 	getters: {
@@ -179,9 +179,8 @@ const usePlayer = defineStore("diary_player", {
 			return new Promise(async (resolve, reject) => {
 				const res = await querySongListApi(id, current, config.pageSize);
 				if (res.length == 0) {
-					reject();
 					uni.$u.toast("没有更多歌曲了");
-					return;
+					reject();
 				}
 				this.songList = [...this.songList, ...res];
 			});
@@ -246,7 +245,6 @@ const usePlayer = defineStore("diary_player", {
 		handleRatioChange(option: number) {
 			// 缓存值
 			const { buffered } = innerAudioContext;
-			// const player = getPlayer()
 			if (this.songInfo.url) {
 				// 当前时间值 = 进度条比 * 总秒数
 				this.playerStatus.currentTime = parseInt(

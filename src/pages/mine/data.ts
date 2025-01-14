@@ -27,6 +27,19 @@ export const actionMenu: ActionMenu[] = [
 	},
 ];
 
+export const functionMenu = [
+	{
+		label: "我的礼品",
+		icon: "lipin",
+		url: "/pages/pages-user/order/orderList/Index",
+	},
+	{
+		label: "收货地址",
+		icon: "shouhuodizhi",
+		url: "/pages/pages-user/shippingAddress/list/Index",
+	},
+];
+
 export const toolsMenu = [
 	{
 		label: "豆包",

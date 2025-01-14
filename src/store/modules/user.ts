@@ -5,29 +5,6 @@ import { UserType } from "@/typing";
 import { config } from "@/config";
 import { ref } from "vue";
 
-export interface UserLoginType {
-	/**
-	 * 用户名
-	 * */
-	name: string;
-	/**
-	 * 密码
-	 * */
-	pwd: string;
-}
-
-// interface UserStore {
-// 	userInfo: UserType;
-// 	isFirst_1: boolean;
-// 	isFirst_2: boolean;
-// 	savePath: string;
-// 	todayIntegralCount: number;
-// 	loginFn(username: string, password: string): Promise<void>;
-// 	getUserInfo(): Promise<void>;
-// 	getToDayIntegralCount(): Promise<void>;
-// 	outLogin(code: number, title?: string): void;
-// }
-
 export const useUserStore = defineStore(
 	`${config.prefix}user`,
 	() => {
@@ -59,9 +36,8 @@ export const useUserStore = defineStore(
 				return uni.switchTab({ url: "/pages/index/Index" });
 
 			if (
-				["/pages/index/Index", "/pages/mine/Index"].includes(savePath.value)
+				["/pages/mount/Index", "/pages/mine/Index"].includes(savePath.value)
 			) {
-				uni.$emit("queryMountList");
 				await uni.switchTab({
 					url: savePath.value,
 				});
@@ -80,9 +56,9 @@ export const useUserStore = defineStore(
 		/**
 		 * @description 提示or退出登录
 		 * */
-		const outLogin = (code: number, title = "是否退出登录") => {
+		const outLogin = (code: number, content = "是否退出登录") => {
 			uni.showModal({
-				title,
+				content,
 				showCancel: false,
 				confirmText: code === 40004 || code === 40005 ? "登录" : "我知道了",
 				success: async (res) => {

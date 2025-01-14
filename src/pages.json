@@ -7,9 +7,9 @@
       }
     },
     {
-      "path": "pages/tools/Index",
+      "path": "pages/mount/Index",
       "style": {
-        "navigationBarTitleText": "工具箱"
+        "navigationStyle": "custom"
       }
     },
     {
@@ -75,6 +75,35 @@
           "style": {
             "navigationBarTitleText": "修改密码"
           }
+        },
+        {
+          "path": "order/orderList/Index",
+          "style": {
+            "navigationBarTitleText": "我的礼品"
+          }
+        },
+        {
+          "path": "shippingAddress/list/Index",
+          "style": {
+            "navigationBarTitleText": "收货地址",
+            "app-plus": {
+              "titleNView": {
+                "buttons": [
+                  {
+                    "text": "新增地址",
+                    "color": "red",
+                    "fontSize": "13px"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "path": "shippingAddress/create/Index",
+          "style": {
+            "navigationBarTitleText": "编辑地址"
+          }
         }
       ]
     },
@@ -119,7 +148,25 @@
         {
           "path": "integralRecord/Index",
           "style": {
-            "navigationBarTitleText": "积分记录"
+            "navigationBarTitleText": "积分记录",
+            "app-plus": {
+              "titleNView": {
+                "buttons": [
+                  {
+                    "text": "\ue61e",
+                    "fontSrc": "/static/icon/font/font_1/iconfont.ttf",
+                    "color": "#808080",
+                    "fontSize": "18px"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "path": "goods/goodsList/Index",
+          "style": {
+            "navigationBarTitleText": "礼品"
           }
         }
       ]
@@ -218,8 +265,8 @@
         "selectedIconPath": "./static/icon/home.png"
       },
       {
-        "text": "工具",
-        "pagePath": "pages/tools/Index"
+        "text": "景区",
+        "pagePath": "pages/mount/Index"
       },
       {
         "text": "我的",

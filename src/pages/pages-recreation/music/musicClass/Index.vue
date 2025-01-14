@@ -8,8 +8,9 @@
 
 <template>
 	<view class="type">
-		<the-box-class title="歌单分类" :list="classify"></the-box-class>
-		<the-box-class title="热门歌单" :list="hotClass"></the-box-class>
+		<the-box-class title="精品歌单分类" :list="classify"></the-box-class>
+		<the-box-class title="热门歌单分类" :list="hotClass"></the-box-class>
+		<the-box-class title="排行榜分类" :list="rankingClass"></the-box-class>
 	</view>
 
 	<!--没有网络的状态-->
@@ -17,8 +18,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from "vue";
-import { getMusicClassApi, getMusicHotClassApi } from "@/api";
+import { ref, onMounted } from "vue";
+import {
+	getMusicClassApi,
+	getMusicHotClassApi,
+	getRankingClassApi,
+} from "@/api";
 import TheBoxClass from "./components/TheBoxClass.vue";
 import {
 	onNavigationBarButtonTap,
@@ -27,10 +32,12 @@ import {
 
 const hotClass = ref();
 const classify = ref();
+const rankingClass = ref();
 
 onMounted(async () => {
 	hotClass.value = await getMusicHotClassApi();
 	classify.value = await getMusicClassApi();
+	rankingClass.value = await getRankingClassApi();
 });
 /**
  * @description 点击搜索栏跳转搜索页面

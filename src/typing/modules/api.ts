@@ -3,13 +3,25 @@
  * */
 export interface PageConfigVo {
 	/**
-	 * 当前页
+	 * @description 当前页
 	 * */
 	current: number;
 	/**
-	 * 页数
+	 * @description 页数
 	 * */
 	size: number;
+	/**
+	 * @description 搜索条件
+	 * */
+	searchVal?: string;
+	/**
+	 * @description 排序
+	 * */
+	sort?: string;
+	/**
+	 * @description 排序字段
+	 * */
+	sortField?: string;
 }
 
 export interface PageConfigType<T> extends PageConfigVo {

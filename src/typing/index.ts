@@ -9,3 +9,6 @@ export * from "@/typing/modules/reply";
 export * from "@/typing/modules/music";
 export * from "@/typing/modules/diary";
 export * from "@/typing/modules/integral";
+export * from "@/typing/modules/goods";
+export * from "@/typing/modules/address";
+export * from "@/typing/modules/app";

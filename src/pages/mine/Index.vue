@@ -12,7 +12,6 @@
 		@touchstart="onTouchstart"
 		@touchend="onTouchEnd"
 		@touchmove="onTouchMove"
-		@tap="userStore.getToDayIntegralCount()"
 	>
 		<!--背景图-->
 		<view class="bg-img" :style="backgroundStyle">
@@ -54,7 +53,9 @@
 
 		<!--内容区域-->
 		<view class="mine-main">
-			<the-tools-row></the-tools-row>
+			<the-tools-row :menus="functionMenu"></the-tools-row>
+
+			<the-tools-row :menus="toolsMenu"></the-tools-row>
 		</view>
 	</view>
 
@@ -70,22 +71,16 @@
 </template>
 
 <script setup lang="ts">
-import {
-	computed,
-	onBeforeUnmount,
-	onMounted,
-	onUnmounted,
-	reactive,
-	ref,
-} from "vue";
+import { computed, onBeforeUnmount, reactive, ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
-import { actionMenu, initImageHeight } from "./data";
+import { actionMenu, functionMenu, initImageHeight, toolsMenu } from "./data";
 import TheToolsRow from "@/pages/mine/components/TheToolsRow.vue";
 import { clearVal } from "hfyk-app";
 import TheAvatar from "@components/TheAvatar.vue";
 import echartsFn from "@/config/eCharts";
+import { onReady } from "@dcloudio/uni-app";
 
 const userStore = useUserStore();
 const { userInfo, todayIntegralCount } = storeToRefs(userStore);
@@ -114,9 +109,10 @@ const backgroundStyle = computed(() => {
 	return style;
 });
 
-onMounted(() => {
-	userStore.getToDayIntegralCount();
-	echartsFn.initChart(todayIntegralCount.value);
+onReady(() => {
+	userStore.getToDayIntegralCount().then(() => {
+		echartsFn.initChart(todayIntegralCount.value);
+	});
 });
 
 onBeforeUnmount(() => {
@@ -159,7 +155,7 @@ const onClickMenuFn = (temp: ActionMenu) => {
  * @param e 底层返回数据
  * */
 const onTouchstart = (e: any) => {
-	if (clientData.pageAtTop === false) {
+	if (!clientData.pageAtTop) {
 		return;
 	}
 	transform.time = ".1s ease-out";

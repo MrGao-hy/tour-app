@@ -11,29 +11,36 @@
 			:index="index"
 			:loading-img="config.empty"
 		></up-lazy-load>
-		<view class="demo-title">
-			{{ item.name }}
-		</view>
+		<view class="demo-title"> {{ item.name }} - {{ item.title }} </view>
 		<view class="demo-author">
-			{{ item.author }}
+			{{ ArrToString(item.authors) }}
 		</view>
 		<view class="demo-tag">
-			<view class="demo-tag-owner">
-				{{ item.sub }}
-			</view>
+			<up-tag
+				v-for="(trm, y) in item.subs"
+				:key="y"
+				:text="trm"
+				type="warning"
+				size="mini"
+				plain
+				plainFill
+			>
+			</up-tag>
 		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
 import { config } from "@/config";
+import { computed } from "vue";
 
 export interface ListVo {
 	id: number;
 	url: string;
 	name: string;
-	author: string;
-	sub: string;
+	title: string;
+	authors: any[];
+	subs: string[];
 }
 interface IProps {
 	list: ListVo[];
@@ -42,6 +49,17 @@ const props = withDefaults(defineProps<IProps>(), {
 	list: () => [],
 });
 const emit = defineEmits(["jumpPageFn"]);
+
+const ArrToString = computed(() => {
+	return (temp: any[]) => {
+		if (Array.isArray(temp) && temp.length >= 1) {
+			const res = temp.map((item) => {
+				return item.name;
+			});
+			return res.join(",");
+		}
+	};
+});
 
 /**
  * @description 点击页面dom传值
@@ -75,26 +93,8 @@ const jumpSongDetailFn = (temp: ListVo) => {
 .demo-tag {
 	display: flex;
 	margin-top: 5px;
-}
-
-.demo-tag-owner {
-	display: flex;
-	align-items: center;
-	padding: 4rpx 14rpx;
-	border-radius: 50rpx;
-	font-size: 20rpx;
-	line-height: 1;
-}
-
-.demo-tag-text {
-	//border: 1px solid $u-type-primary;
-	margin-left: 10px;
-	border-radius: 50rpx;
-	line-height: 1;
-	padding: 4rpx 14rpx;
-	display: flex;
-	align-items: center;
-	border-radius: 50rpx;
-	font-size: 20rpx;
+	.up-tag {
+		width: 100rpx;
+	}
 }
 </style>
