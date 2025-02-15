@@ -1,10 +1,10 @@
 import http from "@/api/http";
-import { DiaryType, DiaryVo } from "@/typing";
+import { ApiVo, DiaryType, DiaryVo } from "@/typing";
 
 /**
  * 保存日记
  * */
-export const saveDiaryApi = (diary: DiaryVo): Promise<null> => {
+export const saveDiaryApi = (diary: DiaryVo): Promise<ApiVo<null>> => {
 	return http.post("/diaryText/save", diary);
 };
 

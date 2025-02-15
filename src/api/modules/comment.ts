@@ -1,5 +1,5 @@
 import http from "@/api/http";
-import { CommentType, MarkMountType, PageConfigType } from "@/typing";
+import { ApiVo, CommentType, MarkMountType, PageConfigType } from "@/typing";
 
 /**
  * 查询景区评论列表
@@ -24,7 +24,9 @@ export const queryCommentListApi = (
 /**
  * 给景区打分
  * */
-export const markMountApi = (data: MarkMountType): Promise<null> => {
+export const markMountApi = (
+	data: MarkMountType
+): Promise<ApiVo<MarkMountType>> => {
 	return http.post("/mark/mount", data);
 };
 

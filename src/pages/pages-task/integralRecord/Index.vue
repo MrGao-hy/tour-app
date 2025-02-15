@@ -11,7 +11,7 @@
 			<view class="income-header__left">
 				<view class="income-header__left-label">我的积分</view>
 				<view class="income-header__left-num">
-					<the-roll-num :num="integral"></the-roll-num>
+					<the-roll-num :num="integral" color="#ffffff"></the-roll-num>
 				</view>
 			</view>
 			<view class="income-header__right">
@@ -91,7 +91,7 @@ import { IntegralType } from "@/typing";
 import TheRollNum from "@components/TheRollNum.vue";
 import { onNavigationBarButtonTap } from "@dcloudio/uni-app";
 
-const integral = ref(0);
+const integral = ref(10000);
 const page = reactive({
 	current: 1,
 	size: config.pageSize,
@@ -160,8 +160,8 @@ const toGoodsPageFn = () => {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			color: #ffffff;
 			&-label {
+				color: #ffffff;
 			}
 			&-num {
 				font-size: 50rpx;

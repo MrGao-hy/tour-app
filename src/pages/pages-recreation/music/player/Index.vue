@@ -152,8 +152,6 @@ const bgImage = ref();
 
 onLoad(async (options: any) => {
 	const { songId } = options;
-	const res = await getBgImageApi();
-	bgImage.value = res.url;
 	// 获取歌曲
 	playerStore.getPlayer(songId).then((res) => {
 		uni.$u.toast(res);
@@ -165,6 +163,8 @@ onLoad(async (options: any) => {
 			}, 2000);
 		}, 1000);
 	});
+	const res = await getBgImageApi();
+	bgImage.value = res.url;
 });
 
 onMounted(() => {});

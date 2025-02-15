@@ -20,7 +20,7 @@
 	></yk-login>
 
 	<!--没有网络的状态-->
-	<u-no-network></u-no-network>
+	<up-no-network></up-no-network>
 </template>
 
 <script setup lang="ts">

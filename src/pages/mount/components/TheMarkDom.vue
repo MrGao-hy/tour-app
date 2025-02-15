@@ -59,7 +59,7 @@ import { reactive, ref, toRefs } from "vue";
 import { getUserIpApi, markMountApi } from "@/api";
 import { MarkMountType } from "@/typing";
 import { useSharePosterStore } from "@/store";
-import { clearVal } from "hfyk-app";
+import { clearVal, Dialog } from "hfyk-app";
 import { config } from "@/config";
 
 interface IProps {
@@ -120,8 +120,18 @@ const submitMarkFn = async () => {
 								province: data.info.prov.replace("省", ""),
 							})
 						);
+						if (info?.code === 2000) {
+							Dialog.show({
+								title: info?.message,
+							});
+						} else {
+							uni.$u.toast("评论成功");
+						}
 						emit("handleOk", info);
 						clearVal(model);
+					},
+					fail(reject) {
+						uni.$u.toast(reject);
 					},
 				});
 			}

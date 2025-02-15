@@ -7,7 +7,7 @@
 		></yk-empty>
 		<!-- 空状态 -->
 		<scroll-view
-			v-if="list.length"
+			v-show="list.length"
 			class="swiper"
 			scroll-y
 			@scrolltolower="rollBottomFn"
@@ -78,11 +78,13 @@
 <script setup lang="ts">
 import { config } from "@/config";
 import { reactive } from "vue";
+import { OrderType } from "@/typing";
 
 interface IProps {
 	list: any[];
 }
 const props = withDefaults(defineProps<IProps>(), {});
+const emit = defineEmits(["rollBottom"]);
 
 const btns = reactive([
 	{
@@ -98,15 +100,37 @@ const btns = reactive([
 		click: () => operateClick("again"),
 	},
 ]);
+
+/**
+ * @description 按钮操作函数
+ * @param type 类型
+ * */
 const operateClick = (type: string) => {
 	switch (type) {
 		case "del":
+			uni.$u.toast("订单无法删除");
 			break;
 		case "again":
 			break;
 		default:
 			break;
 	}
+};
+
+/**
+ * @description 跳转订单详情页面
+ * */
+const toOrderDetail = (item: OrderType) => {
+	uni.navigateTo({
+		url: "/pages/pages-user/order/detail/Index",
+	});
+};
+
+/**
+ * @description 上拉加载更多
+ * */
+const rollBottomFn = () => {
+	emit("rollBottom");
 };
 </script>
 
@@ -117,6 +141,7 @@ const operateClick = (type: string) => {
 	.swiper {
 		height: 100%;
 		box-sizing: border-box;
+		padding: 0 $gxh-border-margin-padding-base;
 		.cart-box {
 			width: 100%;
 			border-radius: $gxh-border-radius-lg;

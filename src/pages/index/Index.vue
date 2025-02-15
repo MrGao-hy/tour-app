@@ -5,12 +5,16 @@
 	</view>
 	<!--没有网络的状态-->
 	<u-no-network></u-no-network>
+	<!--	<the-dialog></the-dialog>-->
 </template>
 
 <script lang="ts" setup>
 import TheMenu from "@/pages/index/components/TheMenu.vue";
 import { onMounted, reactive, ref } from "vue";
 import { getSwiperListApi } from "@/api";
+
+import { DialogService, ResultParam } from "hfyk-app";
+// import Dialog from "hfyk-app/components/dialog";
 
 const menus = reactive([
 	{

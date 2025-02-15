@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { clearVal } from "hfyk-app";
+import { clearVal, DialogService, ResultParam } from "hfyk-app";
 import { getTodayIntegralCountApi, userInfoApi, userLoginApi } from "@/api";
 import { UserType } from "@/typing";
 import { config } from "@/config";
@@ -35,6 +35,7 @@ export const useUserStore = defineStore(
 			if (!savePath.value || savePath.value === "/pages/pages-user/login/Index")
 				return uni.switchTab({ url: "/pages/index/Index" });
 
+			console.log(savePath.value);
 			if (
 				["/pages/mount/Index", "/pages/mine/Index"].includes(savePath.value)
 			) {
@@ -56,12 +57,11 @@ export const useUserStore = defineStore(
 		/**
 		 * @description 提示or退出登录
 		 * */
-		const outLogin = (code: number, content = "是否退出登录") => {
-			uni.showModal({
-				content,
-				showCancel: false,
+		const outLogin = (code: number, title = "是否退出登录") => {
+			DialogService.error({
+				title,
 				confirmText: code === 40004 || code === 40005 ? "登录" : "我知道了",
-				success: async (res) => {
+				result: async (res: ResultParam) => {
 					if (res.confirm && (code === 40004 || code === 40005)) {
 						uni.removeStorageSync(`${config.prefix}token`);
 						clearVal(userInfo.value);
@@ -72,6 +72,15 @@ export const useUserStore = defineStore(
 						savePath.value = pages[0].$page.fullPath;
 					}
 				},
+			});
+		};
+		/**
+		 * @description 提示
+		 * */
+		const promptMessage = (code: number, title: string) => {
+			DialogService.warning({
+				title,
+				confirmText: "我知道了",
 			});
 		};
 		/**
@@ -91,6 +100,7 @@ export const useUserStore = defineStore(
 			loginFn,
 			getUserInfo,
 			outLogin,
+			promptMessage,
 			getToDayIntegralCount,
 		};
 	},

@@ -40,6 +40,9 @@ interface IProps {
 	selectMount: MountType;
 }
 const props = withDefaults(defineProps<IProps>(), {
+	/**
+	 * @description 显示弹窗
+	 * */
 	show: false,
 	selectMount: () => ({ id: "" }),
 });

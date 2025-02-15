@@ -64,7 +64,7 @@ const clickTabs = (i: number) => {
 };
 
 /**
- * @description
+ * @description 滑动动作
  * */
 const animationFinish = (i: number) => {
 	current.value = i;

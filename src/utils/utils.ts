@@ -1,5 +1,8 @@
 import Base64 from "./base64";
 let base64 = new Base64();
+const timerFormat = (num: string | number) => {
+	return `${Number(num) < 10 ? `0${num}` : num}`;
+};
 
 /**
  * @description 获取时间处理
@@ -31,7 +34,7 @@ export const formatTimeToString = (inputTime: any) => {
 		if (timeDiff < threeMinutes) {
 			return "刚刚";
 		} else if (old.getDate() === now.getDate()) {
-			return `${house}:${min}`;
+			return `${timerFormat(house)}:${timerFormat(min)}`;
 		} else if (now.getDate() - old.getDate() == 1) {
 			return "昨天";
 		} else if (now.getDate() - old.getDate() == 2) {
@@ -40,9 +43,9 @@ export const formatTimeToString = (inputTime: any) => {
 		return "三天前";
 	} else {
 		if (oldDate < oneYear) {
-			return `${year}-${month}-${day}`;
+			return `${year}-${timerFormat(month)}-${timerFormat(day)}`;
 		}
-		return `${month}-${day}`;
+		return `${timerFormat(month)}-${timerFormat(day)}`;
 	}
 };
 

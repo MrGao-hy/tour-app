@@ -1,3 +1,5 @@
+import { T } from "vitest/dist/reporters-5f784f42";
+
 /**
  * 分页
  * */
@@ -37,4 +39,10 @@ export interface PageConfigType<T> extends PageConfigVo {
 	 * 搜索当前页
 	 * */
 	searchCount: boolean;
+}
+
+export interface ApiVo<T> {
+	code: number;
+	data: T;
+	message: string;
 }

@@ -4,6 +4,7 @@ import { getFullURL } from "@/utils/http";
 import { useUserStore } from "@/store";
 import conf from "@/config/env";
 import { config } from "@/config";
+import { clearVal, DialogService, ResultParam } from "hfyk-app";
 
 const instance = axios.create({
 	// #ifdef H5
@@ -83,17 +84,23 @@ instance.interceptors.response.use(
 			});
 		}
 		if ((status || statusCode) === 200) {
-			const blacklist = [
-				20001, 20002, 20003, 20005, 20006, 20012, 40001, 40002, 40003, 40004,
-				40005, 40006, 50000, 50001, 50002,
+			const errorCode = [
+				40001, 40002, 40003, 40004, 40005, 40006, 50000, 50001, 50002,
 			];
-			const isIntercept = blacklist.includes(data.code);
-			if (isIntercept) {
+			const warningCode = [20001, 20002, 20003, 20005, 20006, 20012];
+			if (errorCode.includes(data.code)) {
 				userStore.outLogin(data.code, data.message);
+				return Promise.reject(v);
+			} else if (warningCode.includes(data.code)) {
+				userStore.promptMessage(data.code, data.message);
 				return Promise.reject(v);
 			}
 			// uni.$u.toast(data.message);
-			return data.data;
+			if (data.code === 2000) {
+				return data;
+			} else {
+				return data.data;
+			}
 		}
 		// alert(v.statusText, '网络错误')
 		return Promise.reject(v);

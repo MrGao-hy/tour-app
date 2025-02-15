@@ -55,8 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, reactive } from "vue";
-import { TypeEnum, throttle } from "hfyk-app";
+import { ref, onMounted } from "vue";
+import { throttle } from "hfyk-app";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/store";
 import { updateUserInfoApi } from "@/api";

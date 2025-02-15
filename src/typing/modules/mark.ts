@@ -31,4 +31,8 @@ export interface MarkMountType {
 	 * 总回复数
 	 * */
 	allReply?: number;
+	/**
+	 * 是否个人首评论
+	 * */
+	first: boolean;
 }

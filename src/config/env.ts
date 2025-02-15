@@ -6,7 +6,6 @@ export enum WX_ENV {
 }
 // export const wx_env: WX_ENV = __wxConfig.envVersion;
 export const wx_env: WX_ENV = "develop";
-console.log(wx_env);
 // #endif
 
 // #ifdef H5

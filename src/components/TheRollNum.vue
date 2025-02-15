@@ -9,7 +9,7 @@
 			<view
 				v-for="(item, index) in defaultNum"
 				:style="{
-					fontSize: item1.isDecimal ? '38rpx;' : '',
+					fontSize: item1?.isDecimal ? '38rpx;' : '',
 					color: color,
 				}"
 				class="numItemWrap"

@@ -68,7 +68,7 @@
 import { ref, reactive } from "vue";
 import { onLoad } from "@dcloudio/uni-app";
 // import { getWeekday, timeFormat } from "@/utils/utils";
-import { formatTime } from "hfyk-app";
+import { Dialog, formatTime } from "hfyk-app";
 // 接口
 import { queryDiaryContentApi, saveDiaryApi } from "@/api";
 import { DiaryVo } from "@/typing";
@@ -146,9 +146,15 @@ onLoad(async (options: any) => {
  * @description 保存每日日记
  * */
 const saveDiaryFn = async () => {
-	await saveDiaryApi(diary);
+	const res = await saveDiaryApi(diary);
+	if (res?.code === 2000) {
+		Dialog.show({
+			title: res?.message,
+		});
+	} else {
+		uni.$u.toast("修改成功");
+	}
 	await userStore.getToDayIntegralCount();
-	uni.$u.toast("保存成功");
 	// uni.$emit("refreshIntegral");
 };
 

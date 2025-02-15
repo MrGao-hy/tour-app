@@ -31,6 +31,16 @@
 			</view>
 			<view class="content">
 				<rich-text :nodes="item.comment.replace(/\n/g, '<br>')"></rich-text>
+				&emsp;
+				<up-tag
+					:show="item.first"
+					text="首评"
+					type="error"
+					size="mini"
+					plain
+					plainFill
+					borderColor="transparent"
+				></up-tag>
 			</view>
 			<up-rate
 				v-model="item.mark"
@@ -254,6 +264,7 @@ const onBlur = () => {
 		}
 		.content {
 			margin-bottom: 10rpx;
+			display: flex;
 		}
 		.reply-box {
 			background-color: rgb(242, 242, 242);

@@ -70,6 +70,7 @@ const count = computed(() => {
 });
 
 onShow(() => {
+	mountList.value = [];
 	getMountList();
 });
 
