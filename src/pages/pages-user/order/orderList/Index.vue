@@ -4,7 +4,10 @@
 		@clickTabs="clickTabs"
 		@animationFinish="animationFinish"
 	>
-		<the-order-dom :list="list[current].list"></the-order-dom>
+		<the-order-dom
+			:list="list[current].list"
+			@rollBottom="rollBottomFn"
+		></the-order-dom>
 	</yk-tabs>
 
 	<!--没有网络的状态-->
@@ -17,6 +20,7 @@ import { orderListApi } from "@/api";
 import { config } from "@/config";
 import TheOrderDom from "@/pages/pages-user/order/orderList/components/TheOrderDom.vue";
 import { OrderType } from "@/typing";
+import YkVirtualScroller from "@components/yk-virtual-scroller/yk-virtual-scroller.vue";
 
 interface AVo {
 	current: number;
@@ -74,11 +78,20 @@ const animationFinish = (i: number) => {
 	}
 };
 
+const rollBottomFn = () => {
+	list[current.value].current++;
+	queryOrderList(current.value);
+};
+
 /**
- * 查询数据集合
+ * @description 查询数据集合
  * */
 const queryOrderList = async (index: number) => {
 	const res = await orderListApi(list[index]);
+	if (res.records.length <= 0) {
+		uni.$u.toast("没有更多订单");
+		return list[current.value].current--;
+	}
 	if (list[index].current === 1) {
 		list[index].list = res.records;
 	} else {

@@ -52,4 +52,8 @@ export interface MountType {
 	 * 是否收藏
 	 * */
 	collect?: boolean;
+	/**
+	 * 总分
+	 * */
+	avgMark: number;
 }

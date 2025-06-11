@@ -32,6 +32,7 @@
 								></up-icon>
 							</view>
 						</view>
+						<view class="identity">{{ userInfo.roles?.[0].label }}</view>
 						<view class="phone">{{ userInfo.phone }}</view>
 					</view>
 				</view>
@@ -245,6 +246,16 @@ const onTouchEnd = () => {
 						background: rgba(128, 128, 128, 0.4);
 						margin-left: $gxh-border-margin-padding-lg;
 					}
+				}
+				.identity {
+					padding: $gxh-border-margin-padding-sm;
+					background: linear-gradient(to right, #f8eed4, #d6ae80);
+					//color: #ffd700; /* 金色文字 */
+					color: #0b0909;
+					font-weight: bold;
+					border-radius: 100px;
+					text-align: center;
+					font-size: 22rpx;
 				}
 				.phone {
 					font-size: $gxh-font-size-hint;

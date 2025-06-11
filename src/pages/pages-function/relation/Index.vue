@@ -114,10 +114,7 @@ const copyDataFn = (content: string) => {
 	uni.setClipboardData({
 		data: content,
 		success: () => {
-			uni.showToast({
-				title: "复制成功",
-				icon: "none",
-			});
+			uni.$u.toast("复制成功");
 		},
 	});
 };

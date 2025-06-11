@@ -1,29 +1,39 @@
 import http from "@/api/http";
-import { AddressVo, LoginType, RegisterUserType, UserType } from "@/typing";
+import {
+	AddressVo,
+	LoginResultType,
+	UserRegisterType,
+	UserType,
+	UserLoginType,
+} from "@/typing";
 
 /**
  * @description 用户注册
- * @param {RegisterUserType} data 用户信息
+ * @param {UserRegisterType} data 用户信息
  * @return
  */
-export const registerUserApi = (data: RegisterUserType): Promise<null> => {
+export const registerUserApi = (data: UserRegisterType): Promise<null> => {
 	return http.post("user/register", data);
 };
 
 /**
+ * @description 获取验证码
+ * @param {UserLoginType} data 用户信息
+ * @return
+ */
+export const getLoginCodeApi = (
+	data: Partial<UserLoginType>
+): Promise<string> => {
+	return http.post("user/login/verifyCode", data);
+};
+
+/**
  * @description 用户名登录
- * @param userName 用户名
- * @param password 密码
+ * @param {UserLoginType} data 登录集合
  * @return token
  */
-export const userLoginApi = (
-	userName: string,
-	password: string
-): Promise<LoginType> => {
-	return http.post("user/login", {
-		userName,
-		password,
-	});
+export const userLoginApi = (data: UserLoginType): Promise<LoginResultType> => {
+	return http.post("user/login", data);
 };
 
 /**

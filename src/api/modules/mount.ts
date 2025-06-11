@@ -1,5 +1,6 @@
 import http from "@/api/http";
 import {
+	ApiVo,
 	MountType,
 	PageConfigType,
 	PageConfigVo,
@@ -55,4 +56,11 @@ export const travelListApi = async (
 	data: PageConfigVo
 ): Promise<PageConfigType<MountType>> => {
 	return http.post("/mountainRecord/record/list", data);
+};
+
+/**
+ * @description 热门景区
+ * */
+export const hotMountListApi = async (): Promise<MountType[]> => {
+	return http.post("/mount/query/hot");
 };

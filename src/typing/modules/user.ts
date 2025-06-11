@@ -1,7 +1,27 @@
-export interface RegisterUserType {
+export interface UserRegisterType {
+	/**
+	 * @description 用户名
+	 * */
 	userName: string;
+	/**
+	 * @description 密码
+	 * */
 	password: string;
+	/**
+	 * @description 手机号
+	 * */
 	phone: string;
+}
+
+export interface UserLoginType extends UserRegisterType {
+	/**
+	 * @description 验证码
+	 * */
+	code: string;
+	/**
+	 * @description 唯一id
+	 * */
+	uuid: string;
 }
 
 export interface UserInfoType {
@@ -48,9 +68,28 @@ export interface UserType extends UserInfoType {
 	 * 签名
 	 * */
 	signature: string;
+	/**
+	 * 权限
+	 * */
+	roles?: RoleType[];
 }
 
-export interface LoginType {
+export interface RoleType {
+	/**
+	 * 权限id
+	 * */
+	id: string;
+	/**
+	 * 权限字段值
+	 * */
+	value: string;
+	/**
+	 * 权限字段名
+	 * */
+	label: string;
+}
+
+export interface LoginResultType {
 	/**
 	 * 登录密钥
 	 * */

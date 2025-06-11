@@ -39,7 +39,7 @@ export default defineConfig({
 				rewrite: (p) => p.replace(/^\/api/, ""),
 			},
 			"/api-prod/": {
-				target: "http://localhost:3001",
+				target: "https://www.douyin.com/",
 				changeOrigin: true,
 				rewrite: (p) => p.replace(/^\/api-prod/, ""),
 			},

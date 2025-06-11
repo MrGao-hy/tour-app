@@ -27,11 +27,8 @@
 import { ref } from "vue";
 import { config } from "@/config";
 import { useUserStore } from "@/store";
-
-interface LoginType {
-	user: string;
-	pwd: string;
-}
+import HyLogin from "@/components/yk-login/yk-login.vue";
+import { UserLoginType } from "@/typing";
 const UserNumValidator = ref({
 	min: 2,
 	max: 11,
@@ -49,8 +46,8 @@ const userStore = useUserStore();
 /**
  * @description 密码登录
  * */
-const loginMsgFn = (options: LoginType) => {
-	userStore.loginFn(options.user, options.pwd);
+const loginMsgFn = (options: UserLoginType) => {
+	userStore.loginFn(options);
 };
 
 /**

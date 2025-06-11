@@ -20,19 +20,7 @@
 			labelWidth="60"
 		>
 			<up-form-item label="满意度" prop="mark" borderBottom ref="item1">
-				<up-rate
-					:count="5"
-					size="24"
-					v-model="model.mark"
-					:activeIcon="
-						Number(model.mark) == 3
-							? config.rate.ordinary
-							: Number(model.mark) > 3
-							? config.rate.happy
-							: config.rate.grieved
-					"
-					:inactiveIcon="config.rate.default"
-				></up-rate>
+				<the-rate v-model="model.mark" size="24"></the-rate>
 			</up-form-item>
 			<up-form-item prop="comment" borderBottom>
 				<up-textarea
@@ -59,8 +47,9 @@ import { reactive, ref, toRefs } from "vue";
 import { getUserIpApi, markMountApi } from "@/api";
 import { MarkMountType } from "@/typing";
 import { useSharePosterStore } from "@/store";
-import { clearVal, Dialog } from "hfyk-app";
+import { clearVal, Dialog, DialogService } from "hfyk-app";
 import { config } from "@/config";
+import TheRate from "@components/TheRate.vue";
 
 interface IProps {
 	show: boolean;
@@ -121,7 +110,7 @@ const submitMarkFn = async () => {
 							})
 						);
 						if (info?.code === 2000) {
-							Dialog.show({
+							DialogService.success({
 								title: info?.message,
 							});
 						} else {

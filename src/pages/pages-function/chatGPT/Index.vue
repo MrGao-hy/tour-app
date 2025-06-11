@@ -19,14 +19,20 @@ const userStore = useUserStore();
 const { isFirst_1, isFirst_2 } = storeToRefs(userStore);
 const url = ref("");
 
-onLoad((options) => {
+interface OptionsVo {
+	webUrl?: string;
+	title?: string;
+}
+
+onLoad((options?: AnyObject) => {
+	if (!options) return;
 	const { webUrl, title } = options;
 	if (webUrl && title) {
 		url.value = webUrl;
 		uni.setNavigationBarTitle({
 			title,
 		});
-		if (title === "豆包") {
+		if (title === "kimi") {
 			if (!isFirst_1.value) return;
 			uni.showModal({
 				content: `${title}AI网站是嵌套在本网站中，仅供参考学习，不做任何商业用途`,

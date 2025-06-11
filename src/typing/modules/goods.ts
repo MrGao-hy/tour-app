@@ -38,6 +38,10 @@ export interface OrderType {
 	 * */
 	orderId: string;
 	/**
+	 * 核销码
+	 * */
+	hxCode: string;
+	/**
 	 * 订单状态
 	 * */
 	status: string;

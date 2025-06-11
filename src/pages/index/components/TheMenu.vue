@@ -51,8 +51,9 @@ const props = withDefaults(defineProps<IProps>(), {
 .fun-item {
 	overflow: hidden;
 	margin: $gxh-border-margin-padding-base 0;
-	:deep(.u-scroll-list__scroll-view__content) {
+	:deep(.u-scroll-list) {
 		width: 100%;
+		padding: 0;
 	}
 	.scroll-list {
 		display: flex;
@@ -60,7 +61,7 @@ const props = withDefaults(defineProps<IProps>(), {
 		justify-content: flex-start;
 		width: 100%;
 		background: #ffffff;
-		padding: 20rpx;
+		padding: $gxh-border-margin-padding-base;
 		border-radius: $gxh-border-radius-base;
 		&__line {
 			display: flex;

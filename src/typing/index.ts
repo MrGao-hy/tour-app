@@ -12,3 +12,4 @@ export * from "@/typing/modules/integral";
 export * from "@/typing/modules/goods";
 export * from "@/typing/modules/address";
 export * from "@/typing/modules/app";
+export * from "@/typing/modules/video";

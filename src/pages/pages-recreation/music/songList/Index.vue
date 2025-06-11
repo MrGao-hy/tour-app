@@ -8,73 +8,78 @@
 
 <template>
 	<view class="music-list">
-		<scroll-view>
-			<view
-				class="music-list__box"
-				v-for="(item, index) in songList"
-				:key="item.id"
-				@tap="toSongMusicFn(item.id)"
-			>
-				<up-lazy-load
-					class="music-list__box-img"
-					border-radius="10"
-					height="60"
-					:image="item.al.picUrl"
-					:loading-img="config.emptyImage"
-				></up-lazy-load>
-				<view class="music-list__box-main">
-					<view class="music-list__box-main__title">
-						{{ item.name }}
-						<text
-							class="music-list__box-main__title-author"
-							v-if="item.ar.length"
-							>({{ authorFormat(item.ar) }})</text
-						>
+		<yk-virtual-scroller
+			:items="songList"
+			:load="load"
+			@scrollButton="scrollButtonFn"
+			itemHeight="100"
+		>
+			<template v-slot="{ items }">
+				<view
+					class="music-list__box"
+					v-for="(item, index) in items"
+					:key="item.id"
+					@tap="toSongMusicFn(item.id)"
+				>
+					<up-lazy-load
+						class="music-list__box-img"
+						border-radius="10"
+						height="60"
+						:image="item.al.picUrl"
+						:loading-img="config.empty"
+					></up-lazy-load>
+					<view class="music-list__box-main">
+						<view class="music-list__box-main__title">
+							{{ item.name }}
+							<text
+								class="music-list__box-main__title-author"
+								v-if="item.ar.length"
+								>({{ authorFormat(item.ar) }})</text
+							>
+						</view>
+						<view class="music-list__box-main__content">
+							<template
+								v-if="item.alia?.length"
+								v-for="(artItem, artIndex) in item.alia"
+								:key="artItem.id"
+							>
+								{{ artItem }}
+								<text v-if="artIndex !== item.alia.length - 1">/</text>
+								-
+							</template>
+							{{ item.al.name }}
+						</view>
 					</view>
-					<view class="music-list__box-main__content">
-						<template
-							v-if="item.alia?.length"
-							v-for="(artItem, artIndex) in item.alia"
-							:key="artItem.id"
-						>
-							{{ artItem }}
-							<text v-if="artIndex !== item.alia.length - 1">/</text>
-							-
-						</template>
-						{{ item.al.name }}
-					</view>
-				</view>
 
-				<up-icon
-					:name="
-						index === playerStore.playerIndex && !playerStatus.paused
-							? 'pause'
-							: 'play-right-fill'
-					"
-					size="33"
-					stop
-					@click="
-						playerStatusChange(index === playerStore.playerIndex, item.id)
-					"
-				></up-icon>
-			</view>
-		</scroll-view>
+					<up-icon
+						:name="
+							index === playerStore.playerIndex && !playerStatus.paused
+								? 'pause'
+								: 'play-right-fill'
+						"
+						size="33"
+						stop
+						@click="
+							playerStatusChange(index === playerStore.playerIndex, item.id)
+						"
+					></up-icon>
+				</view>
+			</template>
+		</yk-virtual-scroller>
 	</view>
 
 	<up-back-top :scrollTop="scrollTop"></up-back-top>
-	<!--加载更多样式-->
-	<up-loadmore :status="load"></up-loadmore>
-	<!--没有网络的状态-->
 	<up-no-network></up-no-network>
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, reactive, ref } from "vue";
-import { onLoad, onPageScroll, onReachBottom } from "@dcloudio/uni-app";
-import { querySongListApi } from "@/api";
+import { computed, onUnmounted, ref } from "vue";
+import { onLoad, onPageScroll } from "@dcloudio/uni-app";
 import { config } from "@/config";
 import { usePlayer } from "@/store";
 import { storeToRefs } from "pinia";
+
+import YkVirtualScroller from "hfyk-app/components/yk-virtual-scroller/yk-virtual-scroller.vue";
 
 const playerStore = usePlayer();
 const { songList, playerStatus } = storeToRefs(playerStore);
@@ -104,16 +109,20 @@ onLoad((options: any) => {
 		playerStore.getMusicList(id, current.value);
 	}
 });
-onReachBottom(() => {
+const scrollButtonFn = () => {
 	load.value = "loading";
 	current.value++;
 	playerStore
 		.getMusicList(songId.value, current.value, load.value)
-		.catch((err) => {
+		.then(() => {
+			console.log(111);
+			load.value = "loadmore";
+		})
+		.catch(() => {
 			current.value--;
 			load.value = "nomore";
 		});
-});
+};
 onUnmounted(() => {
 	songList.value.length = 0;
 });
@@ -164,6 +173,7 @@ const toSongMusicFn = (songId: string) => {
 <style lang="scss" scoped>
 .music-list {
 	//padding: $gxh-border-margin-padding-base;
+	height: 100vh;
 	&__box {
 		display: flex;
 		background-color: $gxh-text-color-inverse;

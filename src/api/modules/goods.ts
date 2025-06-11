@@ -27,11 +27,21 @@ export const exchangeGoodsListApi = (
 };
 
 /**
- * @description 兑换商品
+ * @description 订单列表
  * @param params 分页集合 UNVERIFIED-未核销；VERIFIED-已核销
  * */
 export const orderListApi = (
 	params: PageConfigVo
 ): Promise<PageConfigType<OrderType>> => {
 	return http.post("/order/list", params);
+};
+
+/**
+ * @description 订单详情
+ * @param id 订单id
+ * */
+export const orderDetailApi = (id: string): Promise<OrderType> => {
+	return http.post("/order/detail", {
+		id,
+	});
 };

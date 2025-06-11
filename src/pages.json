@@ -83,6 +83,12 @@
           }
         },
         {
+          "path": "order/detail/Index",
+          "style": {
+            "navigationBarTitleText": "我的礼品"
+          }
+        },
+        {
           "path": "shippingAddress/list/Index",
           "style": {
             "navigationBarTitleText": "收货地址",
@@ -238,6 +244,12 @@
           "path": "music/commentList/Index",
           "style": {
             "navigationBarTitleText": "歌单列表"
+          }
+        },
+        {
+          "path": "video/player/Index",
+          "style": {
+            "navigationStyle": "custom"
           }
         }
       ]

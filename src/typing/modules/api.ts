@@ -1,5 +1,3 @@
-import { T } from "vitest/dist/reporters-5f784f42";
-
 /**
  * 分页
  * */

@@ -4,7 +4,6 @@ import { getFullURL } from "@/utils/http";
 import { useUserStore } from "@/store";
 import conf from "@/config/env";
 import { config } from "@/config";
-import { clearVal, DialogService, ResultParam } from "hfyk-app";
 
 const instance = axios.create({
 	// #ifdef H5
@@ -77,22 +76,18 @@ instance.interceptors.response.use(
 		const userStore = useUserStore();
 
 		if (statusCode !== 200) {
-			uni.showModal({
-				title: "服务请求超时, 请稍后重试",
-				showCancel: false,
-				success: () => {},
-			});
+			userStore.promptMessage("服务请求超时, 请稍后重试!", "error");
 		}
 		if ((status || statusCode) === 200) {
 			const errorCode = [
-				40001, 40002, 40003, 40004, 40005, 40006, 50000, 50001, 50002,
+				40001, 40002, 40003, 40004, 40005, 40006, 40007, 50000, 50001, 50002,
 			];
 			const warningCode = [20001, 20002, 20003, 20005, 20006, 20012];
 			if (errorCode.includes(data.code)) {
 				userStore.outLogin(data.code, data.message);
 				return Promise.reject(v);
 			} else if (warningCode.includes(data.code)) {
-				userStore.promptMessage(data.code, data.message);
+				userStore.promptMessage(data.message);
 				return Promise.reject(v);
 			}
 			// uni.$u.toast(data.message);
@@ -106,12 +101,8 @@ instance.interceptors.response.use(
 		return Promise.reject(v);
 	},
 	(error) => {
-		uni
-			.showModal({
-				title: "网络问题:" + error.errMsg,
-				showCancel: false,
-			})
-			.then();
+		const userStore = useUserStore();
+		userStore.promptMessage("网络问题:" + error.errMsg, "error");
 	}
 );
 

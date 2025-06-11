@@ -12,7 +12,7 @@
 		</view>
 
 		<!-- 搜索数据列表 -->
-		<up-waterfall v-if="searchList.length" v-model="searchList">
+		<up-waterfall v-model="searchList">
 			<template v-slot:left="{ leftList }">
 				<the-music-dom
 					:list="leftList"
@@ -46,6 +46,7 @@ import TheMusicDom, {
 import { config } from "@/config";
 import TheHistoryRecord from "@/pages/pages-recreation/music/search/components/TheHistoryRecord.vue";
 import TheSearcHotRanking from "@/pages/pages-recreation/music/search/components/TheSearcHotRanking.vue";
+import YkVirtualScroller from "@components/yk-virtual-scroller/yk-virtual-scroller.vue";
 
 const historyRefs = ref();
 const searchVal = ref("");

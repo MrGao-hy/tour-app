@@ -38,19 +38,7 @@
 					:nodes="selectComment.comment.replace(/\n/g, '<br>')"
 				></rich-text>
 			</view>
-			<up-rate
-				v-model="selectComment.mark"
-				size="16"
-				readonly
-				:activeIcon="
-					Number(selectComment.mark) == 3
-						? config.rate.ordinary
-						: Number(selectComment.mark) > 3
-						? config.rate.happy
-						: config.rate.grieved
-				"
-				:inactiveIcon="config.rate.default"
-			></up-rate>
+			<the-rate v-model="selectComment.mark" :readonly="true"></the-rate>
 		</view>
 		<view class="all-reply">
 			<view class="all-reply-top">
@@ -124,6 +112,7 @@ import env from "@/config/env";
 import TheSexDom from "@components/TheSexDom.vue";
 import { config } from "@/config";
 import TheAvatar from "@components/TheAvatar.vue";
+import TheRate from "@components/TheRate.vue";
 
 const CommentStore = useCommentStore();
 const { selectComment } = storeToRefs(CommentStore);

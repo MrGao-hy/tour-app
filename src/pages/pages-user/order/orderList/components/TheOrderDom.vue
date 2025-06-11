@@ -6,71 +6,81 @@
 			description="宝子😘，你的礼品宝库还在 “待解锁” 状态呢！超多精美礼品都在礼品页面乖乖 “躺” 着，就等你去把心仪的它们领回家啦，快麻溜儿地去瞅瞅，开启兑换之旅吧～"
 		></yk-empty>
 		<!-- 空状态 -->
+
+		<yk-virtual-scroller
+			v-show="list.length"
+			:items="list"
+			:item-height="200"
+			@scrollButton="rollBottomFn"
+		>
+			<template #default="{ items }">
+				<view class="swiper" v-for="item in items" :key="item.id">
+					<view class="cart-box" @click="toOrderDetail(item.id)">
+						<view class="cart-top">
+							<view class="cart-top-left">
+								<up-icon name="order" :label="item.orderId"></up-icon>
+							</view>
+							<view class="cart-top-right">
+								<u-tag :text="item.status" size="mini" type="error"></u-tag>
+							</view>
+						</view>
+
+						<view class="address"> 地址：{{ item.address }} </view>
+
+						<!--商品类目-->
+						<view class="cart-center">
+							<view class="cart-center-first">
+								<view class="cart-center-left">
+									<image
+										class="img"
+										:src="item.goods?.url || config.empty"
+										mode="aspectFill"
+									></image>
+								</view>
+								<view class="cart-center-right">
+									<up-icon
+										name="arrow-right"
+										size="12"
+										label="共1件礼品"
+										labelPos="left"
+									></up-icon>
+								</view>
+							</view>
+							<view class="cart-center-end">
+								<view class="end-order-time">
+									下单时间：{{ item.createTime }}
+								</view>
+								<view class="end-total-price">
+									&emsp; 合计：<yk-price :text="item.goods.price"></yk-price>
+								</view>
+							</view>
+						</view>
+
+						<!--操作按钮-->
+						<view class="cart-bottom">
+							<template v-for="item in btns" :key="item.key">
+								<u-button
+									class="order-btn"
+									hairline
+									plain
+									size="small"
+									shape="circle"
+									:type="item.type"
+									@click="item.click"
+									>{{ item.name }}</u-button
+								>
+							</template>
+						</view>
+					</view>
+				</view>
+			</template>
+		</yk-virtual-scroller>
 		<scroll-view
 			v-show="list.length"
 			class="swiper"
 			scroll-y
 			@scrolltolower="rollBottomFn"
 		>
-			<template v-for="item in list" :key="item.id">
-				<view class="cart-box">
-					<view class="cart-top">
-						<view class="cart-top-left">
-							<up-icon name="order" :label="item.orderId"></up-icon>
-						</view>
-						<view class="cart-top-right">
-							<u-tag :text="item.status" size="mini" type="error"></u-tag>
-						</view>
-					</view>
-
-					<view class="address"> 地址：{{ item.address }} </view>
-
-					<!--商品类目-->
-					<view class="cart-center" @click="toOrderDetail(item)">
-						<view class="cart-center-first">
-							<view class="cart-center-left">
-								<image
-									class="img"
-									:src="item.goods?.url || config.empty"
-									mode="aspectFill"
-								></image>
-							</view>
-							<view class="cart-center-right">
-								<up-icon
-									name="arrow-right"
-									size="12"
-									label="共1件礼品"
-									labelPos="left"
-								></up-icon>
-							</view>
-						</view>
-						<view class="cart-center-end">
-							<view class="end-order-time">
-								下单时间：{{ item.createTime }}
-							</view>
-							<view class="end-total-price">
-								&emsp; 合计：<yk-price :text="item.goods.price"></yk-price>
-							</view>
-						</view>
-					</view>
-
-					<!--操作按钮-->
-					<view class="cart-bottom">
-						<template v-for="item in btns" :key="item.key">
-							<u-button
-								class="order-btn"
-								hairline
-								plain
-								size="small"
-								shape="circle"
-								:type="item.type"
-								@click="item.click"
-								>{{ item.name }}</u-button
-							>
-						</template>
-					</view>
-				</view>
-			</template>
 		</scroll-view>
 	</view>
 </template>
@@ -78,7 +88,7 @@
 <script setup lang="ts">
 import { config } from "@/config";
 import { reactive } from "vue";
-import { OrderType } from "@/typing";
+import YkVirtualScroller from "hfyk-app/components/yk-virtual-scroller/yk-virtual-scroller.vue";
 
 interface IProps {
 	list: any[];
@@ -120,9 +130,9 @@ const operateClick = (type: string) => {
 /**
  * @description 跳转订单详情页面
  * */
-const toOrderDetail = (item: OrderType) => {
+const toOrderDetail = (id: string) => {
 	uni.navigateTo({
-		url: "/pages/pages-user/order/detail/Index",
+		url: `/pages/pages-user/order/detail/Index?id=${id}`,
 	});
 };
 

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { clearVal, DialogService, ResultParam } from "hfyk-app";
 import { getTodayIntegralCountApi, userInfoApi, userLoginApi } from "@/api";
-import { UserType } from "@/typing";
+import { UserLoginType, UserType } from "@/typing";
 import { config } from "@/config";
 import { ref } from "vue";
 
@@ -20,6 +20,14 @@ export const useUserStore = defineStore(
 			phone: "",
 			sex: "",
 		});
+		const userForm = ref({
+			userName: "",
+			password: "",
+			code: "",
+		});
+		const rememberPsw = ref(0);
+		const choiceList = ref<UserLoginType[]>([]);
+
 		const isFirst_1 = ref(true);
 		const isFirst_2 = ref(true);
 		const savePath = ref("");
@@ -27,15 +35,14 @@ export const useUserStore = defineStore(
 		/**
 		 * @description 登录
 		 * */
-		const loginFn = async (username: string, password: string) => {
-			const login = await userLoginApi(username, password);
+		const loginFn = async (options: UserLoginType) => {
+			const login = await userLoginApi(options);
 			uni.setStorageSync(`${config.prefix}token`, login.token);
 			await getUserInfo();
 			uni.$u.toast("登录成功");
 			if (!savePath.value || savePath.value === "/pages/pages-user/login/Index")
 				return uni.switchTab({ url: "/pages/index/Index" });
 
-			console.log(savePath.value);
 			if (
 				["/pages/mount/Index", "/pages/mine/Index"].includes(savePath.value)
 			) {
@@ -77,8 +84,8 @@ export const useUserStore = defineStore(
 		/**
 		 * @description 提示
 		 * */
-		const promptMessage = (code: number, title: string) => {
-			DialogService.warning({
+		const promptMessage = (title: string, type = "warning") => {
+			(DialogService as any)[type]({
 				title,
 				confirmText: "我知道了",
 			});
@@ -96,6 +103,16 @@ export const useUserStore = defineStore(
 			isFirst_2,
 			savePath,
 			todayIntegralCount,
+			userForm,
+			phoneForm: {
+				phone: "",
+				code: "",
+			},
+			rememberPsw,
+			choiceList,
+			// 选中账户信息
+			choiceIndex: 0,
+			secretKey: "hfyk",
 
 			loginFn,
 			getUserInfo,

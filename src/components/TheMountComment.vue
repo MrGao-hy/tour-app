@@ -42,19 +42,7 @@
 					borderColor="transparent"
 				></up-tag>
 			</view>
-			<up-rate
-				v-model="item.mark"
-				size="16"
-				readonly
-				:activeIcon="
-					Number(item.mark) == 3
-						? config.rate.ordinary
-						: Number(item.mark) > 3
-						? config.rate.happy
-						: config.rate.grieved
-				"
-				:inactiveIcon="config.rate.default"
-			></up-rate>
+			<the-rate v-model="item.mark" :readonly="true"></the-rate>
 			<view class="reply-box">
 				<!--							<view-->
 				<!--								class="item"-->
@@ -123,6 +111,7 @@ import { replyMarkApi } from "@/api";
 import TheFunctionCol, { ActionMenu } from "@components/TheFunctionCol.vue";
 import TheSexDom from "@components/TheSexDom.vue";
 import TheAvatar from "@components/TheAvatar.vue";
+import TheRate from "@components/TheRate.vue";
 
 const commentStore = useCommentStore();
 const { commentList, selectComment } = storeToRefs(commentStore);
