@@ -7,6 +7,7 @@ dist/
 .env.local
 .env.*.local
 visualizer.html
+pnpm-lock.yaml
 
 # Log files
 npm-debug.log*
